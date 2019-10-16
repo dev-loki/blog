@@ -1,5 +1,5 @@
 ---
-title: "About"
-author: "Fredrik Jonsson"
+title: "whoami"
+author: "Torsten Zielke"
 
 ---
