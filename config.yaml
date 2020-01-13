@@ -2,7 +2,8 @@
 title: "/dev/loki"
 baseURL: "https://loki.dev/"
 # theme: "zen"
-theme: "hugo-theme-minos"
+# theme: "hugo-theme-minos"
+theme: "hugo-notepadium"
 languageCode: "de"
 defaultContentLanguage: "en"
 pluralizeListtitles: false
@@ -13,29 +14,18 @@ rssLimit: 20
 author:
   name: "Torsten Zielke"
   url: "https://loki.dev/"
-  avatar: "static/loki-square.jpg"
-outputs:
-  home: ['HTML', 'RSS', 'JSON']
-  section: ['HTML', 'RSS', 'JSON']
 params:
-  smartToc: true
   contact: "torsten.zielke@protonmail.com"
   copyright: "This site is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)"
-  description: "Just another weblog."
+  description: "Just another devlog."
+  slogan: '"Talk is cheap. Show me the code!" - L. Torvalds'
+  style: dark
   dateFormat: "2006-01-02 15:04"
-  favicon: "favicon.png"
-  feedlinks: true
-  # footer:
-  # icon: 
-  # image:
-  imageMaxWidth: 400
-  jquery: false
-  mobileMenu: true
-  poweredby: false 
-  search: true 
-  searchSize: 20
-  sidebar: true
-  # submitted: true  # Shows author and date information for a post
-  mainSections:
-    - "Blog"
-
+  nav:
+    showCategories: true
+    showTags: true
+    custom:
+      - title: "whoami"
+        url: "/whoami"
+      - title: "impressum"
+        url: "/impressum"
