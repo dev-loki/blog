@@ -4,7 +4,6 @@ date: 2020-01-13T18:00:00+02:00
 draft: false
 categories:
   - "allgemein"
-  - "blog"
 tags: 
   - "whoami"
 ---
