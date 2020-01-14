@@ -1,5 +1,6 @@
 ---
 title: "Top Development & ComputerScience Bücher"
+slug: "buechersammlung-fachbuecher"
 date: 2020-01-13T18:13:24+01:00
 draft: false
 categories:
