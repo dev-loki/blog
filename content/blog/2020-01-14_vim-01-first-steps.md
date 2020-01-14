@@ -63,7 +63,9 @@ VIM Distribution (Zusammestellung von Plugins, Themes und Einstellungen): [Space
 
 # Erste Schritte
 
-## Vimtutor
+- @TODO Installation
+- @TODO startup / leave
 
-## Config
+# Vimtutor
 
+@TODO
