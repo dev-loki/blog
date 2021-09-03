@@ -1,7 +1,7 @@
 +++
 title = "Wahlhelfer zur Bundestagswahl 2021"
 date = "2021-08-23"
-updated = "2021-08-26T10:49:00Z"
+updated = "2021-09-03T15:49:00Z"
 description = "Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt"
 +++
 
@@ -36,7 +36,7 @@ vorstellen möchte
 
 **Link:** [deinwal.de](http://deinwal.de)
 
-Noch ist der aktuelle "Wal"helfer nicht online, aber das Konzept von deinwal.de
+~Noch ist der aktuelle "Wal"helfer nicht online~, aber das Konzept von deinwal.de
 ist mein absoluter Favorit! Er vergleicht nämlich keine Wahlprogramme oder das, was
 Parteien gerade behaupten zu tun, sondern vergangene Abstimmungen und wie sehr
 das mit der eigenen Meinung übereinstimmt.
@@ -55,6 +55,10 @@ Eine Gewichtung gibt es nicht.
 Auf jeden Fall trotz der fehlenden Kleinparteien eine klare Empfehlung, weil es
 gerade den politischen Interessierten noch einmal enorm viele Zusatzinfos
 liefert.
+
+**Edit:** Endlich ist die neueste Version von **deinWal** online.  Das
+Grundkonzept ist geblieben. Auch der hauptnachteil ist leider geblieben: Es sind
+nur etablierte Parteien im Boot.
 
 
 ## Wahlswiper
@@ -203,5 +207,72 @@ Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren
 
 ## Wahl-o-Mat
 
-**Wird ergänzt sobald er "da" ist**
+Link: [wahl-o-mat.de](https://www.wahl-o-mat.de/bundestagswahl2021/app/main_app.html)
+
+Endlich ist er da. Als wohl bekanntester Wahlhelfer hat der Wahl-O-Mat insgesamt
+39 der antretenden 40 Parteien "interviewed" um zu zahlreichen Fragen Antworten
+zu finden.
+
+Tatsächlich muss ich zugeben, dass ich den Wahlhelfer dieses Jahr ein klein
+bisschen besser als vorher finde. So gibt es nun zwar immer noch keine
+detaillierten Informationen zu den Fragen bzw. nicht genug Abstufungen, aber
+endlich haben wir die Möglichkeit sowohl direkt **alle** Parteien zu
+vergleichen ([vielen Dank
+Volt](https://www.volksverpetzer.de/schwer-verpetzt/volt-wahl-o-mat/) dafür),
+als auch die Möglichkeit, anschließend mit den diversen Ergebnissen und deren
+Gewichtung herumzuspielen!
+
+Tatsächlich kam zumindest bei mir auch ein anderes Ergebnis raus, als bei den
+anderen Wahlhelfern, was zumindest noch einmal mehr in die Breite geht.
+
+Die Fragen sind tatsächlich auch recht vielfältig gestellt und treffen diverse
+Bereiche, wobei natürlich alle Bekannte wie z.Bsp. das Tempolimit fast überall
+auftauchen.
+
+Ich kann (wie bei den anderen Wahlhelfen auch) auch hier eine klare Empfehlung
+aussprechen.
+
+
+## Fazit
+
+Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen -
+besser aber direkt alle Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
+bekommen, welche Parteien für was genau stehen.
+
+Eines der dicksten Probleme (meiner Meinung nach) unserer Demokratie ist, dass
+die Parteien und Politiker mittlerweile gelernt haben, wie sie reden können,
+ohne verfängliche Aussagen zu treffen. Das verleitet viele Leute dazu, Parteien
+zu wählen, die selbst für die eigenen Interessen absolut ungeeignet sind. Die
+Wahlhelfer selber verändern diesen Fakt natürlich nicht, aber sie helfen dabei
+eine Kompetenz über die Inhalte der Parteien zu bekommen, ohne dass es nötig ist
+die Wahlprogramme zu lesen.
+
+Meine Empfehlung wäre also die folgende "Formel":
+- alle Wahlhelfer durchspielen
+
+- Parteien die sich konsequent im letzten Drittel bewegen auszuschließen
+
+- Anschließend alle Wahlhelfer zu gewichten:
+  - 1/3¹ der Bewertung von **deinWahl**, da es das einzige Tool ist,
+    welches über (womöglich leere) Versprechungen hinaus geht. 
+    
+    Solltet ihr tatsächlich auch kleine Parteien in betracht ziehen, empfehle
+    ich mit dem Wal zumindest ein Ausschlusskriterium zu bilden: Die zwei
+    schlechtesten Parteien würde ich ausschließen.
+
+    ¹ vorausgesetzt, ihr zieht sowieso nur die großen/etablierten Parteien in
+    Betracht
+
+  - 1/3 aus den **anderen Helfen** generieren, indem wir jeder empfohlenen Partei
+  Punkte geben.
+
+  - 1/3 dann auch selber aus Artikeln generieren. Dabei ist es wichtig, sich
+  weder von Tagesschau/ZDFHeute&Co noch (und das ist wichtig!) sich von
+  Facebook/Whatsapp-Gruppen/usw beeinflussen zu lassen.
+
+  Nehmt DIE Dinge, die euch wichtig sind (Rente, Steuern, Klima, was auch immer)
+  und befasst auch ausdrücklich auch mit den Gegenpositionen und Argumenten.
+  Damit stellen wir sicher, dass wir keine reine Bauchentscheidung für eine der
+  wichtigsten Wahlen der letzten Jahrzehnte treffen.
+
 
