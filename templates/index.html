@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %}
+
+<p>
+  Hier lade ich meinen Gedankenmüll ab. Primär geht es um Klima(politik) und
+  Programmieren. Allerdings wird es sicher auch mal kleine Tupfer von
+  Metal/Musik geben.
+</p>
+
+<p>
+  Sorry für das Design, welches am absoluten Minimum rangiert, aber ich wollte
+  mich erst um Inhalte und DANN um Optik kümmern. Design werde ich dann später
+  Stück für Stück erweitern. Positiver Nebeneffekt des Nichtdesigns: Die
+  gesamte Seite ist kleiner als ein einzelner Miniwerbebanner bei Spiegel.de :P
+</p>
+
+<h2>Letzte Beiträge</h2>
+{% set section = get_section(path="blog/_index.md") %}
+<dl>
+  {% for page in section.pages %}
+      <dt>
+        ({{ page.date | date(format="%d.%m.%Y") }}) <a href="{{ page.permalink | safe}}">{{ page.title }}</a>
+      </dt>
+      {% if page.description %}<dd>{{ page.description }}</dd>{% endif %}
+  {% else %}
+  <p>No posts so far</p>
+  {% endfor %}
+</dl>
+{% endblock content %}

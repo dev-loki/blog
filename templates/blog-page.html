@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="title">{{ page.title }}</h1>
+
+<p class="subtitle">
+  <em>
+    Beitrag vom: {{ page.date | date(format="%d.%m.%Y") }}
+    {% if page.updated %}
+      (updated: {{ page.updated | date(format="%d.%m.%Y %H:%M") }})
+    {% endif %}
+  </em>
+</p>
+
+<section>
+  {% if page.toc and false %}
+  <ul class="toc">
+    <h3>Inhalt</h3>
+    {% for header in page.toc %}
+    <li>
+      <a href="{{header.permalink}}">{{ header.title }}</a>
+      {% if header.children %}
+      <ul>
+        {% for subheader in header.children %}
+        <li>
+          <a href="{{subheader.permalink}}">{{ subheader.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{{ page.content | safe }}
+</section>
+{% endblock %}

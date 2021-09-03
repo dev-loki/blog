@@ -1,0 +1,84 @@
+html, body, .section
+  min-height: 90%
+
+body
+  display: flex
+  flex-direction: column
+  align-items: center
+
+blockquote
+  font-style: italic
+
+img
+  max-width: 100%
+
+.youtube
+  display: flex
+  justify-content: center
+
+  iframe
+    width: 600px
+    height: 400px
+
+    @media(max-width: 700px)
+      width: 400
+      height: 300
+
+    @media(max-width: 500px)
+      width: 300px
+      height: 250px
+
+    @media(max-width: 300)
+      width: 200px
+      height: 150px
+
+header
+  display: flex
+  justify-content: space-between
+  max-width: 800px
+  align-items: center
+
+  nav
+    margin-left: 20px
+
+  img
+    max-width: 32px
+
+  h1
+    display: inline
+    font-size: 2em
+    font-weight: bold
+    margin-left: 5px
+
+a
+  text-decoration: none
+  color: darkblue
+  font-weight: 500
+
+  &[href^="http://"]:not([href*="loki.dev"]):after, &[href^="https://"]:not([href*="loki.dev"]):after
+    font-family: FontAwesome
+    font-size: 10px
+    content: " "
+
+  &:hover
+    text-decoration: underline
+
+.section
+  padding-bottom: 30px
+  max-width: 800px
+
+  dd
+    margin-bottom: 10px
+
+footer
+  text-align: center
+  width: 100%
+
+.toc
+  padding: 15px
+  float: right
+
+  @media (max-width: 700px)
+    @media (screen)
+      padding: 5px
+      float: none

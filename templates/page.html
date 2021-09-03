@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% block content %}
+<p>
+  <em>Created:</em> {{ page.date }} |
+  {% if page.updated %} (<em>Updated:</em> {{ page.updated }}) |{% endif %}
+  Lesezeit: {{ page.reading_time }}min.</p>
+{{ page.content | safe }}
+{% endblock content %}
