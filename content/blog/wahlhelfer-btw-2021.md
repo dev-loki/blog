@@ -112,7 +112,7 @@ Gut für einen groben Überblick und für mich eher als Ergänzung gedacht.
 
 ## Steuer-O-Mat
 
-**Link:** [smartsteuer](https://www.smartsteuer.de/online/steuer-o-mat/)
+**Link:** [smartsteuer](https://www.steuer-o-mat.de/start)
 
 Einer der kürzesten und deutlichsten Wahlhelfer ist der Steuer-O-Mat. Sehr
 eindimensional wird ausschließlich das voraussichtliche Netto berechnet, was
