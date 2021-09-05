@@ -1,7 +1,7 @@
 +++
 title = "Wahlhelfer zur Bundestagswahl 2021"
 date = "2021-08-23"
-updated = "2021-09-03T15:49:00Z"
+updated = "2021-09-05T14:00:00Z"
 description = "Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt"
 +++
 
