@@ -10,8 +10,8 @@ Code zu zeigen.
 
 ## Folien
 
-**Direktlink:** [loki.dev/vortraege/clean-code-i/](https://loki.dev/vortraege/clean-code-i/)
-<iframe src="https://loki.dev/vortraege/clean-code-i/" style="width:100%;height:400px">
+**Direktlink:** [loki.dev/vortraege/clean-code-i/](https://loki.dev/slides/vortraege/clean-code-i/)
+<iframe src="https://loki.dev/slides/vortraege/clean-code-i/" style="width:100%;height:400px">
 </iframe>
 
 
