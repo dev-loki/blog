@@ -1,7 +1,7 @@
 +++
 title = "Klimakatastrophe I: Was ist"
 tag = ["klima", "politik"]
-description = """Der erste Beitrag von mir zum Thema Klima: Was ist, Was kommt, was sein könnte und was wir dafür machen müssen""" 
+description = """Der erste Beitrag von mir zum Thema Klima: Was ist, Was kommt, was sein könnte und was wir dafür machen müssen"""
 date = "2021-08-19"
 updated = "2021-08-26T07:15:00Z"
 +++
@@ -18,9 +18,9 @@ Zusammenleben so wichtig ist.*
 versuche sie in 3 Artikel zu splitten*:
 
 - **Was ist (Dieser Artikel)**
-- [Was kommt](#) (und zwar in einer Zeit, die wir auf jeden Fall noch erleben werden
+- _Was kommt_ (und zwar in einer Zeit, die wir auf jeden Fall noch erleben werden
 und Ophelia/Auroras Kernlebenszeit ausmacht)
-- [Was wir tun müssen](#) (Nur der absolute wissenschaftliche/wirtschaftliche Konsens
+- _Was wir tun müssen_ (Nur der absolute wissenschaftliche/wirtschaftliche Konsens
   und das Minimum um die Auswirkungen zu minimieren)
 
 ---
@@ -118,7 +118,7 @@ dann ist wirklich Land unter.
 
 ### Ernteausfälle
 Es kann natürlich eine Anomalie gewesen sein, aber letztes Jahr (2020) lagen die
-Ernteausfälle [zwischen 30 und 50 
+Ernteausfälle [zwischen 30 und 50
 Prozent](https://www.deutschlandfunk.de/extremwetter-und-ernteausfaelle-klimawandel-stellt.724.de.html?dram:article_id=426057).
 Fast komplett durch die Dürre bedingt. Ein Faktor, der sich definitiv noch
 zuspitzen wird. Dieses Jahr ist alles extrem feucht, sodass sowieso schon
@@ -140,7 +140,7 @@ sind](https://www.youthreporter.eu/de/beitrag/wenn-ein-land-unter-dem-meeresspie
 Letztes Jahr haben wir das in Nieder-Beerbach überdeutlich selber gemerkt, dass
 einfach mal zwei Wochen Wassersparen angesagt war. In Niedersachsen gab es erste
 Fälle von Wasserverteilung durch die Feuerwehr, weil die Becken einfach leer
-sind. 
+sind.
 
 Durch unsere geographisch überaus günstige Lage wird es auch in der
 mittelfristigen Zukunft nur um wenige Tage bis Wochen gehen und zusätzlich
@@ -226,7 +226,7 @@ Treibhausgase austreten, [als er
 absorbiert](https://www.frontiersin.org/articles/10.3389/ffgc.2021.618401/full).
 Das ist extrem bitter und ist in diesem Fall zu fast [100% auf
 Fleischkonsum](https://www.faszination-regenwald.de/info-center/zerstoerung/)
-zurück zu führen. 
+zurück zu führen.
 
 Um es noch einmal deutlich zu sagen/schreiben: Wir haben dieses Jahr den Punkt
 erreicht, wo der Regenwald NICHT mehr die grüne Lunge ist. Ganz trivial bedeutet
