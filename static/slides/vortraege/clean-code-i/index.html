@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>Clean Code I</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/night.css" />
+    <link rel="stylesheet" href="plugin/highlight/zenburn.css" />
+    <style type="text/css" media="all">
+      .reveal pre.code-wrapper {
+        font-size: 0.5em;
+      }
+      blockquote {
+        font-size: 90%;
+      }
+      code {
+        background: #333;
+        color: #8faf8f;
+        padding: 2px;
+        border-radius: 2px;
+        font-family: monospace;
+        font-size: 0.8em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <p>Stressfrei Programmieren mit Clean Code</p>
+          <img
+            style="max-width: 50%; max-height: 50%"
+            src="slides/moguru-logo-white.png"
+          />
+          <p style="font-size: 0.5em">
+            torsten.zielke@moguru.de | Software Developer @moguru GmbH
+          </p>
+        </section>
+
+        <section
+          data-markdown="slides/aufbau.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+
+        <section
+          data-markdown="slides/uebersicht.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+
+        <section
+          data-markdown="slides/quicktips.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+
+        <section
+          data-markdown="slides/codesmells.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+
+        <section
+          data-markdown="slides/solid.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+
+        <section
+          data-markdown="slides/diverses.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+
+        <section
+          data-markdown="slides/ausblick.md"
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          data-separator-notes="^Notiz:"
+        ></section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script src="plugin/externalcode/externalcode.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealNotes,
+          Externalcode,
+          RevealMath,
+        ],
+      });
+    </script>
+  </body>
+</html>
