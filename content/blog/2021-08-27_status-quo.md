@@ -2,7 +2,7 @@
 title = "Klimatransformation - Status Quo"
 date = "2021-08-27"
 description = "Ein kurzer Überblick über die aktuelle Klimasituation"
-+++ 
++++
 
 
 Während ich mich einerseits grün und blau ärgere, dass geniale Konzepte wie [der
@@ -19,7 +19,7 @@ Nicht irgendwie so ein bisschen, sondern extrem. Je nach Szenario haben wir Ende
 des Jahrhunderts (erlebbar für meine Töchter) eine Situation, wie sie noch nie
 gab. So würden "zwischen einem Drittel und 95 Prozent aller oberflächennahen
 Meeresökosysteme [..] Bedingungen erleben, wie sie im Laufe der Erdgeschichte
-noch nie geherrscht haben". 
+noch nie geherrscht haben".
 
 Direkt dazu passend gab es am 24.08.2021 [einen
 Artikel](https://www.spektrum.de/news/umweltkatastrophe-fischsterben-in-europas-groesster-salzwasserlagune/1914118)
@@ -73,7 +73,7 @@ auch wenn die Grafik bei VW aufgetaucht ist, entspricht sie genau dem Problem,
 welches Wasserstoff ergibt. Höchstens die Strom-Herkunft links könnte man vlt.
 noch bezweifeln ;).
 
-![](/images/wasserstoff_vs_batterie.png)
+![](/images/wasserstoff_vs_batterie.jpg)
 
 In der Essenz haben wir also sowieso schon mit Stromknappheit zu rechnen - da
 dann noch zusätzliche Verknappung künstlich herbei zu führen, ist definitiv
