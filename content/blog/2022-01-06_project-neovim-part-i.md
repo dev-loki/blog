@@ -151,12 +151,14 @@ tba
 
 #### Code Format
 
+- [mfussenegger/nvim-lint/](https://github.com/mfussenegger/nvim-lint/) Linter <3
 - [mhartington/formatter.nvim](https://github.com/mhartington/formatter.nvim)
 - [sbdchd/neoformat](https://github.com/sbdchd/neoformat) Autoformatter für
   diverse Sprachen mit einer Menge voreingestellter Formatter. Kein Lua.
 
 #### Git
 
+- [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) Gitsigns
 - [rhysd/committia.vim](https://github.com/rhysd/committia.vim) Besseres
   Commit-Fenster für Shell `git commit`
 - [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim) Diff-View
@@ -193,6 +195,7 @@ tba
 
 ### Eye-Candy
 
+- [glepnir/galaxyline.nvim](https://github.com/glepnir/galaxyline.nvim) Statusline in LUA
 - [beauwilliams/focus.nvim](https://github.com/beauwilliams/focus.nvim)
   Auto-Resize für fokussierte Splits
 - [p00f/nvim-ts-rainbow](https://github.com/p00f/nvim-ts-rainbow) Regenbogen
@@ -208,6 +211,7 @@ tba
 
 #### Allgemein
 
+- [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs) Autopairing für Brackets
 - [is0n/jaq-nvim](https://github.com/is0n/jaq-nvim) Just Another Quickrun
   Plugin. Run stuff
 - [kevinhwang91/nvim-bqf](https://github.com/kevinhwang91/nvim-bqf) Beautiful
