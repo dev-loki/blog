@@ -76,6 +76,11 @@ tba
 
 ### Helferlein
 
+#### Navigation
+
+- [kyazdani42/nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
+  Nerdtree alternative
+
 #### Coremechanik Erweiterungen
 
 - [gelguy/wilder.nvim](https://github.com/gelguy/wilder.nvim) Erweitert das
@@ -86,12 +91,28 @@ tba
 - [sbdchd/neoformat](https://github.com/sbdchd/neoformat) Autoformatter für
   diverse Sprachen mit einer Menge voreingestellter Formatter. Kein Lua.
 
-#### Zusatztools
+#### Git
+
+- [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) Wrapper für
+  [lazygit](https://github.com/jesseduffield/lazygit)
+- [tanvirtin/vgit.nvim](https://github.com/tanvirtin/vgit.nvim) visuelles Git
+  Plugin
+
+#### Anderes
 
 - [NTBBloodbath/rest.nvim](https://github.com/NTBBloodbath/rest.nvim) REST
   Client (Alternative: HTTPie wrappen?)
+- [gennaro-tedesco/nvim-peekup](https://github.com/gennaro-tedesco/nvim-peekup)
+  Floating Fenster mit Registern
+- [oberblastmeister/neuron.nvim](https://github.com/oberblastmeister/neuron.nvim)
+  Note Taking Ansatz
+- [nvim-neorg/neorg](https://github.com/nvim-neorg/neorg) Alternativer Note
+  Taking Ansatz
 
-### Visuell
+### Eye-Candy
+
+- [kyazdani42/nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons)
+  Icons für zahlreiche Plugins
 
 #### Allgemein
 
@@ -105,6 +126,8 @@ tba
 - [Mangeshrex/uwu.vim](https://github.com/Mangeshrex/uwu.vim) Konstrastreiches
   Theme für (neo)vim.
   [Bild](https://raw.githubusercontent.com/Mangeshrex/uwu.vim/main/assets/uwu.png)
+- [rose-pine/neovim](https://github.com/rose-pine/neovim) Rosepine. Pastell.
+  [Bild](https://github.com/rose-pine/neovim/blob/main/assets/rose-pine-dawn.png?raw=true)
 
 ### Sprachspezifisches
 
