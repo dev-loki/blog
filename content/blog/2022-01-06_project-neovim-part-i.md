@@ -76,10 +76,29 @@ tba
 
 ### Helferlein
 
+- [mfussenegger/nvim-treehopper](https://github.com/mfussenegger/nvim-treehopper)
+  Textregion select mit Treesitter support
+
 #### Navigation
 
+- [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim) Projekt
+  Management
+- [nvim-pack/nvim-spectre](https://github.com/nvim-pack/nvim-spectre)
+  Klassisches Search/Replace panel als eigener Buffer
+- [phaazon/hop.nvim](https://github.com/phaazon/hop.nvim) Easymotion plugin
+- [ggandor/lightspeed.nvim](https://github.com/ggandor/lightspeed.nvim)
+  Easymotion plugin. Substitut für `/`, `?`, `gg`, `f`, etc.
 - [kyazdani42/nvim-tree.lua](https://github.com/kyazdani42/nvim-tree.lua)
   Nerdtree alternative
+
+#### Comments
+
+- [terrortylor/nvim-comment](https://github.com/terrortylor/nvim-comment) Toggle
+  Comments
+- [winston0410/commented.nvim](https://github.com/winston0410/commented.nvim)
+  Toggle Comments
+- [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim)
+  Markiert TODO/etc. Kommentare
 
 #### Coremechanik Erweiterungen
 
@@ -93,13 +112,20 @@ tba
 
 #### Git
 
+- [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim) Diff-View
+  für git-rev und FileHistory
 - [kdheepak/lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) Wrapper für
   [lazygit](https://github.com/jesseduffield/lazygit)
 - [tanvirtin/vgit.nvim](https://github.com/tanvirtin/vgit.nvim) visuelles Git
   Plugin
+- [TimUntersberger/neogit](https://github.com/TimUntersberger/neogit) magit
+  clone für Neovim
 
 #### Anderes
 
+- [stevearc/qf_helper.nvim](https://github.com/stevearc/qf_helper.nvim)
+  Synchronisiert Quick-/Loclist location mit cursor position. Gleiche Keys für
+  beide Listen
 - [NTBBloodbath/rest.nvim](https://github.com/NTBBloodbath/rest.nvim) REST
   Client (Alternative: HTTPie wrappen?)
 - [gennaro-tedesco/nvim-peekup](https://github.com/gennaro-tedesco/nvim-peekup)
@@ -111,11 +137,21 @@ tba
 
 ### Eye-Candy
 
+- [p00f/nvim-ts-rainbow](https://github.com/p00f/nvim-ts-rainbow) Regenbogen
+  Klammern
+- [xiyaowong/nvim-transparent](https://github.com/xiyaowong/nvim-transparent) Rm
+  Hintergrund für Transparentes Nvim
+- [winston0410/range-highlight.nvim](https://github.com/winston0410/range-highlight.nvim)
+  Highlight für ranges die z.Bsp. via :12,16 mitgegeben werden
+- [norcalli/nvim-colorizer.lua](https://github.com/norcalli/nvim-colorizer.lua)
+  Farbencodes einfärben. z.Bsp `#F00` oder `red` in rot
 - [kyazdani42/nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons)
   Icons für zahlreiche Plugins
 
 #### Allgemein
 
+- [kevinhwang91/nvim-bqf](https://github.com/kevinhwang91/nvim-bqf) Beautiful
+  quickfix window
 - [rcarriga/nvim-notify](https://github.com/rcarriga/nvim-notify) Kleine
   Notification-Fenster die rechts oben schweben
 - [noib3/nvim-cokeline](https://github.com/noib3/nvim-cokeline) Bufferline für
@@ -123,6 +159,8 @@ tba
 
 #### Themes
 
+- [folke/twilight.nvim](https://github.com/folke/twilight.nvim) Treesitter
+  Theme [Bild](https://user-images.githubusercontent.com/292349/125419804-051321c2-d040-41c8-93fc-834b5f1098e3.png)
 - [Mangeshrex/uwu.vim](https://github.com/Mangeshrex/uwu.vim) Konstrastreiches
   Theme für (neo)vim.
   [Bild](https://raw.githubusercontent.com/Mangeshrex/uwu.vim/main/assets/uwu.png)
