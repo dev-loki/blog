@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+if ! test -f .env
+then
+  echo "ZOLA_KEY=~/.ssh/id_rsa"
+  echo "ZOLA_USER=" >> .env
+  echo "ZOLA_DOMAIN=" >> .env
+  echo "ZOLA_REMOTE_FOLDER=" >> .env
+  echo ".env not existent. Created. Please fill with content."
+  exit 1
+fi
+
+zola build
+scp -i "$ZOLA_KEY" -r public/* \
+  "$ZOLA_USER@$ZOLA_DOMAIN:$ZOLA_REMOTE_FOLDER"
