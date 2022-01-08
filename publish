@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 if ! test -f .env
 then
-  echo "ZOLA_KEY=~/.ssh/id_rsa"
+  echo "ZOLA_KEY=~/.ssh/id_rsa" >> .env
   echo "ZOLA_USER=" >> .env
   echo "ZOLA_DOMAIN=" >> .env
   echo "ZOLA_REMOTE_FOLDER=" >> .env
@@ -9,6 +9,7 @@ then
   exit 1
 fi
 
-zola build
-scp -i "$ZOLA_KEY" -r public/* \
+
+source .env
+zola build $1 && scp -i "$ZOLA_KEY" -r public/* \
   "$ZOLA_USER@$ZOLA_DOMAIN:$ZOLA_REMOTE_FOLDER"

@@ -1,7 +1,7 @@
 +++
 title = "Programmierbücher"
 date = "2022-01-07"
-description = "Eine Auswahl meiner favorisierten Bücher zum Programmieren
+description = "Eine Auswahl meiner favorisierten Bücher zum Programmieren"
 draft = true
 +++
 
