@@ -1,7 +1,7 @@
 +++
-title = "Neovim-Config-Part 1"
+title = "Neovim-Config-Part 1: Brainstorm"
 date = "2022-01-06"
-updated = "2022-01-08T17:17:00Z"
+updated = "2022-01-08T21:00:00Z"
 description = "Einmal neovim von Scratch von 0 auf 100 in pure lua"
 +++
 
@@ -25,6 +25,7 @@ Gerade **CosmicVim** hat mich von der lua Struktur echt überzeugt. Cooles Ding!
 Wie stelle ich mir das Ganze nun vor? Im Grunde genommen will ich das Ganze
 iterativ aufbauen:
 
+0. (hier) Brainstorm und Plugins sammeln
 1. Neovim Grundlagen: Also pluginfreie settings
 2. Base Plugins: lua Helfer, Package Manager, Kompression, which-key, etc.
 3. LSP Integration -> Damit ich mit allen Sprachen soweit einsatzbereit bin
@@ -177,6 +178,7 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 #### Allgemein
 
+- [mbbill/undotree](https://github.com/mbbill/undotree) Undotree
 - [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs) Autopairing für Brackets
 - [is0n/jaq-nvim](https://github.com/is0n/jaq-nvim) Just Another Quickrun Plugin. Run stuff
 - [kevinhwang91/nvim-bqf](https://github.com/kevinhwang91/nvim-bqf) Beautiful quickfix window
