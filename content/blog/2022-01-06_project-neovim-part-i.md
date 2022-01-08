@@ -1,7 +1,7 @@
 +++
 title = "Neovim-Config-Part 1"
 date = "2022-01-06"
-updated = "2022-01-08T08:00:00Z"
+updated = "2022-01-08T17:17:00Z"
 description = "Einmal neovim von Scratch von 0 auf 100 in pure lua"
 +++
 
@@ -136,6 +136,8 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 #### Code Format
 
+- [neomake/neomake](https://github.com/neomake/neomake) Async linter
+- [dense-analysis/ale](https://github.com/dense-analysis/ale) Async linter
 - [mfussenegger/nvim-lint/](https://github.com/mfussenegger/nvim-lint/) Linter <3
 - [mhartington/formatter.nvim](https://github.com/mhartington/formatter.nvim)
 - [sbdchd/neoformat](https://github.com/sbdchd/neoformat) Autoformatter für diverse Sprachen mit einer Menge voreingestellter Formatter. Kein Lua.
@@ -164,6 +166,7 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 ### Eye-Candy
 
+- [petertriho/nvim-scrollbar](https://github.com/petertriho/nvim-scrollbar) Scrollbar mit zusätzlichen Hints
 - [glepnir/galaxyline.nvim](https://github.com/glepnir/galaxyline.nvim) Statusline in LUA
 - [beauwilliams/focus.nvim](https://github.com/beauwilliams/focus.nvim) Auto-Resize für fokussierte Splits
 - [p00f/nvim-ts-rainbow](https://github.com/p00f/nvim-ts-rainbow) Regenbogen Klammern
