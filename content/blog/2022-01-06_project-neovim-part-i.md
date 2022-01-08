@@ -1,7 +1,7 @@
 +++
 title = "Neovim-Config-Part 1"
 date = "2022-01-06"
-updated = "2022-01-06T22:00:00Z"
+updated = "2022-01-07"
 description = "Einmal neovim von Scratch -> 0 auf 100 in pure lua und ohne Distribution"
 +++
 
@@ -73,7 +73,12 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 ### Debugger
 
-tba
+- [puremourning/vimspector](https://github.com/puremourning/vimspector)
+- ~[idanarye/vim-vebugger](https://github.com/idanarye/vim-vebugger) Multi protokoll debugger~
+
+- [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap) Debugger Protokol Support
+- [rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) UI dafür
+- [Pocco81/DAPInstall.nvim](https://github.com/Pocco81/DAPInstall.nvim) DAP Installer
 
 ### Helferlein
 
