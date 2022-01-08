@@ -110,6 +110,7 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 #### Navigation
 
+- [nvim-neo-tree/neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)
 - [tamago324/lir.nvim](https://github.com/tamago324/lir.nvim) Extremely simple file manager
 - [ThePrimeagen/harpoon](https://github.com/ThePrimeagen/harpoon) Jump to specific files
 - [ray-x/navigator.lua](https://github.com/ray-x/navigator.lua) Navigation plugin: Jump to refs
