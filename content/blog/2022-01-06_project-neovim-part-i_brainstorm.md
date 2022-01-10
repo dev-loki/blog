@@ -145,6 +145,7 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 #### Git
 
+- [https://github.com/junegunn/gv.vim](https://github.com/junegunn/gv.vim) Git commit browser
 - [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) Gitsigns
 - [rhysd/committia.vim](https://github.com/rhysd/committia.vim) Besseres Commit-Fenster für Shell `git commit`
 - [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim) Diff-View für git-rev und FileHistory
@@ -167,6 +168,8 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 ### Eye-Candy
 
+- [lukas-reineke/indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim) Indentatin Guides
+- [preservim/tagbar](https://github.com/preservim/tagbar) Symbols (Methoden,Variablen,etc.) Sidebar
 - [petertriho/nvim-scrollbar](https://github.com/petertriho/nvim-scrollbar) Scrollbar mit zusätzlichen Hints
 - [glepnir/galaxyline.nvim](https://github.com/glepnir/galaxyline.nvim) Statusline in LUA
 - [beauwilliams/focus.nvim](https://github.com/beauwilliams/focus.nvim) Auto-Resize für fokussierte Splits
@@ -178,6 +181,7 @@ Ich werde aber ziemlich sicher nicht alle verwenden :D.
 
 #### Allgemein
 
+- [junegunn/fzf.vim](https://github.com/junegunn/fzf.vim) fzf halt
 - [mbbill/undotree](https://github.com/mbbill/undotree) Undotree
 - [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs) Autopairing für Brackets
 - [is0n/jaq-nvim](https://github.com/is0n/jaq-nvim) Just Another Quickrun Plugin. Run stuff
