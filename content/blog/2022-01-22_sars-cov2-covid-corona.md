@@ -1,6 +1,7 @@
 +++
 title = "Sars-Cov2 Covid Corona - Liebe Familie und Freunde (WIP)"
 date = "2022-01-22T10:00:00Z"
+updated = "2022-01-22T10:00:00Z"
 description = "Da ich die immer gleichen Argumente und Diskussionen mit Familie und Freunden führe, schreibe ich diesen Kram mal zusammen."
 draft = true
 +++
