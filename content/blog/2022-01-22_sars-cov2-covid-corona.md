@@ -176,7 +176,7 @@ mit der gesamten Situation am wenigsten dazu getan haben.
 Ja. Was? Hoax. Simpel. Hier hat mal jemand versucht viele dieser Pflegekräfte zu
 kontaktieren. Keine Chance. Kein Wunder, da das Blatt auch von der AfD ist.
 
-https://twitter.com/verrauscht/status/1484831560494981124
+[https://twitter.com/verrauscht/status/1484831560494981124](https://twitter.com/verrauscht/status/1484831560494981124)
 
 # Sind/Waren die Maßnahmen der Regierung richtig?
 
