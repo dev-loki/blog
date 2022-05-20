@@ -520,18 +520,13 @@ class SomeApi:
 
 ```python
 class SomeApi:
-  url: str = None
-  username: str = None
-  password: str = None
-
   def __init__(self, url: str, username: str, password: str):
-    self.url = url
-    self.username = username
-    self.password = password
+    self.url: str = url
+    # Alternative: save strings and build BasicAuth in login()
+    self.auth: BasicAuth = BasicAuth(self.username, self.password)
   
   def login(self):
-    auth = BasicAuth(self.username, self.password)
-    return requests.some_request(url, auth=auth)
+    return requests.some_request(url, auth=self.auth)
 
 some_api = SomeApi('http://api.com/api/...', 'Zach Brannigan', 'Mb2.r5oHf-0t')
 ```
@@ -542,18 +537,18 @@ some_api = SomeApi('http://api.com/api/...', 'Zach Brannigan', 'Mb2.r5oHf-0t')
 #### Temporal Coupling: Variante 2
 
 ```python
+LOGIN_URL = 'https:/...'
+
 class SomeApi:
-  url: str = None
-
-  def __init__(self, url: str):
-    self.url = url
+  def __init__(self, username: str, password: str):
+    # Alternative: save strings and build BasicAuth in login()
+    self.auth: BasicAuth = BasicAuth(self.username, self.password)
   
-  def login(self, username: str, password: str):
-    auth = BasicAuth(username, password)
-    return requests.some_request(url, auth=auth)
+  def login(self):
+    return requests.some_request(LOGIN_URL, auth=self.auth)
 
-some_api = SomeApi('http://api.com/api/...')
-some_api.login('Zach Brannigan', 'Mb2.r5oHf-0t')
+some_api = SomeApi('Zach Brannigan', 'Mb2.r5oHf-0t')
 ```
 
 - Bonuspunkte für korrekte Objekte, die Verhalten bei url/username/password erzwingen<!-- .element class="fragment" -->
+- (!) requests als implizite Abhängigkeit<!-- .element class="fragment" -->
