@@ -23,6 +23,38 @@ Notiz:
 - Ausmaß immer auch relevant ;)
 
 
+## Variable names
+- <!-- .element class="fragment" -->No abbrv
+  - good exceptions: `n`, `i`, `idx`, `df_`, `pd`
+- <!-- .element class="fragment" -->descriptive and direct!
+- <!-- .element class="fragment" -->CamelCase for Classes/Types
+  - Suboptimal examples from code: 
+    - `Detailselement` -> `DetailsElement`
+    - `jsonRes = json.loads(response.text)` -> `json_response`
+    - `cnt_error` -> `error_count`
+- <!-- .element class="fragment" -->snake_case for variables
+- <!-- .element class="fragment" -->constants UPPERCASE
+
+
+## align variables (opinionated!)
+
+- <!-- .element: class="fragment" data-fragment-index="1" --> <code>response</code>
+- <!-- .element: class="fragment" data-fragment-index="1" --> <code>json_response</code>
+- <!-- .element: class="fragment" data-fragment-index="1" --> <code>dict_response</code>
+
+vs.<!-- .element: class="fragment" data-fragment-index="2" -->
+
+- <!-- .element: class="fragment" data-fragment-index="2" --> <code>response</code>
+- <!-- .element: class="fragment" data-fragment-index="2" --> <code>response_json</code>
+- <!-- .element: class="fragment" data-fragment-index="2" --> <code>response_dict</code>
+
+
+![](images/bonkersworld-object-oriented.png)
+
+
+![](images/bonkersworld-object-oriented-fix.png)
+
+
 ## Pathfinder Rule
 
 > Always leave the code you're editing a little better than you found it
