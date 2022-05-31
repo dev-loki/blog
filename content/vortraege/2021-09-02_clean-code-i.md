@@ -1,11 +1,15 @@
 +++
 title = "Stressfrei Programmieren mit Clean Code I"
 date = "2021-09-02"
+updated = "2022-05-30T14:30:00Z"
 +++
 
-Ich bin jetzt seit gut einem Monat bei Moguru in Darmstadt und hatte das erste
-Mal die Gelegenheit ein paar sprachenunabhängige Programmiergrundlagen für Clean
-Code zu zeigen.
+**Talk aktualisiert:**
+- Auf englisch übersetzt
+- Fehler bereinigt
+- Dart spezifische Teile entfernt
+- An [neuen Arbeitgeber](https://mara.solutions) angepasst :)
+
 
 
 ## Folien
@@ -15,7 +19,3 @@ Code zu zeigen.
 </iframe>
 
 
-## Video
-
-Erst einmal nur intern für Moguru. Mit dem Feedback kann ich aber sicher eine
-Version 2.0 oder 3.0 erstellen.

@@ -1,45 +1,50 @@
-- ✔️ Vorstellung / Aufbau
-- ✔️ Quicktips-Sammlung
-- ✔️ Codesmells
-- ✔️ SOLID
-- ✔️ Diverses
-- **Ausblick**
-- Fragen & Co
+- ✔️  Quicktips
+- ✔️  Codesmells
+- ✔️  SOLID
+- ✔️  Various stuff
+- **Looking Forward**
+- Questions
 
 
-# Ausblick
+# Looking forward
+
+possible next topics we can look into
 
 
 ## Design Patterns
 
-Was ist das, was gibt es und was ist hilfreich?<!-- .element class="fragment" -->
+What are they and why do we need that?
 
 
-## Software Architektur
+## Software Architecture
 
-- SOLID - aber richtig<!-- .element class="fragment" -->
-- Boundaries - Elemente der SA richtig abgrenzen<!-- .element class="fragment" -->
-- Domainlogik richtig verpacken (Anleihen aus DDD)<!-- .element class="fragment" -->
-- Hexagonale Architektur<!-- .element class="fragment" -->
+- SOLID - but correct this time<!-- .element class="fragment" -->
+- Boundaries - Slice our architecture in managable chunks. The right way.<!-- .element class="fragment" -->
+- Domainlogic: how to do DDD<!-- .element class="fragment" -->
+- Hexagonal Architecture :( <!-- .element class="fragment" -->
 
 
 ## Clean Coders & Software Crafts(wo)manship
 - [Another Manifesto](https://manifesto.softwarecraftsmanship.org)
 - [BlogstuffLink](http://blog.oshineye.com/2011/01/software-craftsmanship-more-than-just.html)
-- Folgebewegung einiger der Gründer des "Agile" als Antwort auf die Annektion
-  von ProductManagern der agilen Prinzipien
+- As a follow up movement from several of the founders of **agile** as an answer to the annection of agile principles by managers and "business people"
 
 
 ## TDD
-- Was? O.o Warum?<!-- .element class="fragment" -->
-- "Aber Tests machen keinen Spaß :("<!-- .element class="fragment" -->
+- What? Why?<!-- .element class="fragment" -->
+- But tests don't make fun :( !! <!-- .element class="fragment" -->
+- Guess why?<!-- .element class="fragment" -->
+- Seriously: consider it!<!-- .element class="fragment" -->
 
 
 ## Elegant Objects
-- OOP Extrem/Konsequent<!-- .element class="fragment" -->
-- Hybrid aus OOP & FP<!-- .element class="fragment" -->
+- OOP extreme/consequent/conservative<!-- .element class="fragment" -->
+- Hybrid of OOP & FP<!-- .element class="fragment" -->
 
 
+# Thanks :)
 
-# Danke :)
 
+# Questions?
+
+- also via slack/mail/teams ;)

@@ -1,31 +1,30 @@
-- ✔️ Vorstellung / Aufbau
-- ✔️ Quicktips-Sammlung
-- ✔️ Codesmells
-- ✔️ SOLID
-- **Diverses**
-- Ausblick
-- Fragen & Co
+- ✔️  Quicktips
+- ✔️  Codesmells
+- ✔️  SOLID
+- **Various stuff**
+- Looking Forward
+- Questions
 
 
-# Diverses
+# Various stuff
 
 
 ## Typing
 
-- Bei nicht streng typisierten Sprachen wie JS/PHP/etc. immer typisieren!<!-- .element class="fragment" -->
-- Javascript: Flow oder direkt Typescript/Dart<!-- .element class="fragment" -->
-- PHP: Durch phpstan/psalm sicher stellen<!-- .element class="fragment" -->
-- Python: mypy und typing<!-- .element class="fragment" -->
-- <!-- .element class="fragment" -->Andere Sprachen lassen sich ergänzen `@NotNull/@Nullable`
+- <!-- .element class="fragment" -->Always type on non-typed languages
+- <!-- .element class="fragment" -->Javascript: Flow or Typescript/Dart
+- <!-- .element class="fragment" -->PHP: use phpstand/psalm
+- <!-- .element class="fragment" -->python: mypy/pyright and typing (pydantic!)
+- <!-- .element class="fragment" -->Other: `@NotNull/@Nullable` (e.g. Java)
 
 
 ## Simple Code/Solutions
 
-- Simple is better than complex<!-- .element class="fragment" -->
-- Schreibe so, dass auch die frischen JuniorDevs es verstehen<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->Simple is better than complex
+- <!-- .element class="fragment" -->Write always like the fresh junior dev needs to maintain your code. Right now. Without introduction
 
 
-## Extrembeispiel
+## Extreme example
 
 ```perl
 /(?:(?:\r\n)?[ \t])*(?:(?:(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t]
@@ -50,22 +49,21 @@
 ?:\r\n)?[ \t])*))*)?;\s*)/x
 ```
 
-- Na? <span class="fragment">Email-Validierung nach <a href="https://www.ietf.org/rfc/rfc0822.txt?number=822">RFC822</a> :)</span>
+- ? <span class="fragment">Email-Validation for <a href="https://www.ietf.org/rfc/rfc0822.txt?number=822">RFC822</a> :)</span>
 
 
-## Besser
+## Better
 
-- Gibt es ein @ Zeichen mit anderen Zeichen davor/danach?<!-- .element class="fragment" -->
-- Emailbestätigung einholen -> bessere Validierung gibt es nicht ;)<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->Is there and @ with character before/after it?
+- <!-- .element class="fragment" -->Get Email validation link: easier validation not possible ;)
 
 
 ## Immutability
 
-- Heißt: Unveränderbarkeit
-- Vorteil: Deterministisch.
+Advantage: Deterministic!
 
 
-### Immutability: Java mit [commons-email](https://commons.apache.org/proper/commons-email/javadocs/api-release/index.html)
+### Example: Java with [commons-email](https://commons.apache.org/proper/commons-email/javadocs/api-release/index.html)
 
 ```java
 Email email = new SimpleEmail();
@@ -86,9 +84,9 @@ Tatsächliches problem in der Email Klasse:
 - Auch als Nutzer nehmen wir eher einen "Builder"
 
 
-### Immutability: Java mit jcabi-email
+### Immutability: Java with jcabi-email
 
-```java
+```java [|1-3|4,13|5-9|10-12|14]
 Postman postman = new Postman.Default(
   new SMTP("smtp.googlemail.com", 465, "user", "pwd")
 );
@@ -107,21 +105,23 @@ postman.send(envelope);
 
 
 #### Immutability
-- Vorteil: Deterministisch.<!-- .element class="fragment" -->
-- simpler zu erstellen, testen(!) und nutzen<!-- .element class="fragment" -->
-- vermeidet temporal coupling<!-- .element class="fragment" -->
-- viel einfacher zu cachen.<!-- .element class="fragment" -->
-- Nutzung hat keine Sideeffects<!-- .element class="fragment" -->
-- Testen macht kein Spaß? Liegt häufig an Mutability<!-- .element class="fragment" -->
+- Deterministic<!-- .element class="fragment" -->
+- Easier to create, test and use<!-- .element class="fragment" -->
+- Mitigates temporal coupling<!-- .element class="fragment" -->
+- FAR easier to cache<!-- .element class="fragment" -->
+- Not side effects!<!-- .element class="fragment" -->
+- Testing is annoying: common reason is mutability<!-- .element class="fragment" -->
 - <!-- .element class="fragment" --><a src="https://www.howtobuildsoftware.com/index.php/how-do/DM3/java-object-immutability-atomicity-what-is-failure-atomicity-used-by-j-bloch-and-how-its-beneficial-in-terms-of-immutable-object">Bloch's "Failure atomicity"</a>
-  - Objekte sollten bei "System failure" niemals "unfertig" sein <!-- .element class="fragment" -->
+  - Means: objects shall never be "unfinished" on system failure 
 
 
 ## Sideffects
-- Was sind Sideffects?<!-- .element class="fragment" -->
-- Verhindern/Erschweren Caching<!-- .element class="fragment" -->
-- Verhindern/Erschweren Testing<!-- .element class="fragment" -->
-- Pure Methods/Functions: Keine Seiteneffekte, nur abhängig vom Input, selber Input -> selber Output<!-- .element class="fragment" -->
+- ?<!-- .element class="fragment" -->
+- Mitigate/Complicate caching<!-- .element class="fragment" -->
+- Mitigate/Complicate testing<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->Pure Methods/Functions: No sideeffects, only depend on input
+  - same input: same output!
+  - <!-- .element class="fragment" -->also means: complex calculations can be replaced by a lookup table!
 
 
 ### ❌ Sideeffects: Random
@@ -160,21 +160,21 @@ public static int randomAdd(int number, int randomized) {
 
 ## Never\* use `null`
 - <!-- .element class="fragment" -->"I call it my billion-dollar mistake" - Tony Hoare
-- <!-- .element class="fragment" -->Ist nicht polymorph zu echten Objekten
-  - <!-- .element class="fragment" -->Daher: NullPointerException/TypeErrors/etc.
-- <!-- .element class="fragment" -->Unnötige checks <code>if (obj !== null) ...</code>
-- <!-- .element class="fragment" -->Verletzt SinglePurpose Prinzip:
-  - <!-- .element class="fragment" -->Null fungiert als fehlende/falsche/undefinierte/Fehler-Werte
-- <!-- .element class="fragment" -->Ausnahmen: DBs, existierende APIs
-- <!-- .element class="fragment" -->Sprache: "Echte" null safety haben nur Sprachen wie Dart(!), Rust, Haskell, etc.
+- <!-- .element class="fragment" -->Is not polymorph to actual objects
+  - <!-- .element class="fragment" -->This is the reason for: NullPointerException/TypeErrors/etc.
+- <!-- .element class="fragment" -->Unnecessary checks <code>if obj is not None:...</code>
+- <!-- .element class="fragment" -->Violates SinglePurpose Prinzip:
+  - <!-- .element class="fragment" -->Null is used as an indicator for missing/false/undefined/error-values
+- <!-- .element class="fragment" -->Exceptions: DBs, existing APIs
+- <!-- .element class="fragment" -->Languages: "True" null safety only in langs like dart, rust, haskell
 
 Notiz:
 - Hoare hat auch Quicksort oder das Hoare Kalkül zum "Beweisen" der Gültigkeit von Algorithmen entwickelt.
 
 
-<p>und während andere damals schon den Fehler von <code>null</code> erkannten  ...</p>
+<p>And while the world already knew about the error of <code>null</code> ...</p>
 
-<p class="fragment">... kam Javascript und baute direkt zwei <code>null-like</code> Konzepte ein</p>
+<p class="fragment">... there was javascript and built in two <code>null-like</code> concepts</p>
 
 ```js 
 if (myObject !== undefined and myObjects !== null) {
@@ -186,92 +186,35 @@ if (myObject !== undefined and myObjects !== null) {
 
 #### Typescript example: NullObject
 
-Typescript nimmt uns zum Glück eine riesige Menge ab, aber:
+Typescript can do a lot, but:
 
 ```typescript
 type Optional<T> = T | void;
 ```
 
-Wenn wir nun mit einem Rückgabewert vom Typ Optional arbeiten,
-werden wir "gezwungen" zu prüfen, ob das passt.
-
-
-#### Typescript NullObject Helper
-```typescript
-function isDefined<T>(value: Optional<T>): value is T
-{
-  return value !== undefined && value !== null;
-}
-```
-
-Methode zum checken ob ein Wert (z.Bsp. `Optional<int>`) gesetzt ist.
-
-
-#### Typescript NullObject Helper
-```typescript
-function getOrDefault<T>(value: Optional<T>, defaultValue: T): T
-{
-  return isDefined(value) ? value : defaultValue;
-}
-```
-
-Methode zum um sicher zu gehen, dass wir immer ein gültiges Objekt haben.
-
-
-#### Typescript example: Hilfreiche Konfiguration
-```javascript [2|4|5|6|7|8]
-{
-  "strict": true,
-  // Aktiviert implizit auch:
-  "noImplicitAny": true,    // Typing ;)
-  "noImplicitThis": true,   // Orderntlich
-  "alwaysStrict": true,     // Wir sparen uns "use strict"
-  "strictNullChecks": true, // streng sein
-}
-```
-und
-```javascript
-{ 
-  "no-null-keyword": true,
-  "no-any": true
-}
-
-```
-
-
-## Dart
-
-- Dart hat __sound null safety__: nutzt sie! :)
-- Wenn sich ein "nullish" Object nicht verhindern lässt:
-
-```dart
-class Optional<T> {
-  T|null value = null;
-  Optional(this.value);
-}
-```
+We still have void, but typescript now forces us to check if we have T or void/null. In TS we should set: `strict, noImplicitAny, noImplicitThis, alwaysStrict, strictNullChecks, no-null-keyword, no-any` to `true`
 
 
 ## Cyclomatic Complexity (McCabe Metrik)
 
 
-durch Binärverzweigungen
+with binary branches
 
 $$ M = b + p, p > 1, b = z - 1$$
 
-- b: Anzahl Binärverzweigungen 
-- p: Anzahl Kontrollflußgraphen
-- b = z - 1, wenn mehr als Zwei Zweige (Switch)
+- b: Number of binary branches 
+- p: Number of control flow graphs
+- b = z - 1, if more than two branches (switch)
 
 
-
-via Knoten/Kanten im Graph
+with nodes/edges in graph
 
 $$ M = e - n + 2p$$
 
-- e: Edges/Kanten
-- n: Nodes/Knoten
-- p: Zusammenhangskomponenten
+- e: Edges
+- n: Nodes
+- p: components
+
 
 
 <iframe src="https://giphy.com/embed/4JVTF9zR9BicshFAb7" width="480" height="345" frameBorder="0" />
@@ -280,7 +223,7 @@ $$ M = e - n + 2p$$
 #### Cyclomatic Complexity
 
 ```python
-def name_von_wochentag(int nummer):
+def name_von_wochentag(nummer):
   if nummer == 1: return "Montag"
   elif nummer == 2: return "Dienstag"
   elif nummer == 3: return "Mittwoch"
@@ -305,7 +248,7 @@ TAGE = {
   7: "Sonntag",
 }
 
-def name_von_wochentag(int nummer): 
+def name_von_wochentag(nummer): 
   return TAGE.get(nummer, "unbekannt")
 ```
 
@@ -319,7 +262,7 @@ Notiz:
 
 
 ```python
-def name_von_wochentag(int nummer):
+def name_von_wochentag(nummer):
   if nummer == 1: return "Montag"
   elif nummer == 2: return "Dienstag"
   elif nummer == 3: return "Mittwoch"
@@ -332,16 +275,15 @@ def name_von_wochentag(int nummer):
   elif nummer == 7: return "Sonntag"
   return "unbekannt"
 ```
-
 - Cyclomatic Complexity: 9
 
 
 ```python
-TAGE = { """ ... """ }
+DAYS = dict(1: "Monday", ...)
 
-def name_von_wochentag(int nummer): 
+def name_von_wochentag(nummer): 
   if nummer == 4 and date.is_before_holiday():
     return "Kleiner Freitag"
-  return TAGE.get(nummer, "unbekannt")
+  return DAYS.get(nummer, "unbekannt")
 ```
 - Cyclomatic Complexity: 2

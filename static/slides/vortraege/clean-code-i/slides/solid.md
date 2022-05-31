@@ -1,19 +1,18 @@
-- ✔️ Vorstellung / Aufbau
-- ✔️ Quicktips-Sammlung
-- ✔️ Codesmells
+- ✔️  Quicktips
+- ✔️  Codesmells
 - **SOLID**
-- Diverses
-- Ausblick
-- Fragen & Co
+- Various stuff
+- Looking Forward
+- Questions
 
 
 #### SOLID
 
-- Single Responsibility
-- Open Closed Principle
-- Liskovsches Substitutionsprinzip
-- Interface Segregation
-- Dependency Inversion
+- **S** ingle Responsibility
+- **O** pen Closed Principle
+- **L** iskovsches Substitutionsprinzip
+- **I** nterface Segregation
+- **D** ependency Inversion
 
 Notiz:
  - Gehe gleich drauf ein -> Keine detailerklärung notwendig ;)
@@ -30,8 +29,7 @@ class Employee{
   function save() { } // In Database
 }
 ```
-
-- Hier sind Account, HR, "Database" und der Angestellte gekoppelt
+- <!-- .element class="fragment" -->Tightly Coupled: Accounting, HR, Database and Employee 
 
 
 #### SOLID: Single Responsibility
@@ -43,7 +41,7 @@ class HourReporter { function reportHours(data); }
 class EmployeeRepository { function save(data); }
 ```
 
-- Jetzt muss Employee diese Lösungen aber alle nach außen transportieren.
+- <!-- .element class="fragment" -->Problem: Now our Employee needs to give this solutions to the outside
 
 
 #### SOLID: Single Responsibility
@@ -59,18 +57,19 @@ class HourReporter { function reportHours(data); }
 class EmployeeRepository { function save(data); }
 ```
 
-- Nur eine Methode pro Klasse? <span class="fragment">Nope!</span>
+- <!-- .element class="fragment" -->But now we only have one method per class :/ 
 
+NOPE! <!-- .element class="fragment" -->
+ 
 Notiz:
 - Tatsächlich ist calculatePay sicher kein Einzeiler
 - Auch reportHours holt sich vlt Daten aus einer API usw.
 
 
 #### SOLID: Open Closed Principle
-- Software Entitäten sollen offen für Erweiterung, aber geschlossen für Veränderung sein
-- Gedankenexperiment: Finanzreport
-- Idealerweise ändert sich hier nur die eine Komponente, die für die Anzeige von Daten
-  zuständig ist<!-- .element class="fragment" -->
+- Software entities shall be open for enhancement but closed for change
+- <!-- .element class="fragment" -->Thought experiment: finance report
+- <!-- .element class="fragment" -->Ideally we only change the ONE component responsible for the display of data
 
 Notiz:
 - Software zum Anzeigen von Finanzreports als Tabelle auf Webseite
@@ -80,20 +79,21 @@ Notiz:
 **Hinweis** auf Moduleborders und Abhängigkeitsrichtung => Software Architektur
 
 
-#### SOLID: Liskovsches Substitutionsprinzip
-- Einziges nach einer Person benanntes: [Barbra Liskov](https://de.wikipedia.org/wiki/Barbara_Liskov)
-- Auch "Ersetzbarkeitsprinzip"
-- Square/Rectangle Problem
-- --> Eher was für einen Architekturvortrag
-
-
-#### SOLID: Interface Segregation
-><!-- .element class="fragment" --> "Many client-specific interfaces are better than one general-purpose interface."
+#### SOLID: Liskovsches Substitution
+- Only principle named after a person: [Barbra Liskov](https://de.wikipedia.org/wiki/Barbara_Liskov)
+- <!-- .element class="fragment" -->Also known as "replaceable principle"
+  - <!-- .element class="fragment" -->Again: more for architecture talk
+  - <!-- .element class="fragment" -->Google in context with: Square/Rectangle problem
 
 
 #### SOLID: Interface Segregation
 
-```kotlin
+> <!-- .element class="fragment" -->"Many client-specific interfaces are better than one general-purpose interface."
+
+
+#### SOLID: Interface Segregation
+
+```kotlin [|1-4|6-9|11-14]
 interface IWorker {
   fun hardWork();
   fun eat();
@@ -109,8 +109,12 @@ class SuperWorker : IWorker {
   fun eat() { /** 2x amount of food */ }
 }
 ```
+- <!-- .element class="fragment" -->Python Interfaces: Protocol (python3.8) else abc.ABC
 
-- Aber was, wenn wir den Manager hinzufügen wollen?<!-- .element class="fragment" -->
+
+- But now we want to add the manager. What to do about it??
+  - <!-- .element class="fragment" -->(S)He obviously cannot do hard work (right?)
+  - <!-- .element class="fragment" -->Eating will be there, but also managing as new capability!
 
 
 #### SOLID: Interface Segregation
@@ -133,21 +137,23 @@ class Robot : CanWork { /** .... */ }
 
 #### SOLID: Interface Segregation
 - "Many client-specific interfaces are better than one general-purpose interface."
-- Interfaces werden in "Fähigkeiten" werden aufgesplittet<!-- .element class="fragment" -->
-- Wir verlassen uns nur auf Dinge die ein Objekt kann - nicht mehr auf das spezifische Objekt<!-- .element class="fragment" -->
-- Müssen wir den Code dann nicht häufig duplizieren?<!-- .element class="fragment" -->
-  <span class="fragment"><span style="color:red">Nope!</span> Trait, DefaultInterface, Mixins, etc.</span>
+- <!-- .element class="fragment" -->Interfaces are split into "capabilities" 
+- <!-- .element class="fragment" -->We only depend on things an object can - no longer on the object itself!
+- <!-- .element class="fragment" -->Won't this lead to a lot of duplicate code?
+
+<span class="fragment"><span style="color:red">Nope!</span> Trait, DefaultInterface, Mixins, etc.</span>
 
 
 #### SOLID: Dependency Inversion
 > <!-- .element class="fragment" -->"Depend on Abstractions not concretions."
 
+Same example, but now the application<!-- .element class="fragment" -->
+
 
 #### SOLID: Dependency Inversion
-
+Before:
 ```kotlin
-class Workplace
-constructor (manager: Manager, workers: Set<Worker>, robots: Set<Robot>)
+class Workplace(manager: Manager, workers: Set<Worker>, robots: Set<Robot>)
 {
   fun startTheDay() {
     manager.delegate()
@@ -155,15 +161,14 @@ constructor (manager: Manager, workers: Set<Worker>, robots: Set<Robot>)
     robots.forEach { robot.work(); }
     workers.forEach { worker.eat(); }
   }
-  
 }
 ```
 
 
 #### SOLID: Dependency Inversion
-
+Better:
 ```kotlin
-class Workplace(manager: CanManage, workers: CanWork)
+class Workplace(manager: CanManage, workers: Set<CanWork>)
 {
   fun startTheDay() {
     manager.delegate()

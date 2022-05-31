@@ -1,20 +1,21 @@
-- ✔️ Vorstellung / Aufbau
-- ✔️ Quicktips-Sammlung
+- ✔️  Quicktips
 - **Codesmells**
 - SOLID
-- Diverses
-- Ausblick
-- Fragen & Co
+- Various stuff
+- Looking Forward
+- Questions
 
 
 # Codesmells
 
-Eigenheiten von Code, die schlechte Auswirkungen mit sich ziehen
+Properties of code which can have a bad influence
+- either directly in execution
+- or later in maintenance
 
 
 #### ?
 
-```rust [1-4|6-21]
+```rust [|1-4|6-21]
 const CUTE_COLOR = "yellow";
 const MAX_CUTE_LEGS = 4;
 const CUTE_SIZES: [&'static str; 3]= ["xsmall", "small", "gigantic"];
@@ -42,7 +43,19 @@ Notiz:
 - Problem vorher erkennen lassen ;)
 
 
-![](/images/pyramid-of-doom.png)
+![](images/pyramid-of-doom.png)
+
+
+## Problem
+### We don't always see the PoD due to logic
+
+
+![](images/review_scraper_decathlon-1.png)
+
+
+![](images/review_scraper_decathlon-2.png)
+- <!-- .element class="fragment" -->That is the whole method
+- <!-- .element class="fragment" -->Reversing the if will unindent ~180sloc
 
 
 ### Pyramid of Doom
@@ -67,13 +80,10 @@ fn is_cute_pokemon(Pokemon pokemon) -> bool {
 }
 ```
 
-Notiz:
-Einfachster Lösungsansatz is `if` umzudrehen
-
 
 #### PoD Solution
 
-```rust [2]
+```rust [2,3]
 fn is_cute_pokemon(Pokemon pokemon) -> bool {
   if (pokemon.color != CUTE_COLOR) { return false; }
   // Imagine logic here
@@ -91,7 +101,6 @@ fn is_cute_pokemon(Pokemon pokemon) -> bool {
   return false;
 }
 ```
-reverse if
 
 
 #### PoD Solution
@@ -114,7 +123,6 @@ fn is_cute_pokemon(Pokemon pokemon) -> bool {
   }
 }
 ```
-auch die anderen ifs umdrehen
 
 
 #### PoD Solution
@@ -133,8 +141,7 @@ fn is_cute_pokemon(Pokemon pokemon) -> bool {
   return CUTE_POKEMONS.contains(pokemon.name);
 }
 ```
-
-return statement direkt zurück geben<!-- .element style="font-size:small" -->
+return bool value directly
 
 
 #### PoD Solution
@@ -153,13 +160,12 @@ fn is_cute_pokemon(Pokemon pokemon) -> bool {
   CUTE_POKEMONS.contains(pokemon.name)
 }
 ```
+As this is rust we can return by omitting `;`
 
-Weil es Rust ist, können wir sprachinterne Features nutzen :)
 
+## God classes
 
-## Gott Klassen
-
-(und Methoden)
+(and methods)
 
 ```php [3-5]
 <?php
@@ -174,27 +180,29 @@ class DoodatsManufacturerAndMerchant {
 function downloadParseAndSafeAllTheStuff(url) { ... }
 ```
 
-* Verletzen die "do one thing well" Regel<!-- .element class="fragment" -->
-* Aber was ist die "richtige" Größe einer Klasse?<!-- .element class="fragment" -->
-
-Notiz:
- - Geschmackssache?
- - Es gibt tatsächlich fundierte Meinungen, die bei mehr als 5 Zeilen schon ins Schwitzen kommen
- - Meiner Meinung nach hängt es sehr stark von der Sprache ab.
- - Eine reine Zeilenanzahl ist nicht zielführend
- - Eher Cyclomatic Complexity
+- <!-- .element class="fragment" -->Violate the "do one thing well" rule
+- <!-- .element class="fragment" -->"and" is a good indicator
+- <!-- .element class="fragment" -->But what is the RIGHT size of a class/function?
 
 
-#### Gott Klassen - Typische Beispiele
-
-- Formatieren/Umwandeln der Daten eines Objects zusammen mit dem Object<!-- .element class="fragment" -->
-- Komplexe Konstruktoren vs. Builder Pattern<!-- .element class="fragment" -->
-- (ActiveRecord, ORM)¹<!-- .element class="fragment" -->
-
-¹ Gründe gehen zu tief für heute ;)<!-- .element class="fragment" -->
+## "correct" line count per unit of code?
+- personal choice?
+- <!-- .element class="fragment" -->there are fundamental opinions of experts thinking >5 sloc is almost too much
+- <!-- .element class="fragment" -->imho it depends on the language: pure line count is not a good indicator
+- <!-- .element class="fragment" -->Cyclomatic complexity! -> later
 
 
-#### Gott Klassen ❌
+#### God classes - typical examples
+
+- <!-- .element class="fragment" -->Formatting/Changing data of one type together with the object
+- <!-- .element class="fragment" -->Complex constructors vs builder pattern
+- <!-- .element class="fragment" -->ORM/ActiveRecord¹
+- <!-- .element class="fragment" -->It's always a tradeoff
+
+¹Reasons are a talk all by themselves ;)<!-- .element class="fragment" -->
+
+
+#### God classes ❌
 
 ```python
 class CryptoMarketManager:
@@ -204,61 +212,64 @@ class CryptoMarketManager:
   def news(self, coin, market_list): pass
   def min_max_avg(self, coin): pass
   def coin_volume(self, coin): pass
-  def print_coin_table(self, coin_list, print_type='pdf'):
-    pass
-  def get_history_data(self, crypto_market, coin, date):
-    pass
+  def print_coin_table(self, coin_list, print_type='pdf'): pass
+  def get_history_data(self, crypto_market, coin, date): pass
 ```
+- <!-- .element class="fragment" -->Far too many concerns for just one class
+- <!-- .element class="fragment" -->Divide by slicing logic in reusable parts
+- <!-- .element class="fragment" -->Complete example would be just to much for this small amount of time, but:
 
-- hier ließen sich mindestens 3 Klassen erstellen<!-- .element class="fragment" -->
 
-Notiz:
-- Echte Beispiele würden der Natur des Problems geschuldet leider wirklich den Rahmen sprengen
-- Hier eher bequatschen, was man auslagern könnte
+```python [|2|3-4|5-7,9|8]
+class CryptoMarketManager:
+  def fetch_crypto_data(self, crypto_market, coin): pass
+  def buy(self, crypto_market, coin, amount): pass
+  def sell(self, crypto_market, coin, amount): pass
+  def news(self, coin, market_list): pass
+  def min_max_avg(self, coin): pass
+  def coin_volume(self, coin): pass
+  def print_coin_table(self, coin_list, print_type='pdf'): pass
+  def get_history_data(self, crypto_market, coin, date): pass
+```
 
 
 ## Duplicate Code
 
-- Captain Obvious sagt: DRY!<!-- .element class="fragment" -->
-- Alle relevanten IDEs könnten Code Bestandteile extrahieren<!-- .element class="fragment" -->
-  - Z.Bsp durch "Extract Method" (
+- <!-- .element class="fragment" -->Captain Obvious: DRY!
+- <!-- .element class="fragment" -->All relevant IDEs can extract code parts!
+  - e.g. "Extract Method" (
     [VSCode](https://code.visualstudio.com/docs/editor/refactoring#_extract-method),
     [Intellij](https://www.jetbrains.com/help/idea/find-and-replace-code-duplicates.html),
     [Neovim/Vim](https://github.com/ThePrimeagen/refactoring.nvim), etc.) 
-- Codeanalyzer helfen. Z.Bsp.:<!-- .element class="fragment" -->
-  - Python: <code style="background:#3f3f3f">pylint</code> mit <code style="background:#3f3f3f">--duplicate-code</code> flag.
+- <!-- .element class="fragment" -->Codeanalyzer can help:
+  - Python: <code style="background:#3f3f3f">pylint</code> with <code style="background:#3f3f3f">--duplicate-code</code> flag.
   - PHP: <code style="background:#3f3f3f">phpcpd</code>
   - JS/Node/Dart/uvm.: [kucherenko/jscpd](https://github.com/kucherenko/jscpd)
-- Bonuspunkte, wenn die CI/CD Pipeline das erkennt ;) <!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->Bunuspoints, when CI/CD Pipeline recognizes this ;)
 
 
 ## Duplicate Code: Tips
 
-- Trivial: Auslagern in Methoden im gleichen Scope<!-- .element class="fragment" -->
-  - Statt Klassenhierarchie auf Mixins/Traits/etc. setzen -> kommt später<!-- .element class="fragment" -->
-- Architekturboundaries beachten<!-- .element class="fragment" -->
-  - Komplexeres Thema, besser eigener Talk über Architektur<!-- .element class="fragment" -->
-- "Premature Generalization" beachten<!-- .element class="fragment" -->
-
-Notiz:
-- Beispiel benötigt, dann nachreichen?
+- <!-- .element class="fragment" -->Trivial: Extract methods/code in own scope
+  - <!-- .element class="fragment" -->Instead of inheritance: Mixins/Traits/etc. -> later
+- <!-- .element class="fragment" -->Keep track of architecture boundaries
+  - <!-- .element class="fragment" -->Complex topic. Another talk?
+- <!-- .element class="fragment" -->"Premature Generalization" 
 
 
-## Auskommentierter Code
+## Commented Code
 
 
 - In MergeRequests/PullRequests/etc: Just don't
-- Git ist genau dafür da<!-- .element class="fragment" -->
-- wird langsam zur "Lüge" im Code:<!-- .element class="fragment" -->
-  - Umgebung ändert sich
-  - Kommentare meist schon nicht mehr
-  - Auskommentierter Code nie!
+- Git!<!-- .element class="fragment" -->
+- Slowly becomes a lie in our code<!-- .element class="fragment" -->
+  - Environment changes
+  - Comments most of the time don't get the same kind of love
+  - Commented code never gets fixed. I really had 0 cases so far (git analysis ;))
 - Debugging, etc.? --> Debugger/etc.<!-- .element class="fragment" -->
-  - Alternativ: Featureflags, wo es funktioniert
-  - Nativ: C-Derivate, Rust, für viele andere Sprachen gibt es Libraries (z.Bsp ein Babel-Plugin für JS)
+  - Alternativ: Featuresflags where it works
+  - Native: C-Derivates, Rust and for other languages there are libraries (e.g. a Babel-Plugin for JS)
 
-
-## Auskommentierter Code
 
 ❌ Dont<!-- .element class="fragment" data-fragment-index="1" -->
 ```c
@@ -279,12 +290,17 @@ for (int i=0; i<count; i++) {
 <!-- .element class="fragment" data-fragment-index="2" -->
 
 
+Additional problem with debugging code in application: huge security risk!
+
+
 ## Dead Code
 
-- Erschwert oder verhindert sogar Refactorings<!-- .element class="fragment" -->
-- Wird meist mitgewartet obwohl schon lange nutzlos<!-- .element class="fragment" -->
-- Manchmal versteckt<!-- .element class="fragment" -->
-- Anekdote ;)<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->Makes refactoring hard to impossible
+- <!-- .element class="fragment" -->Are maintained even if they're not in use any longer
+- <!-- .element class="fragment" -->Add cognitive clutter without business value
+- <!-- .element class="fragment" -->Sometimes hidden in plain sight
+- <!-- .element class="fragment" -->Deleted code has no errors ;)
+- <!-- .element class="fragment" -->Anecdote ;)
 
 Notiz:
 - Versicherung X schickt Metadaten im diversen Formaten
@@ -295,7 +311,7 @@ Notiz:
 
 ## Dead Code
 
-```js
+```js [|2,4|8-10]
 // Argument never given
 const ANCIENT_SYSTEM = 'Win98SE'
 function doStuff(system, doItDifferently=false) {
@@ -312,11 +328,11 @@ function doStuff(system, doItDifferently=false) {
 }
 ```
 
-- YAGNI<!-- .element class="fragment" -->
-- Außerdem natürlich: False Flags<!-- .element class="fragment" -->
+- YAGNI (lines 8+)<!-- .element class="fragment" -->
+- Additionally: False Flags<!-- .element class="fragment" -->
 
 
-## Zu viele Parameter/Argumente
+## Too many Parameter/Arguments
 
 ```python [1|3|5|7-8|10,11]
 def calculate_costs(item): pass
@@ -331,15 +347,15 @@ def calculate_costs(item, bonus, ahole_malus = None,
 def calculate_costs(item, bonus, ahole_malus = None,
                     loyal_bonus = None, tax = 0.19): pass
 ```
-- selten wird das "einfach so" gemacht!<!-- .element class="fragment" -->
-- schleichender Prozess! "Mal eben schnell" ist der Feind!<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->seldom done "just because"
+- <!-- .element class="fragment" -->slow and hidden process. "let's do it quickly" is an enemy which makes us slower pretty fast
 
 Notiz:
 - Ein typischer Fall für Strategy Pattern
 
 
-#### Zu viele Argumente: Lösungsidee
-```python [|3,4|6-9|11]
+#### Possible solution
+```python [|1-4|6-9|11]
 @dataclass
 class PriceModifier:
   value: int
@@ -363,18 +379,18 @@ Notiz:
  - Dart: meh. Es gibt eine Extension für VSCode
 
 
-#### Zu viele Argumente: Lösungsidee
+#### Possible solution: application
 ```python [1-4|6-10|12]
 # These taxes are build somehwere in a repository
 tax = PriceModifier(value=False, 0.19)
 ahole = PriceModifier(value=True, 0.1)
 loyal_bonus = PriceModifier(value=False, 0.05)
 
-modifiers = [tax]
+modifiers = [tax]  # we always want to tax
 if not customer.mostly_friendly():
   modifiers.append(ahole)
 if customer.was_here_before():
-  modifiers.append()
+  modifiers.append(loyal_bonus)
   
 total_cost = calculate_costs('magic cards', modifiers)
 ```
@@ -383,7 +399,7 @@ total_cost = calculate_costs('magic cards', modifiers)
 ## Property-Creep
 
 ```php
-<?php
+<?php  # actuall code somehwere out there ;)
 class Lead {
   private ?int $leadId;
   private ?string $firstName;
@@ -408,27 +424,26 @@ Notiz:
  - Schwer wartbar -> Viele gescheitert
 
 
-## Property-Creep Lösungsansätze
-
+## Property-Creep possible solutions
 
 - SubObjects
-  - z.Bsp. Für **Insurer**, **CalculationParameters** oder **Customer**
-- Vielleicht ein Fall von "God Object"?<!-- .element class="fragment" -->
-- <!-- .element class="fragment" -->Bessere Datentypen die mehrere Parameter zusammenfassen
-  - <!--- .element class="fragment" --> z.Bsp. für InsuranceDateFrom/To gibt es `DatePeriod` in PHP
-  - <!-- .element class="fragment" --> Also auf die Standard-Library fürs eigene Sprachenökosystem achten!
+  - e.g. for **Insurer**, **CalculationParameters**, **Customer**
+- <!-- .element class="fragment" -->Maybe another example of god object?
+- <!-- .element class="fragment" -->Better data types to structure this object
+  - <!--- .element class="fragment" -->e.g. for insuranceDateFrom/To there is DatePeriod in PHP (and most other languages)
+  - <!-- .element class="fragment" -->Know about the included batteries of your language!
 
 
 ## Global Scope
 
-- <!-- .element class="fragment" -->Javascript/PHP historisch bedingt besonders anfällig durch Beispiele wie z.Bsp:
-  - `$_GLOBAL` und `$_GET` (php)
-  - `window.` und `document.` (javascript)
-- <!-- .element class="fragment" -->Beispiel & einer der Gründe, warum Wordpress so unglaublich unbeliebt ist:
-  - PHP Magic `$_GET['a']` wurde zu einer globalen Variable `$a`
+- <!-- .element class="fragment" -->Javascript/PHP are historical victims to this:
+  - `$_GLOBAL` and `$_GET` (php)
+  - `window.` and `document.` (javascript)
+- <!-- .element class="fragment" -->Example and one of the reasons, why wordpress is not very liked among developers:
+  - PHP Magic `$_GET['a']` was converted to global variable `$a`
 
 
-#### Global Scope - Schlechtes Beispiel
+#### Global Scope - Negative Example
 
 ```php [|4|10]
 <?php
@@ -453,24 +468,24 @@ function _get_cron_lock() {
 
 #### Global Scope/state
 
-- Warum ist das ein Problem?
-  - <!-- .element class="fragment" -->Globaler State erschwert Testen/Wartbarkeit/Fehlersuche
-  - <!-- .element class="fragment" -->(ihr seht vlt ein Pattern)
-- <!-- .element class="fragment" -->Gibt es eine Alternative?
-  - <!-- .element class="fragment" -->Dependencies mitgeben -> Constructor Injection
+- Why is this a problem?
+  - <!-- .element class="fragment" -->Globale state makes testing/maintenance/finding errors a lot harder
+  - <!-- .element class="fragment" -->(maybe you already see a pattern ;) )
+- <!-- .element class="fragment" -->Is there an alternative?
+  - <!-- .element class="fragment" -->Explizit dependencies by giving them into the classes/functions -> Constructor Injection
 
 Notiz:
  - Singleton kann(!) als Versteck für Global State fungieren
 
 
 ## Temporal Coupling
-- dickes Problem, da Fehler erst zur Laufzeit auffallen<!-- .element class="fragment" -->
-- teilweise nur unter bestimmten Laufzeitbedingungen<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->huge problem, as errors only appear to runtime
+- <!-- .element class="fragment" -->sometimes only if certain conditions are met!
 
-➜ schwer zu debuggen!<!-- .element class="fragment" -->
+➜ extremely hard to debug!<!-- .element class="fragment" -->
 
 
-#### Temporal Coupling: Beispiel
+#### Temporal Coupling: Example
 
 ```python
 some_api = SomeApi()
@@ -480,23 +495,21 @@ someApi.password = 'Mb2.r5oHf-0t' # thx Postillon ;)
 someApi.login()
 ```
 
-<p class="fragment">Mögliches Problem: <code>someApi.url</code> fehlt</p>
+<p class="fragment">Possible Problem: <code>someApi.url</code> is missing</p>
 
 
-#### Temporal Coupling: Beispiel
+#### Temporal Coupling: Example
 
-```python
+```python [4]
 some_api = SomeApi()
 
 someApi.username = 'Zach Brannigan'
-someApi.login()  # und nun?
+someApi.login()  # what now?
 someApi.password = 'Mb2.r5oHf-0t'
 ```
 
-<p class="fragment">Weiteres Problem: <code>someApi.login()</code> kann ohne Syntaxfehler aufgerufen werden obwohl wesentliche Daten fehlen</p>
+<p class="fragment">Another problem: <code>someApi.login()</code> can be called without syntax error. Even when essential data and arguments are missing.</p>
 
-
-#### Temporal Coupling
 
 ```python
 class SomeApi:
@@ -510,13 +523,13 @@ class SomeApi:
 ```
 
 
-#### Temporal Coupling
+### Solution?
 
-- Entweder erwarten wir bei der Erstellung ALLE notwendigen Variablen<!-- .element class="fragment" -->
-- Oder wir erzwingen sonst irgendwie alle Abhängigkeiten<!-- .element class="fragment" -->
+- <!-- .element class="fragment" -->either we EXPECT all necessary variables on creation
+- <!-- .element class="fragment" -->or we force all dependencies with other measures
 
 
-#### Temporal Coupling: Variante 1
+#### Solution 1
 
 ```python
 class SomeApi:
@@ -526,29 +539,30 @@ class SomeApi:
     self.auth: BasicAuth = BasicAuth(self.username, self.password)
   
   def login(self):
-    return requests.some_request(url, auth=self.auth)
+    return requests.some_request(self.url, auth=self.auth)
 
 some_api = SomeApi('http://api.com/api/...', 'Zach Brannigan', 'Mb2.r5oHf-0t')
 ```
+- <!-- .element class="fragment" -->Essentially we just want to make it impossible to have incomplete objects somewhere in the code
+- <!-- .element class="fragment" -->It's better to have no or an complete object
+- <!-- .element class="fragment" -->In complex cases we might have intermediary objects
 
-- In der Essenz wollen wir es unmöglich machen, unvollständige/falsche Objekte zu erzeugen<!-- .element class="fragment" -->
 
-
-#### Temporal Coupling: Variante 2
+#### Solution 2
 
 ```python
 LOGIN_URL = 'https:/...'
 
+@dataclass
 class SomeApi:
-  def __init__(self, username: str, password: str):
-    # Alternative: save strings and build BasicAuth in login()
-    self.auth: BasicAuth = BasicAuth(self.username, self.password)
+  username: str
+  password: str
+  url: str = LOGIN_URL
   
   def login(self):
-    return requests.some_request(LOGIN_URL, auth=self.auth)
+    basic_auth = BasicAuth(self.username, self.password)
+    return requests.some_request(LOGIN_URL, auth=basic_auth)
 
 some_api = SomeApi('Zach Brannigan', 'Mb2.r5oHf-0t')
 ```
-
-- Bonuspunkte für korrekte Objekte, die Verhalten bei url/username/password erzwingen<!-- .element class="fragment" -->
-- (!) requests als implizite Abhängigkeit<!-- .element class="fragment" -->
+- <!-- .element class="fragment" --> Attention: `requests` is an implicit dependency
