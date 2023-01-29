@@ -4,7 +4,7 @@
 <dl>
   {% for page in section.pages %}
       <dt>
-        ({{ page.date | date(format="%d.%m.%Y") }}) <a href="{{ page.permalink | safe}}">{{ page.title }}</a>
+        {{ page.date | date(format="%d.%m.%Y") }} <a href="{{ page.permalink | safe}}">{{ page.title }}</a>
       </dt>
       {% if page.description %}<dd>{{ page.description }}</dd>{% endif %}
   {% else %}
