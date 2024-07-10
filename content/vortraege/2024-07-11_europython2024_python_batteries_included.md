@@ -11,8 +11,9 @@ A beginners talk about all the unknown modules of the vanilla/standard python li
 
 *(english only)*
 
-**Link:** [Europython 2024 - Python Unplugged: Mining for Hidden Batteries](https://ep2024.europython.eu/session/python-unplugged-mining-for-hidden-batteries)
+**Europython 2024:** [Europython 2024 - Python Unplugged: Mining for Hidden Batteries](https://ep2024.europython.eu/session/python-unplugged-mining-for-hidden-batteries)
 
 **Slides:** [loki.dev/slides/vortraege/ep2024-python-unplugged](https://loki.dev/slides/vortraege/ep2024-python-unplugged)
 
-**Repository:** tba
+**Repository:** [github.com/lokidev/europython2024-python-unplugged-slides](https://github.com/dev-loki/europython2024-python-unplugged-slides)
+
