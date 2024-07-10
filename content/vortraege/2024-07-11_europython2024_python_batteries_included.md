@@ -20,7 +20,7 @@ A beginners talk about all the unknown modules of the vanilla/standard python li
 
 **Slides:** [loki.dev/slides/vortraege/ep2024-python-unplugged](https://loki.dev/slides/vortraege/ep2024-python-unplugged)
 
-**Slides (as PDF):** [Download PDF](https://loki.dev/2024-07-11_europython2024_python_batteries_included.pdf)
+**Slides (as PDF):** [Download PDF](https://loki.dev/20240710_2117_europython24_python_unplugged.pdf)
 
 **Repository:** [github.com/lokidev/europython2024-python-unplugged-slides](https://github.com/dev-loki/europython2024-python-unplugged-slides)
 
