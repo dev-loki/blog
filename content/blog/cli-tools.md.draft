@@ -1,13 +1,44 @@
 +++
-title = "Die X besten und modernsten CLI Tools"
-date = "2021-11-10"
-updated = "2021-11-10T10:00:00Z"
-description = ""
+title = "Moderne CLI replacements"
+date = "2023-01-31"
+updated = "2023-01-31T10:00:00Z"
+description = "In den letzten Jahrzehnten hat sich viel getan. Unter anderem gibt es deutlich besser alternativen als die Vorinstallierten ls/find/grep tools..."
 draft = true
 +++
 
+In den letzten Jahrzehnten hat sich viel getan. Unter anderem gibt es deutlich besser alternativen als die Vorinstallierten ls/find/grep tools. 
+
+Ich möchte hier einmal meine Favoriten vorstellen und auch, warum ich die so viel besser finde.
+
+
+## cat -> bat
+
+## find -> fd
+
+## grep -> rg
+
+## ls -> lsd/exa
+
+## ps -> procs
+
+## sed -> sd
+
+## du -> dust
+
+## htop -> ytop/btop++
+
+## cd -> zoxide
+
+## diff -> delta
+
+## cmus -> musikcube
+
+## default prompt -> starship
+
+## Code Statistics: tokei
+
+
+
+
 Links:
-- https://zaiste.net/posts/shell-commands-rust/
 - https://www.omgubuntu.co.uk/2021/11/best-command-line-tools-ubuntu-linux
-
-
