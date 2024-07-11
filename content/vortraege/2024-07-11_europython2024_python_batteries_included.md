@@ -12,6 +12,10 @@ A beginners talk about all the unknown modules of the vanilla/standard python li
 - Sprinkles of `contextlib`, `urllib` and other packages
 - Some stuff requires `python3.12` (e.g. `batched`)
 
+The repository contains some more code examples, which are:
+- more detailed
+- heavily commented
+- "complete" and executable
 
 *(english only)*
 
