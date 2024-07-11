@@ -1,7 +1,7 @@
 +++
 title = "Python Unplugged: Mining for hidden batteries"
 date = "2024-07-10"
-updated = "2024-07-10T19:40:00Z"
+updated = "2024-07-11T10:42:00Z"
 +++
 
 A beginners talk about all the unknown modules of the vanilla/standard python library.
