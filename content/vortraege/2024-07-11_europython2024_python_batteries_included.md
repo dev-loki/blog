@@ -24,7 +24,7 @@ The repository contains some more code examples, which are:
 
 **Slides:** [loki.dev/slides/vortraege/ep2024-python-unplugged](https://loki.dev/slides/vortraege/ep2024-python-unplugged)
 
-**Slides (as PDF):** [Download PDF](https://loki.dev/20240710_2117_europython24_python_unplugged.pdf)
+**Slides (as PDF):** [Download PDF](https://loki.dev/slides/vortraege/ep2024-python-unplugged/europython2024-python-unplugged-slides.pdf)
 
 **Repository:** [github.com/lokidev/europython2024-python-unplugged-slides](https://github.com/dev-loki/europython2024-python-unplugged-slides)
 
