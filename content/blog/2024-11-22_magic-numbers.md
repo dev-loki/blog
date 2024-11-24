@@ -6,6 +6,8 @@ description = "Magic numbers are numbers/string literals which are used as const
 draft = false
 +++
 
+Magic numbers are numbers/string literals which are used as const and where the actual use is not directly known.  
+
 This is part of a series I do for work and is intended for juniors developers and external people.
 When the code is generic enough I use real life examples from work, otherwise I'll just invent something ;).
 
@@ -19,13 +21,7 @@ MAX_KNOWN_POWER_SIZE: Final[int] = 9000
 This won't catch resetting the variable in runtime, but will complain when run with [ruff](https://astral.sh/ruff) or [mypy](https://www.mypy-lang.org).
 
 
-## Magic Numbers
-
-Magic numbers are numbers/string literals which are used as const and where the actual use is not directly known.  
-
-
 ## Examples
-
 
 ### HTTP Status Codes
 
@@ -45,8 +41,8 @@ if (error.response.status === HttpStatus.CONFLICT) {
 
 Now even if we don't know all the http status codes by heart, we now we have some kind of conflict error without adding comments/complexity  
 
-## Timeout
 
+### Timeout
 ```typescript
 // DONT
 setTimeout(() => {
@@ -61,8 +57,7 @@ setTimeout(() => {
 ```
 
 
-## Limits: business logic
-
+### Limits: business logic
 ```typescript
 // DONT
 if (user.age >= 18 && cart.total >= 50) {
@@ -80,8 +75,7 @@ if (user.age >= MINIMUM_AGE_FOR_DISCOUNT &&
 ```
 
 
-## Limits: password
-
+### Limits: password
 ```typescript
 // DONT
 if (password.length < 8 || password.length > 128) {

@@ -11,5 +11,7 @@ fi
 
 
 source .env
-zola build $1 && scp -i "$ZOLA_KEY" -r public/* \
-  "$ZOLA_USER@$ZOLA_DOMAIN:$ZOLA_REMOTE_FOLDER"
+zola build $1 && \
+  scp -i "$ZOLA_KEY" \
+      -r public/* \
+      "$ZOLA_USER@$ZOLA_DOMAIN:$ZOLA_REMOTE_FOLDER"
