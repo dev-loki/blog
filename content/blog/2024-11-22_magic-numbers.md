@@ -16,8 +16,7 @@ from typing import Final
 
 MAX_KNOWN_POWER_SIZE: Final[int] = 9000
 ```
-
-That's basically it. 
+This won't catch resetting the variable in runtime, but will complain when run with [ruff](https://astral.sh/ruff) or [mypy](https://www.mypy-lang.org).
 
 
 ## Magic Numbers
@@ -25,17 +24,18 @@ That's basically it.
 Magic numbers are numbers/string literals which are used as const and where the actual use is not directly known.  
 
 
-### DONTs
+## Examples
+
+
+### HTTP Status Codes
 
 ```typescript
+// DONT
 if (error.response.status === 409) {
     ...
 }
-```
 
-### DOs
-
-```typescript
+// DO
 import { HttpStatus } from '@nestjs/common';
 
 if (error.response.status === HttpStatus.CONFLICT) {
@@ -45,30 +45,31 @@ if (error.response.status === HttpStatus.CONFLICT) {
 
 Now even if we don't know all the http status codes by heart, we now we have some kind of conflict error without adding comments/complexity  
 
-### DONTs
+## Timeout
+
 ```typescript
+// DONT
 setTimeout(() => {
     refreshData();
 }, 300000); // What does this number mean?
-```
 
-### DOs
-```typescript
+// DO
 const REFRESH_INTERVAL_MS = 300000; // 5 minutes in milliseconds
 setTimeout(() => {
     refreshData();
 }, REFRESH_INTERVAL_MS);
 ```
 
-### DONTs
+
+## Limits: business logic
+
 ```typescript
+// DONT
 if (user.age >= 18 && cart.total >= 50) {
     applyDiscount(cart);
 }
-```
 
-### DOs
-```typescript
+// DO
 const MINIMUM_AGE_FOR_DISCOUNT = 18;
 const MINIMUM_PURCHASE_FOR_DISCOUNT = 50;
 
@@ -78,15 +79,16 @@ if (user.age >= MINIMUM_AGE_FOR_DISCOUNT &&
 }
 ```
 
-### DONTs
+
+## Limits: password
+
 ```typescript
+// DONT
 if (password.length < 8 || password.length > 128) {
     throw new Error('Invalid password length');
 }
-```
 
-### DOs
-```typescript
+// DO
 const PASSWORD_LENGTH_MIN = 8;
 const PASSWORD_LENGTH_MAX = 128;
 
