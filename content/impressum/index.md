@@ -7,8 +7,8 @@ title = "Impressum"
 ## Angaben gem&auml;&szlig; &sect; 5 TMG
 
 Torsten Zielke<br>
-Masurenstra&szlig;e 8a<br>
-64367 M&uuml;hltal<br>
+Lange Stra&szlig;e 40<br>
+37139 Adelebsen<br>
 <blog@loki.dev>
 
 

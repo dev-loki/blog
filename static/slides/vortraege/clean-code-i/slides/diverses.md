@@ -1,13 +1,11 @@
-- ✔️  Quicktips
-- ✔️  Codesmells
-- ✔️  SOLID
+- ✔️ Quicktips
+- ✔️ Codesmells
+- ✔️ SOLID
 - **Various stuff**
 - Looking Forward
 - Questions
 
-
 # Various stuff
-
 
 ## Typing
 
@@ -17,12 +15,10 @@
 - <!-- .element class="fragment" -->python: mypy/pyright and typing (pydantic!)
 - <!-- .element class="fragment" -->Other: `@NotNull/@Nullable` (e.g. Java)
 
-
 ## Simple Code/Solutions
 
 - <!-- .element class="fragment" -->Simple is better than complex
 - <!-- .element class="fragment" -->Write always like the fresh junior dev needs to maintain your code. Right now. Without introduction
-
 
 ## Extreme example
 
@@ -30,7 +26,7 @@
 /(?:(?:\r\n)?[ \t])*(?:(?:(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(?:\r\n)?[ \t]
 )+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ \t]))*"(?:(?:
 \r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+(?:(?:(
-?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[ 
+?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|"(?:[^\"\r\\]|\\.|(?:(?:\r\n)?[
 \t]))*"(?:(?:\r\n)?[ \t])*))*@(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\0
 31]+(?:(?:(?:\r\n)?[ \t])+|\Z|(?=[\["()<>@,;:\\".\[\]]))|\[([^\[\]\r\\]|\\.)*\
 ](?:(?:\r\n)?[ \t])*)(?:\.(?:(?:\r\n)?[ \t])*(?:[^()<>@,;:\\".\[\] \000-\031]+
@@ -51,17 +47,14 @@
 
 - ? <span class="fragment">Email-Validation for <a href="https://www.ietf.org/rfc/rfc0822.txt?number=822">RFC822</a> :)</span>
 
-
 ## Better
 
-- <!-- .element class="fragment" -->Is there and @ with character before/after it?
+- <!-- .element class="fragment" -->Is there an @ with character before/after it?
 - <!-- .element class="fragment" -->Get Email validation link: easier validation not possible ;)
-
 
 ## Immutability
 
 Advantage: Deterministic!
-
 
 ### Example: Java with [commons-email](https://commons.apache.org/proper/commons-email/javadocs/api-release/index.html)
 
@@ -79,10 +72,10 @@ email.send();
 
 Notiz:
 Tatsächliches problem in der Email Klasse:
+
 - [ca. 2000 Zeilen Script](https://commons.apache.org/proper/commons-email/apidocs/src-html/org/apache/commons/mail/Email.html)
   mit dutzenden Methoden/Properties.
 - Auch als Nutzer nehmen wir eher einen "Builder"
-
 
 ### Immutability: Java with jcabi-email
 
@@ -103,19 +96,19 @@ Envelope envelope = new Envelope.MIME(
 postman.send(envelope);
 ```
 
-
 #### Immutability
+
 - Deterministic<!-- .element class="fragment" -->
 - Easier to create, test and use<!-- .element class="fragment" -->
 - Mitigates temporal coupling<!-- .element class="fragment" -->
 - FAR easier to cache<!-- .element class="fragment" -->
-- Not side effects!<!-- .element class="fragment" -->
+- No side effects!<!-- .element class="fragment" -->
 - Testing is annoying: common reason is mutability<!-- .element class="fragment" -->
 - <!-- .element class="fragment" --><a src="https://www.howtobuildsoftware.com/index.php/how-do/DM3/java-object-immutability-atomicity-what-is-failure-atomicity-used-by-j-bloch-and-how-its-beneficial-in-terms-of-immutable-object">Bloch's "Failure atomicity"</a>
-  - Means: objects shall never be "unfinished" on system failure 
-
+  - Means: objects shall never be "unfinished" on system failure
 
 ## Sideffects
+
 - ?<!-- .element class="fragment" -->
 - Mitigate/Complicate caching<!-- .element class="fragment" -->
 - Mitigate/Complicate testing<!-- .element class="fragment" -->
@@ -123,8 +116,8 @@ postman.send(envelope);
   - same input: same output!
   - <!-- .element class="fragment" -->also means: complex calculations can be replaced by a lookup table!
 
-
 ### ❌ Sideeffects: Random
+
 ```java
 public static int randomAdd(int number) {
   Random random = new Random();
@@ -132,8 +125,8 @@ public static int randomAdd(int number) {
 }
 ```
 
-
 ### ❌ Sideeffects: DB
+
 ```java
 public static User findUser(int socialId) {
   var row = this.userRepo.findOneBySocialId(socialId);
@@ -144,8 +137,8 @@ public static User findUser(int socialId) {
 }
 ```
 
+### ✔️ No Sideeffects: Pure Method
 
-### ✔️  No Sideeffects:  Pure Method
 ```java [1-3,5-8]
 public static int add(int first, int second) {
   return first + second;
@@ -157,8 +150,8 @@ public static int randomAdd(int number, int randomized) {
 }
 ```
 
-
 ## Never\* use `null`
+
 - <!-- .element class="fragment" -->"I call it my billion-dollar mistake" - Tony Hoare
 - <!-- .element class="fragment" -->Is not polymorph to actual objects
   - <!-- .element class="fragment" -->This is the reason for: NullPointerException/TypeErrors/etc.
@@ -169,20 +162,20 @@ public static int randomAdd(int number, int randomized) {
 - <!-- .element class="fragment" -->Languages: "True" null safety only in langs like dart, rust, haskell
 
 Notiz:
-- Hoare hat auch Quicksort oder das Hoare Kalkül zum "Beweisen" der Gültigkeit von Algorithmen entwickelt.
 
+- Hoare hat auch Quicksort oder das Hoare Kalkül zum "Beweisen" der Gültigkeit von Algorithmen entwickelt.
 
 <p>And while the world already knew about the error of <code>null</code> ...</p>
 
 <p class="fragment">... there was javascript and built in two <code>null-like</code> concepts</p>
 
-```js 
+```js
 if (myObject !== undefined and myObjects !== null) {
   // ...
 }
 ```
-<!-- .element class="fragment" -->
 
+<!-- .element class="fragment" -->
 
 #### Typescript example: NullObject
 
@@ -194,18 +187,15 @@ type Optional<T> = T | void;
 
 We still have void, but typescript now forces us to check if we have T or void/null. In TS we should set: `strict, noImplicitAny, noImplicitThis, alwaysStrict, strictNullChecks, no-null-keyword, no-any` to `true`
 
-
 ## Cyclomatic Complexity (McCabe Metrik)
-
 
 with binary branches
 
 $$ M = b + p, p > 1, b = z - 1$$
 
-- b: Number of binary branches 
+- b: Number of binary branches
 - p: Number of control flow graphs
 - b = z - 1, if more than two branches (switch)
-
 
 with nodes/edges in graph
 
@@ -215,10 +205,7 @@ $$ M = e - n + 2p$$
 - n: Nodes
 - p: components
 
-
-
 <iframe src="https://giphy.com/embed/4JVTF9zR9BicshFAb7" width="480" height="345" frameBorder="0" />
-
 
 #### Cyclomatic Complexity
 
@@ -236,7 +223,6 @@ def name_von_wochentag(nummer):
 
 - Cyclomatic Complexity: 8
 
-
 ```python
 TAGE = {
   1: "Montag",
@@ -248,7 +234,7 @@ TAGE = {
   7: "Sonntag",
 }
 
-def name_von_wochentag(nummer): 
+def name_von_wochentag(nummer):
   return TAGE.get(nummer, "unbekannt")
 ```
 
@@ -259,7 +245,6 @@ Notiz:
 
 1. Du kannst zum Kühlschrank gehen und dir X nehmen oder zum Kühlschrank gehen und dir Y nehmen oder ...
 2. Hier ist der Kühlschrank - nimm dir was, wenn du was findest
-
 
 ```python
 def name_von_wochentag(nummer):
@@ -275,15 +260,16 @@ def name_von_wochentag(nummer):
   elif nummer == 7: return "Sonntag"
   return "unbekannt"
 ```
-- Cyclomatic Complexity: 9
 
+- Cyclomatic Complexity: 9
 
 ```python
 DAYS = dict(1: "Monday", ...)
 
-def name_von_wochentag(nummer): 
+def name_von_wochentag(nummer):
   if nummer == 4 and date.is_before_holiday():
     return "Kleiner Freitag"
   return DAYS.get(nummer, "unbekannt")
 ```
+
 - Cyclomatic Complexity: 2
