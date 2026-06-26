@@ -1,0 +1,31 @@
+base_url = "https://loki.dev"
+title = "loki.dev"
+description = "Torsten Zielke — software architect & tech lead"
+default_language = "de"
+minify_html = true
+compile_sass = false
+build_search_index = false
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+
+[[taxonomies]]
+name = "tags"
+feed = true
+render = true
+
+[markdown.highlighting]
+theme = "Monokai"
+style = "class"
+
+[languages.en]
+title = "loki.dev"
+description = "Torsten Zielke — software architect & tech lead"
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+
+[[languages.en.taxonomies]]
+name = "tags"
+feed = true
+render = true
+
+[extra]

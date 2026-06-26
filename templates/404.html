@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}404 — loki.dev{% endblock %}
+{% block cmd %}404{% endblock %}
+
+{% block content %}
+<article>
+  <pre class="terminal-line error" style="font-size:1rem;margin-bottom:1.5rem">bash: 404: No such file or directory</pre>
+  <p>{% if lang == "en" %}Page not found.{% else %}Seite nicht gefunden.{% endif %}</p>
+  <p style="margin-top:1rem">
+    <a href="{% if lang == "en" %}/en/{% else %}/{% endif %}">[ ~/ ]</a>
+    <a href="{% if lang == "en" %}/en/blog/{% else %}/blog/{% endif %}" style="margin-left:0.5rem">[ blog ]</a>
+  </p>
+</article>
+{% endblock %}

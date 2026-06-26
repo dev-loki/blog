@@ -1,0 +1,1203 @@
+# loki.dev — full content
+
+> Torsten Zielke — software architect & tech lead
+
+Source: https://loki.dev  |  Built with Zola.
+
+---
+
+# Blog
+
+## [Claude Code, Claw Code und das Ende der Geheimnisse?](https://loki.dev/blog/claude-code-leak-und-claw-code/)
+
+Date: 2026-05-04
+Description: Ein Blick auf den Claude Code Leak, das daraus entstandene Claw Code Projekt und was das über die aktuelle KI-Entwicklung und deren rechtliche Grauzonen aussagt.
+Tags: ki, tooling
+
+Sorry für die lange Funkstille! Seit dem letzten Post ist ja doch einiges an Zeit ins Land gegangen. Ich hab hier noch einen ganzen Stapel an Entwürfen rumliegen (`.md.draft`), aber wenn ich mir die so anschaue, müssen die wohl alle erst mal grundlegend überarbeitet werden – die Welt (und vor allem die KI-Welt) dreht sich einfach zu schnell ;).
+
+Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt, noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal - sogar frei von KI geschrieben.
+
+Claude Code direkt als erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht - und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5 wo ähnliches behaupted wurde.
+
+
+### Claw Code
+
+Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), sollte einen Blick auf [Claw Code](https://claw-code.codes/) werfen. Das Projekt hat den geleakten Code quasi "deductiv" aufbereitet und zugänglich gemacht. Es ist ein extrem spannendes Stück Softwarearchitektur, das zeigt, wie Anthropic die Interaktion zwischen LLM und lokaler Shell orchestriert.
+
+
+### Die rechtliche Seite: DMCA-Whack-A-Mole
+
+Natürlich findet Anthropic das Ganze weniger witzig. Es gab wohl schon über 8100 Löschanfragen. [Heise hat dazu einen sehr guten Artikel geschrieben](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html), der die rechtlichen Aspekte beleuchtet. Es ist die klassische "Geburtsstunde" eines Tools aus einem Leak heraus – und der verzweifelte Versuch, die Katze wieder in den Sack zu kriegen.
+
+Ich finde das ziemlich bezeichnend für den current State der KI:
+- Die Tools werden immer mächtiger, aber auch komplexer.
+- Der Code (und die Bugs) entstehen schneller und kriegen immer weniger echte Reviews
+- "Security by Obscurity" funktioniert mit KI noch weniger als vorher
+
+Gerade überlege ich noch, ob ich dazu mal einen tieferen Artikel schreibe, wo ich mich speziell um **KI Guardrails**, also eine Art Sicherheitskorsett für KI kümmere. Ich habe das Gefühl, dass dies vielen noch fehlt obwohl es echt eine schöne tief hängende Frucht ist.
+
+---
+
+## [Immutability / Const vs Let](https://loki.dev/blog/const-immutability/)
+
+Date: 2024-12-06
+Description: Warum Immutability so nützlich ist und wie man sie in TypeScript gezielt einsetzt.
+Tags: typescript, clean-code
+
+## tl;dr
+
+- `const` bevorzugen statt `let`
+- Variablen so oft wie möglich unveränderlich halten
+
+Ich erkläre hier, warum Immutability so nützlich ist und wie man sie in TypeScript einsetzt – ähnliche Konzepte gelten aber auch in anderen Sprachen.
+
+## Was ist Immutability?
+
+Der Name beschreibt es eigentlich schon: Dinge unveränderlich machen. In TypeScript sind alle primitiven Datentypen bereits unveränderlich!
+
+**Beispiel:**
+
+```typescript
+let a = 5;
+let b = a;
+a = 123;
+// 5 existiert noch im Speicher
+
+b = 42;
+// 5 wird bald garbage collected
+```
+
+Kleiner Hinweis für zukünftige Inhalte: Immutability ist ein zentrales Konzept in der funktionalen Programmierung ;).
+
+Tiefer einsteigen mit einem Beispiel:
+
+```typescript
+let helloWorldString = "Hello World!"; // unveränderlich
+helloWorldString = "Hello Moon!"; // kein Fehler, aber der Variablenname stimmt nicht mehr!
+
+// vs:
+
+const helloWorldString = "Hello World!"; // unveränderlich
+helloWorldString = "Hello Moon!"; // Fehler! Wir können uns auf den Inhalt verlassen!
+```
+
+Im oberen Beispiel ändert sich der Inhalt der Variable und es wird schwerer vorherzusagen, was drin steckt.
+
+> „Aber was ist mit Zählervariablen? Ich muss doch ständig zählen!"
+
+Richtig. Aufgedröselt:
+
+**Die Faustregel lautet:**
+
+- veränderliche Variablen **möglichst** vermeiden
+- wenn veränderliche Variablen die Lesbarkeit verbessern oder die einzige sinnvolle Option sind (sehr selten): **dann verwenden**
+
+Mit „selten" meine ich, dass TypeScript/JavaScript uns in vielen Fällen einen Weg bietet, Zählervariablen zu vermeiden:
+
+```typescript
+let uppercaseNames = [];
+for (let name of ["alice", "bob", "charlie"]) {
+  uppercaseNames.push(name.toUpperCase());
+}
+
+// Funktionaler Ansatz
+const uppercaseNames = ["alice", "bob", "charlie"].map((name) =>
+  name.toUpperCase(),
+);
+```
+
+Dieses Beispiel ist trivial, aber in jedem Fall: Wir WISSEN, dass `uppercaseNames` genau das enthält, was es sagt, sobald es definiert ist!
+
+## Warum
+
+Immutability bedeutet nicht, alles konsequent durchzuziehen, und veränderliche Variablen sind auch nicht per se schlecht – aber sie eliminieren einige Fehlerquellen beim Programmieren und Debuggen.
+
+[Biome](https://biomejs.dev) hat einen Lint `lint/style/useConst`, der zwingt, `const` zu verwenden, wenn eine Variable nie neu zugewiesen wird. Ich würde aber noch einen Schritt weiter gehen und `let` so oft wie möglich durch `const` ersetzen.
+
+**Folgendes Szenario:**
+
+```typescript
+const mutateVar = (innerA) => {
+  innerA = 9;
+  return 12;
+};
+
+let outerA = 123;
+const result = mutateVar(outerA);
+// keine Änderung, da elementare Typen per Wert übergeben werden
+console.log({ result, outerA });
+
+// Aber:
+const mutateObj = (obj) => {
+  // Seiteneffekt, den wir beim Lesen des Funktionsnamens nicht erwarten:
+  obj.x = 123;
+  return obj;
+};
+
+const originalObject = { a: 42 };
+const mutatedObject = mutateObj(originalObject);
+console.log({ originalObject, mutatedObject });
+```
+
+Wir erwarten, dass `originalObject` noch gleich ist und `mutatedObject` den neuen Wert enthält. Wenn wir uns angewöhnen, bestehende Objekte nicht zu verändern und `const` zu verwenden, werden wir nie von Verhalten **innerhalb** einer Funktion überrascht.
+
+Funktionen, die Parameter nicht mutieren und ausschließlich von ihren Parametern abhängen, heißen **pure functions**. Ein Konzept mit vielen Vorteilen gegenüber **unreinen** Funktionen – dazu mehr im nächsten Artikel.
+
+## Aber const-Objekte sind doch NICHT unveränderlich
+
+Stimmt. Besonders wegen JavaScript. Glücklicherweise haben wir in TypeScript mächtige Werkzeuge: `Readonly`, `readonly` und `as const`.
+
+```typescript
+// Readonly
+type Tree = { name: string };
+const ahorn: Readonly<Tree> = { name: "ahorn" };
+ahorn.name = "bhorn"; // TypeScript-Fehler
+
+// As const
+const ahorn = { name: "ahorn" } as const;
+ahorn.name = "bhorn"; // TypeScript-Fehler
+
+// readonly
+class Tree {
+  constructor(readonly name: string) {}
+}
+
+const t = new Tree("ahorn");
+t.name = "asdf"; // TypeScript-Fehler
+```
+
+## Was ist mit String-Buildern?
+
+Ich bevorzuge persönlich:
+
+1. Den Aufbau eines Strings in eine Funktion auszulagern
+2. Ein Template am Ende zu haben, in das die verschiedenen Teile einfließen
+
+```typescript
+/** Ansatz der meisten Leute */
+function greetCustomer(customer) {
+  let message = "";
+  if (customer.age > 15) {
+    message += "Guten Tag,\n";
+  } else {
+    message += "Hey,\n";
+  }
+
+  if (customer.hasEaten) {
+    message += "Darf ich Ihnen etwas zu trinken anbieten?";
+  } else {
+    message += "Darf ich Ihnen unsere Mittagskarte zeigen?";
+  }
+
+  console.log(message);
+}
+
+// vs. mein Ansatz
+function buildGreeting(customer): string {
+  const greet = customer.age > 15 ? "Guten Tag" : "Hey";
+  const offer = customer.hasEaten ? "etwas zu trinken" : "unsere Mittagskarte";
+  return `${greet},\nDarf ich Ihnen ${offer} anbieten?`;
+}
+
+function greetCustomer(customer) {
+  const greeting = buildGreeting(customer);
+  console.log(greeting);
+}
+```
+
+Das ist besser, weil es:
+
+- die Komplexität reduziert und die Struktur des Endtextes klarer macht
+- die Einrückungstiefe verringert – auch ein Thema für einen eigenen Artikel!
+- die Logik in eine pure function auslagert, während die Funktion mit Seiteneffekten nur diese nutzt
+- `buildGreeting` damit einfacher testbar macht, da wir nicht auf Console-Output angewiesen sind
+
+---
+
+## [Linter & Stylecheck](https://loki.dev/blog/linter-stylecheck/)
+
+Date: 2024-12-02
+Description: Über den Sinn, Arbeit an Werkzeuge auszulagern und damit eine stabilere Codebasis zu erreichen
+Tags: tooling, clean-code
+
+## Stylecheck
+
+Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig – Hauptsache, er ist überall gleich!
+
+
+#### Warum?
+
+1. **Pattern-Matching:** Unabhängig vom Erfahrungsstand ist es einfacher, Muster zu erkennen, wenn sie immer gleich aufgebaut sind.
+2. **Git-Diffs:** Unterschiedliche Stile führen zu einem ständigen Hin-und-Her in den Diffs, wenn verschiedene Styles aufeinandertreffen.
+3. **Werkzeuge:** Ein Tool, das Code automatisch formatiert und Regeln direkt anwendet, spart enorm viel Zeit!
+
+
+#### Tools
+
+- [prettier](https://prettier.io) ist das bekanntere Werkzeug dafür
+- Ich bevorzuge aber [biome](https://biomejs.dev/formatter), da es schneller ist und auch **Linting** übernehmen kann
+    - Es ist zu 97 % kompatibel mit Prettier (gleiche Regeln) – die Unterschiede [sind nachvollziehbar](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
+    - Es kann formatieren: JavaScript, TypeScript, JSX, TSX, JSON, CSS und GraphQL
+
+
+#### Beispiele
+
+- **Trivial**: einheitliche Anführungszeichen `'` vs `"` oder konsistente Einrückung
+- **Lesbarkeit**: Lange Import-Zeilen auf mehrere Zeilen aufteilen
+
+
+###### Trivial: Leerzeichen
+
+```typescript
+// VORHER
+@Injectable()
+export class JwtService {
+    
+    decodeToken (token: string): any {
+        return jwt.decode(token);
+    }
+}
+
+// NACHHER
+@Injectable()
+export class JwtService {
+    decodeToken(token: string): any {
+        return jwt.decode(token);
+    }
+}
+```
+
+oder Tabs vs. Spaces:
+
+```typescript
+// VORHER: 2 Spaces
+describe('ReportsController', () => {
+  let controller: ReportsController;
+
+  beforeEach(async () => {
+
+// NACHHER: Tabs
+describe('ReportsController', () => {
+	let controller: ReportsController;
+
+	beforeEach(async () => {
+```
+
+\* Ich persönlich bevorzuge Spaces, aber **Konvention über Sympathie!**
+
+
+###### Trivial: Zeilenumbrüche
+
+```typescript
+// VORHER
+@Module({
+  controllers: [IntegrationController],
+  providers: [IntegrationService, PrismaService, ScrapingService, CustomerIoService, JwtService]
+})
+
+// NACHHER
+@Module({
+	controllers: [IntegrationController],
+	providers: [
+		IntegrationService,
+		PrismaService,
+		ScrapingService,
+		CustomerIoService,
+		JwtService,
+	],
+})
+```
+
+Es gibt auch den Analyzer, der Imports in einer vorhersehbaren Reihenfolge sortiert. Das ist optional, aber gibt jedem Datei-Header die gleiche Struktur. Details zur Reihenfolge gibt es [hier](https://biomejs.dev/analyzer/import-sorting/).
+
+
+## Linting
+
+Linting gibt uns einen Vorsprung, bevor Kunden Bugs finden. Jeder Linter hat natürlich eine kleine False-Positive-Rate, aber das Regelwerk schließt ganze Klassen von Fehlern aus, bevor sie überhaupt passieren!
+
+Das vollständige Regelwerk von Biome findet sich [hier](https://biomejs.dev/linter/rules/).
+
+Es hat triviale Checks wie [no distracting elements](https://biomejs.dev/linter/rules/no-distracting-elements/)
+(verbietet [marquee](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/marquee) und [blink](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blink)), aber auch deutlich fortgeschrittenere Regeln.
+
+Meine Lieblingskategorie ist [nursery](https://biomejs.dev/linter/rules/#nursery), die veraltete JS-Features enthält, die durch modernere Syntax ersetzt wurden.
+
+#### Linter-Warnungen: Beispiele
+
+```typescript
+// 1. no banned types
+code-block.ts:1:10 lint/complexity/noBannedTypes ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✖ Don't use '{}' as a type.
+  > 1 │ const n: {} = 0
+      │          ^^
+
+// 2. complexity
+code-block.js:1:10 lint/complexity/noExcessiveCognitiveComplexity ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ⚠ Excessive complexity of 21 detected (max: 15).
+  > 1 │ function tooComplex() {
+      │          ^^^^^^^^^^
+    2 │     for (let x = 0; x < 10; x++) {
+    3 │         for (let y = 0; y < 10; y++) {
+
+// 3. for .. of  vs  Array.forEach
+code-block.js:1:1 lint/complexity/noForEach ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✖ Prefer for…of instead of forEach.
+  > 1 │ els.forEach((el) => {
+      │ ^^^^^^^^^^^^^^^^^^^^^
+  > 2 │   f(el);
+  > 3 │ })
+      │ ^^
+
+// 4. no useless catch
+code-block.js:4:5 lint/complexity/noUselessCatch ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✖ The catch clause that only rethrows the original error is useless.
+    2 │     doSomething();
+    3 │ } catch(e) {
+  > 4 │     throw e;
+      │     ^^^^^^^^
+
+// 5. no useless ternary
+const a = foo === 1 ? false : true; // einfach foo !== 1 schreiben
+
+code-block.js:1:9 lint/complexity/noUselessTernary  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ✖ Unnecessary use of boolean literals in conditional expression.
+  > 1 │ const a = foo === 1 ? false : true;
+      │           ^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+1. Trivial, aber wichtig: keine unnötigen/schädlichen Typen
+2. Nutzt Cyclomatic Complexity als Obergrenze für komplexen Code. Zu komplex → vereinfachen. Mehr Details unter [McCabe Metrik](https://en.wikipedia.org/wiki/Cyclomatic_complexity). Wir sollten unter 10 bleiben (10 mögliche Datenpfade durch eine Funktion) und MÜSSEN unter 15 bleiben.
+3. Sprachfeatures: `for .. of ..` ist leichter zu lesen als `Array.forEach(...)`. Auch ein Performance-Vorteil!
+4. Quasi toter Code ohne Funktion
+5. Ein schönes Beispiel für `FIXABLE`-Lints: Dieser wird automatisch korrigiert!
+
+... Und noch vieles mehr! Linter sollten in jeder Phase des Entwicklungsprozesses eingesetzt werden. Je früher, desto besser.
+
+
+## Biome im Editor
+
+Für alle genannten Gründe sollten wir Biome überall einsetzen, wo es möglich ist.
+
+Für die gängigsten Editoren hier die Extension/Plugin-Links, damit die roten Wellenlinien direkt verschwinden und Auto-Formatierung aktiv ist:
+
+- **Allgemein und Vim/Emacs/etc.:** [biomejs.dev](https://biomejs.dev/guides/integrate-in-editor/#use-the-daemon-with-the-binary)
+- **WebStorm:** [plugins.jetbrains.com](https://plugins.jetbrains.com/plugin/22761-biome)
+- **VSCode:** [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=biomejs.biome)
+- **CLI:**
+    - `npm install --save-dev --save-exact @biomejs/biome`
+    - Formatieren: `biome format ORDNER/DATEI` oder `biome format --write ORDNER/DATEI`
+    - Linten: `biome lint ORDNER/DATEI` oder `biome lint --write ORDNER/DATEI`
+    - Alle Checks (Format + Lint): `biome check ORDNER/DATEI`
+
+Danach unbedingt:
+1. Auto-Formatierung aktivieren
+2. Die Linter-Fehler tatsächlich lesen und beheben
+
+---
+
+## [Magic Numbers](https://loki.dev/blog/magic-numbers/)
+
+Date: 2024-11-22
+Description: Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt werden, ohne dass ihre Bedeutung auf den ersten Blick erkennbar ist.
+Tags: clean-code
+
+Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt werden, ohne dass ihre eigentliche Bedeutung direkt erkennbar ist.
+
+Dieser Artikel ist Teil einer Serie, die ich für die Arbeit schreibe – gedacht für Junior-Entwickler und externe Mitarbeiter.
+Wenn der Code generisch genug ist, verwende ich echte Beispiele aus der Praxis, ansonsten erfinde ich etwas ;).
+
+Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist – die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten "Konstanten", aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
+
+```python
+from typing import Final
+
+MAX_KNOWN_POWER_SIZE: Final[int] = 9000
+```
+Das verhindert keine Neuzuweisung zur Laufzeit, aber [ruff](https://astral.sh/ruff) oder [mypy](https://www.mypy-lang.org) werden sich beschweren.
+
+
+## Beispiele
+
+### HTTP-Status-Codes
+
+```typescript
+// FALSCH
+if (error.response.status === 409) {
+    ...
+}
+
+// RICHTIG
+import { HttpStatus } from '@nestjs/common';
+
+if (error.response.status === HttpStatus.CONFLICT) {
+    ...
+}
+```
+
+Selbst wenn wir nicht alle HTTP-Status-Codes auswendig kennen, wissen wir jetzt, dass hier ein Konflikt vorliegt – ganz ohne Kommentare oder zusätzliche Komplexität.
+
+
+### Timeout
+```typescript
+// FALSCH
+setTimeout(() => {
+    refreshData();
+}, 300000); // Was bedeutet diese Zahl?
+
+// RICHTIG
+const REFRESH_INTERVAL_MS = 300000; // 5 Minuten in Millisekunden
+setTimeout(() => {
+    refreshData();
+}, REFRESH_INTERVAL_MS);
+```
+
+
+### Limits: Geschäftslogik
+```typescript
+// FALSCH
+if (user.age >= 18 && cart.total >= 50) {
+    applyDiscount(cart);
+}
+
+// RICHTIG
+const MINIMUM_AGE_FOR_DISCOUNT = 18;
+const MINIMUM_PURCHASE_FOR_DISCOUNT = 50;
+
+if (user.age >= MINIMUM_AGE_FOR_DISCOUNT &&
+    cart.total >= MINIMUM_PURCHASE_FOR_DISCOUNT) {
+    applyDiscount(cart);
+}
+```
+
+
+### Limits: Passwort
+```typescript
+// FALSCH
+if (password.length < 8 || password.length > 128) {
+    throw new Error('Invalid password length');
+}
+
+// RICHTIG
+const PASSWORD_LENGTH_MIN = 8;
+const PASSWORD_LENGTH_MAX = 128;
+
+if (password.length < PASSWORD_LENGTH_MIN ||
+    password.length > PASSWORD_LENGTH_MAX) {
+    throw new Error('Invalid password length');
+}
+```
+
+---
+
+## [Advanced GIT: Git Worktree](https://loki.dev/blog/advanced-git-worktree/)
+
+Date: 2021-11-25
+Description: git worktree ist ein super Werkzeug um mit mehreren Branches parallel zu arbeiten
+Tags: git, tooling
+
+Eines der geilsten Features von Git. Gleichzeitig eines der am wenigsten benutzten Features.
+
+**Folgende Situation:**
+
+Ihr seid gerade an eurem `feature/blubb_feature` dran und dann kommt ein MR vom Kollegen,
+wo ihr bitte ganz schnell `hotfix/make_that_users_dont_die_immediately` reviewen sollt,
+damit das super flott live gehen kann. Leider ist der branch zu komplex um alles direkt im
+Gitlab zu machen.
+
+Also wirklich auschecken und deep-dive in den Code...
+
+### Klassisches Vorgehen
+
+1. `git stash` eurer Änderungen
+2. `git checkout hotfix/...` um den Branch anzugucken und alles durch zu gehen.
+3. Freigabe oder eben nicht
+
+### Viel besseres Vorgehen
+
+Ihr habt `git worktree` eingerichtet (ist nativ bei git dabei) und habt sowieso schon folgende Ordnerstruktur:
+
+```
+project_name/
+ - main/
+ - develop/
+ - feature/
+   - blubb_feature/
+ - hotfix/
+   - make_that_users_dont_die_immediately/
+```
+
+Jeder Ordner ist quasi ein eigenes Git Repository. Aber alle teilen sich die
+Git Metadaten. Statt also euren Stand zu verlassen und komplett zu wechseln,
+reicht ein `git worktree add BRANCH_NAME` und ein Ordner, der auf einen zeigt,
+wird für euch erstellt.
+
+## Aber wie geht das jetzt?
+
+Super simpel - wirklich :).
+
+1. `mkdir my_project` (Projektverzeichnis erstellen) und via `cd` dort rein wechseln: `cd my_project`
+2. Repository klonen (Achtung - hier ist die erste Besonderheit) `git clone --bare GIT_URL .bare`.
+   - Wir klonen also nur das bare Repository ohne einen Branch auszuchecken
+   - Diese Metadaten speichern wir im Order `.bare` (Durch den `.` am Anfang ist der Ordner unter MacOS/Linux versteckt)
+3. Eine Datei `my_project/.git` erstellen und folgende Zeile eintragen:
+   ```
+   gitdir: ./.bare
+   ```
+   Damit weiß Git jetzt, wo sich unsere Repository Metadaten befinden
+4. Ab jetzt funktioniert worktree perfekt:
+   - `git worktree add main` fügt unseren Main-Branch hinzu
+   - `git worktree add feature/ABC_new_stuff_to_play feature/ABC_new_stuff_to_play` um Branches mit `/` im Namen auszuchecken oder zu erstellen
+   - Tatsächlich könnt ihr aber auch beliebig im Dateisystem euren Ordner mit dem Branch erstellen. Das Format sieht in etwa so aus:
+     `git worktree add PATH BRANCHNAME`
+
+## Weitere hilfreiche Befehle
+
+- Branch löschen:
+  - Variante 1: `rm -r BRANCH_NAME` und dann `git worktree prune`
+  - Variante 2: `git worktree list` Listet alle worktree branches.
+- Branch verschieben: `git worktree move SOURCE DESTINATION`
+
+---
+
+## [Wahlhelfer zur Bundestagswahl 2021](https://loki.dev/blog/wahlhelfer-btw-2021/)
+
+Date: 2021-08-23
+Description: Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt
+Tags: gesellschaft, politik
+
+Da ich die Kritik am Wahl-O-Mat selber kenne und teile, stelle ich hier die
+Alternative und Ergänzungen einmal vor.
+
+Um vollständig zu sein/bleiben, hier meine persönlichen Kritikpunkte am
+Wahl-O-Maten:
+- Eindimensional -> Es fehlt die Abstufung oder auch eine "so nicht, aber so:"
+  Option
+- Er gibt nur die Antworten der Politik wieder, aber nicht deren Handlung. Da
+  wäre es echt fein, wenn diese beiden Dinge nicht so häufig auseinander
+  driften würden.
+- Es wird nur ein beschränktes politisches Arsenal aus Thesen besprochen.
+
+
+All diese Punkte haben auch irgendwie eine Berechtigung, da man natürlich nicht
+beliebig in die Tiefe gehen kann.
+
+Trotzdem finde ich das Konzept des Wahl-O-Maten vom Grunde her super sinnvoll,
+da es Diskussion ermöglicht und ein grobes "Alignment" ermitteln kann. Wenn ich
+z.Bsp.  eine 2% Übereinstimmung mit der AfD/Linken/Whatever habe, dann ist die
+Chance zwar nicht 0, aber doch sehr sehr gering, dass ich eben genau diese
+Partei wählen sollte.
+
+Jetzt gibt es aber nicht nur den Wahl-O-Mat, sondern auch diverse alternative
+Wahlhelfer mit unterschiedlichen Ausrichtungen, die ich hier sammeln und
+vorstellen möchte
+
+
+## DeinWal.de
+
+**Link:** [deinwal.de](http://deinwal.de)
+
+~Noch ist der aktuelle "Wal"helfer nicht online~, aber das Konzept von deinwal.de
+ist mein absoluter Favorit! Er vergleicht nämlich keine Wahlprogramme oder das, was
+Parteien gerade behaupten zu tun, sondern vergangene Abstimmungen und wie sehr
+das mit der eigenen Meinung übereinstimmt.
+
+Auch wenn die BTW21 noch nicht frei geschaltet ist, kann man die alten BTW
+absolvieren und gucken inwiefern die großen (denn nur die sind enthalten)
+Parteien "damals" abgestimmt haben. Tipp: Europawahl 2019 und BTW2017
+durchspielen.
+
+Zu jeder Frage gibt es detaillierte Informationen und Verweise direkt auf die
+Pressemitteilung des Parlaments und Links zu abgeordnetenwatch sowie Wikipedia.
+
+Jede Abstimmung wird mit Ja/Nein/Enthaltung bewertet und am Ende eingeordnet.
+Eine Gewichtung gibt es nicht.
+
+Auf jeden Fall trotz der fehlenden Kleinparteien eine klare Empfehlung, weil es
+gerade den politischen Interessierten noch einmal enorm viele Zusatzinfos
+liefert.
+
+**Edit:** Endlich ist die neueste Version von **deinWal** online.  Das
+Grundkonzept ist geblieben. Auch der hauptnachteil ist leider geblieben: Es sind
+nur etablierte Parteien im Boot.
+
+
+## Wahlswiper
+
+**Link:** [voteswiper.org](https://www.voteswiper.org/de)
+
+Hier kann man, ähnlich wie es von Tinder bekannt ist, politische Statements
+gut/schlecht finden und am Ende die Übereinstimmung mit den Parteien finden.
+
+Die gute Nachricht: Es treten 35 von 39 Parteien an, sodass man z.Bsp auch
+kleine Parteien wie die [LIEBE](https://liebe-ep.eu) Partei oder die [Partei
+für Kinder, Jugendliche und Familien](https://www.lobbyistenfuerkinder.de)
+findet.
+
+Als Bonus gibt es zu jeder Frage ein kleines Video und einen kleinen Text,
+welche sachlich das aktuelle Thema erklären.  Jede Frage kann mit
+Zustimmung/Ablehnung oder Enthaltung bewertet werden.  Zusätzlich können
+Themen, die einem besonders wichtig sind, doppelt gewichtet werden.
+
+Auch der Wahlswiper ist für mich eine gute Empfehlung für Anfänger, da gerade
+Menschen, die sonst nicht so viel mit Politik am Hut haben, eine kleine
+Übersicht bekommen.
+
+
+## Sozial-O-Mat
+
+**Link:** [sozial-o-mat.de](https://www.sozial-o-mat.de)
+
+Ganz speziell nur auf die Sozialpolitik fokussiert, gibt es den Sozial-O-Mat,
+welcher nur aufgrund von Sozialpolitik die eigene Meinung mit der der Parteien
+vergleicht. Dabei werden die vier folgenden Themengebiete abgedeckt:
+
+1. Arbeit
+2. Gesundheit
+3. Famlie und Kinder
+4. Migration
+
+Betrieben wird der Sozial-O-Mat von der Diakonie. Jedes der vier Themen wird
+mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben sollen. 
+
+Statt Videos oder Erklärungen wird dann jede These mit einer "Geschichte"
+unterstützt. Also statt Informationen erhalten wir etwas Menschennäher die
+Geschichte einer Person um diese These einzuordnen. Generell finde ich das
+Konzept zwar interessant, aber es gibt natürlich auch etwas die Richtung vor!
+
+Jede These kann man als Positiv/Neutral/Negativ bewerten oder sie sogar
+überspringen um sie aus der Gleichung zu nehmen.
+
+Gut für einen groben Überblick und für mich eher als Ergänzung gedacht.
+
+
+## Steuer-O-Mat
+
+**Link:** [smartsteuer](https://www.steuer-o-mat.de/start)
+
+Einer der kürzesten und deutlichsten Wahlhelfer ist der Steuer-O-Mat. Sehr
+eindimensional wird ausschließlich das voraussichtliche Netto berechnet, was
+man mit diversen Parteien hätte. 
+
+Dazu gibt man einfach seinen Lohn ein und ggfs. noch den seines verheirateten
+Partners und kriegt am Ende eine reine Steuer-Wahlempfehlung.
+
+
+## Agrar-O-Mat
+
+**Link:** [agrarheute.com](https://www.agrarheute.com/agraromat)
+
+Da - wie wir alle Wissen - die Lebensmittel natürlich nur aus dem Supermarkt
+kommen, betrifft dieser Wahl-O-Mat ausschließlich die Bauern ;). 
+
+Tatsächlich bezieht sich dieser Helfer passend zum Namen ausschließlich auf die
+Agrarpolitik und damit angrenzende Felder.
+
+Zusätzliche Informationen gibt es nicht.
+
+Jeder These kann entweder zugestimmt werden, neutral bewertet werden oder
+abgelehnt werden. Besonders wichtige Thesen können doppelt gewichtet werden. 
+
+Für mich interessant als Spielerei und Ergänzung, aber natürlich fehlt das
+Fachwissen, um wirklich Tief in die Agrarpolitik einzusteigen.
+
+
+## Klima-Wahl-Check
+
+**Link:** [klimawahlcheck.org](https://klimawahlcheck.org)
+
+Auf das Klima selber gehe ich [hier im Blog ja auch schon
+ein](@/blog/klimakatastrophe_i_was_ist.md) und werde definitiv noch deutlich
+mehr eingehen, aber ganz speziell nur auf das Klima bezogen gibt es den
+Klimawahlcheck. 
+
+Ingesamt ist dieser in die 6 Kategorien unterteilt:
+
+1. Energie
+2. Mobilität
+3. Industrie
+4. Gebäude
+5. Klimagerechtigkeit & Klimaziele
+6. Landwirtschaft & Artenvielfalt
+
+Für mich persönlich einer der wichtigsten Helfer überhaupt, da es hier nicht
+nur, wie man gerne naiverweise denken möchte um das Klima geht, sondern
+wirklich direkt alle sozialen, wirtschaftlichen und wissenschaftlichen Themen
+mit abgedeckt werden.
+
+Im Gegensatz zu den anderen Helfern wird jedes Thema mit einer Zustimmung von
+<span style="background:red;color:yellow;padding:2px
+4px;border-radius:3px">rot</span> bis <span
+style="background:green;color:white;padding:2px
+4px;border-radius:3px">grün</span> in 5 Stufen unterteilt. Zusätzlich können
+Thesen übersprungen werden.
+
+Zu jeder These gibt es zusätzlich eine kurze Zusammenfassung mit dem
+Hintergrund zur Frage.
+
+Anschließend sieht man ein Übersichtsbild und sieht die Parteien
+links/rechts/übereinstimmend von einem. Wenn man alle Kategorien durchgespielt
+hat, gibt es eine Gesamtauswertung.
+
+Wie schon gesagt ist dieser Helfer für mich bisher der wichtigste, da die
+Klimaentscheidungen signifikant in Wirtschaft, Lebensqualität und sogar
+überleben mit einspielen.
+
+Klare Empfehlung. Natürlich ;).
+
+
+## Waehlbar2021
+
+Link: [waehlbar2021.de](https://waehlbar2021.de)
+
+Deutlich mehr als nur ein 'o-mat bringt **waehlbar2021** sowohl umfangreiche
+Informationen mit, als auch detaillierte Positionen von fast allen Parteien.
+Natürlich fehlt mal wieder die CDU/CSU in den Angaben. Die dachten sich wohl,
+dass, wenn Sie gar nicht antworten, kann denen auch keiner etwas übel nehmen.
+
+Das beste Feature ist aber, direkt die Abgeordneten aus dem eigenen Wahlkreis
+mit ihren Stimmen zu sehen. Dazu gibt mein die eigene PLZ an und bekommt alle
+lokalen Kandidaten vorgeschlagen - inklusive der Übereinstimmungen in den
+einzelnen Thesen.
+
+Abgeordneten die bisher nicht geantwortet haben, kann man hier direkt eine
+Nachricht mit dem Wunsch nach Transparenz hinterlassen.
+
+Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren
+
+
+## Wahl-o-Mat
+
+Link: [wahl-o-mat.de](https://www.wahl-o-mat.de/bundestagswahl2021/app/main_app.html)
+
+Endlich ist er da. Als wohl bekanntester Wahlhelfer hat der Wahl-O-Mat insgesamt
+39 der antretenden 40 Parteien "interviewed" um zu zahlreichen Fragen Antworten
+zu finden.
+
+Tatsächlich muss ich zugeben, dass ich den Wahlhelfer dieses Jahr ein klein
+bisschen besser als vorher finde. So gibt es nun zwar immer noch keine
+detaillierten Informationen zu den Fragen bzw. nicht genug Abstufungen, aber
+endlich haben wir die Möglichkeit sowohl direkt **alle** Parteien zu
+vergleichen ([vielen Dank
+Volt](https://www.volksverpetzer.de/schwer-verpetzt/volt-wahl-o-mat/) dafür),
+als auch die Möglichkeit, anschließend mit den diversen Ergebnissen und deren
+Gewichtung herumzuspielen!
+
+Tatsächlich kam zumindest bei mir auch ein anderes Ergebnis raus, als bei den
+anderen Wahlhelfern, was zumindest noch einmal mehr in die Breite geht.
+
+Die Fragen sind tatsächlich auch recht vielfältig gestellt und treffen diverse
+Bereiche, wobei natürlich alle Bekannte wie z.Bsp. das Tempolimit fast überall
+auftauchen.
+
+Ich kann (wie bei den anderen Wahlhelfen auch) auch hier eine klare Empfehlung
+aussprechen.
+
+
+## Fazit
+
+Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen -
+besser aber direkt alle Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
+bekommen, welche Parteien für was genau stehen.
+
+Eines der dicksten Probleme (meiner Meinung nach) unserer Demokratie ist, dass
+die Parteien und Politiker mittlerweile gelernt haben, wie sie reden können,
+ohne verfängliche Aussagen zu treffen. Das verleitet viele Leute dazu, Parteien
+zu wählen, die selbst für die eigenen Interessen absolut ungeeignet sind. Die
+Wahlhelfer selber verändern diesen Fakt natürlich nicht, aber sie helfen dabei
+eine Kompetenz über die Inhalte der Parteien zu bekommen, ohne dass es nötig ist
+die Wahlprogramme zu lesen.
+
+Meine Empfehlung wäre also die folgende "Formel":
+- alle Wahlhelfer durchspielen
+
+- Parteien die sich konsequent im letzten Drittel bewegen auszuschließen
+
+- Anschließend alle Wahlhelfer zu gewichten:
+  - 1/3¹ der Bewertung von **deinWahl**, da es das einzige Tool ist,
+    welches über (womöglich leere) Versprechungen hinaus geht. 
+    
+    Solltet ihr tatsächlich auch kleine Parteien in betracht ziehen, empfehle
+    ich mit dem Wal zumindest ein Ausschlusskriterium zu bilden: Die zwei
+    schlechtesten Parteien würde ich ausschließen.
+
+    ¹ vorausgesetzt, ihr zieht sowieso nur die großen/etablierten Parteien in
+    Betracht
+
+  - 1/3 aus den **anderen Helfen** generieren, indem wir jeder empfohlenen Partei
+  Punkte geben.
+
+  - 1/3 dann auch selber aus Artikeln generieren. Dabei ist es wichtig, sich
+  weder von Tagesschau/ZDFHeute&Co noch (und das ist wichtig!) sich von
+  Facebook/Whatsapp-Gruppen/usw beeinflussen zu lassen.
+
+  Nehmt DIE Dinge, die euch wichtig sind (Rente, Steuern, Klima, was auch immer)
+  und befasst auch ausdrücklich auch mit den Gegenpositionen und Argumenten.
+  Damit stellen wir sicher, dass wir keine reine Bauchentscheidung für eine der
+  wichtigsten Wahlen der letzten Jahrzehnte treffen.
+
+---
+
+## [Klimakatastrophe I: Was ist](https://loki.dev/blog/klimakatastrophe-i-was-ist/)
+
+Date: 2021-08-19
+Description: Der erste Beitrag von mir zum Thema Klima: Was ist, Was kommt, was sein könnte und was wir dafür machen müssen
+Tags: klima, politik
+
+*Zu allererst und am wichtigsten: Ich schreibe diesen Artikel für Familie und
+Freunde mit dem Ziel, dass ich nicht ständig zum "nervigen Klimaaktivsten"
+werden muss.*
+
+*Es geht mir also darum, an einer Stelle möglichst viele Klimafakten zusammen zu
+tragen und zu erklären, warum mir eine radikale Änderung von Politik und
+Zusammenleben so wichtig ist.*
+
+*Diese gesamte Problematik ist echt komplex und umfangreich, weswegen ich
+versuche sie in 3 Artikel zu splitten*:
+
+- **Was ist (Dieser Artikel)**
+- _Was kommt_ (und zwar in einer Zeit, die wir auf jeden Fall noch erleben werden
+und Ophelia/Auroras Kernlebenszeit ausmacht)
+- _Was wir tun müssen_ (Nur der absolute wissenschaftliche/wirtschaftliche Konsens
+  und das Minimum um die Auswirkungen zu minimieren)
+
+---
+
+Das abstrakte Konzept vom sogenannten Klimawandel (eigentlich Klimakatastrophe)
+ist ja mittlerweile jedem bewusst und die groben Auswirkungen haben wir alle
+schon einmal gehört: Meeresspiegel steigt, es wird heißer und auch die
+Wahrscheinlichkeit für Extremwetterereignisse steigt.
+
+Aber das ist leider nicht das komplette Problem bzw. macht meiner Meinung die echten
+Folgen nicht klar genug.
+
+In diesem ersten Beitrag möchte ich darüber reden, was für Auswirkungen wir
+heute schon in Deutschland spüren und als ein Fernglas für Deutschland in die
+Zukunft auch über das, was wir in der Welt jetzt schon sehen. Das sind alles
+messbare Dinge und die allermeisten wurden wissenschaftlich exakt so
+vorhergesagt. Leider meistens für ein paar Jahre später in der Zukunft. Denn
+eines ist hier leider klar geworden: Fast alle Prognosen waren deutlich [zu
+optimistisch](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html).
+
+
+## Folgen in Deutschland
+
+Am nächsten sind vielen wohl die Folgen direkt im eigenen Land. Kurz
+stichpunktartig zusammengefasst:
+- Hitzetote haben sich verdoppelt
+- Erste Seen sind bereits ausgetrocknet, andere von Blaualgen betroffen
+- Wirtschaftliche Schäden in Milliardenhöhe
+- Ernteausfälle
+- Wasserknappheit
+- Zoonosen
+- Waldsterben
+
+### Hitzetote
+Seit 1955 ist die Anzahl der Hitzetoten um [120%
+gestiegen](https://www.tagesschau.de/inland/hitzetote-deutschland-103.html).
+Das sind im 4 Jahreszeitraum 2014-2018 ungefähr 12000 gewesen. Ein Großteil dieses Wachstums ist
+in der Zeit zwischen 2004 und 2014 - also dem letzten Zeitabschnitt passiert.
+Um einen Vergleich zu bringen: Das sind [1.5x mehr Tote als im gesamten
+innerdeutschen
+Verkehr](https://de.statista.com/statistik/daten/studie/185/umfrage/todesfaelle-im-strassenverkehr/).
+Wobei das nicht ganz fair ist, da der Verkehr einen nicht unwesentlichen Beitrag
+zu genau diesen Toten mit beiträgt.
+
+
+### Ausgetrocknete Seen & Blaualgen
+
+[In
+Brandenburg](https://www.morgenpost.de/vermischtes/article232506469/klimawandel-brandenburg-see-vertrocknet.html)
+sind bereits jetzt die ersten Seen ausgetrocknet. Wo früher ein See war ist jetzt
+(noch) fruchtbare Wiese. Deutschlandweit sind viele weitere Seen betroffen bzw
+werden in den nächsten 20 Jahren austrocknen, nur um dann alle paar Jahre von
+Hochwasser gefüllt zu werden.
+
+Die Seen, die nicht austrocknen sind [bereits
+jetzt](https://www.ingenieur.de/technik/fachbereiche/umwelt/seen-im-klimawandel-forscher-entdecken-problem/)
+zunehmend im Sommer von Cyanobakterien betroffen. Ich erinnere mich noch an
+meine Kindheit und wie wir bei Oppum im Baggersee schwimmen waren. Mittlerweile
+wird vor Baggerseen [zunehmend
+gewarnt](https://www.rnd.de/panorama/baden-in-seen-landesweit-zahlreiche-badeverbote-wegen-blaualgen-7RL2ZSEZVA76CDMS3T74CSESGQ.html).
+
+Um ganz ehrlich zu sein: Für die Bakterienbelastung ist die Klimatransformation
+nicht die einzige Ursache. Aber das Thema der Landwirtschaft ist alleine für
+sich so komplex und umfangreich, dass ich das in meinen Beiträgen hier erst
+einmal weg lassen werde.
+
+
+### Wirtschaftlicher Schaden
+Tatsächlich ein echt wichtiges Thema. Nicht weil ich das jetzt persönlich so
+toll finde, sondern weil man ständig liest und hört, wer das alles bezahlen
+soll bzw. dass die Politik (primär CDU/SPD) versuche, das Klima mit der
+Wirtschaft in Einklang bringen will.
+
+Das halte ich für zutiefst unehrlich, da der Politik durch zahlreiche Berater
+aus Wissenschaft **und** Wirtschaft schon lange nahegelegt wird, dass
+Klimaschutz auch Wirtschaftsschutz ist. Das einzige was leiden würde, wären
+kurzfristige Quartalsergebnisse. Auf lange Sicht [ist Klimaschutz
+billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html) - Menschenleben
+und Lebensqualität mal komplett ignoriert.
+
+### Mal in konkreten Zahlen
+
+Dass wir nicht nur nicht in den Klimaschutz investieren, sondern gerade die CDU
+und insbesonderen Altmaier [aktiv den Klimaschutz
+behindern](https://www.tagesschau.de/wirtschaft/offshore-windenergie-ausbau-101.html),
+macht es nicht leichter. So ist aus einer Industrie mit 80k Arbeitsplätzen der
+regenerativen Energien, bei der wir weltweit Vorreiter waren, [praktisch nichts
+mehr
+übrig](https://www.windkraft-journal.de/2013/11/17/80-000-arbeitsplatzverluste-in-der-erneuerbare-energien-branche/45906?doing_wp_cron=1629527795.4246499538421630859375).
+Wenn selbst die [WELT](https://www.welt.de), welche mit Klimathesen glänzt die
+primär vom AFDP nahem "EIKE Institut" abgeschrieben wurden, [das
+bemerkt](https://www.welt.de/wirtschaft/article198299117/Windindustrie-In-einem-Jahr-26-000-Arbeitsplaetze-abgebaut.html),
+dann ist wirklich Land unter.
+
+
+### Ernteausfälle
+Es kann natürlich eine Anomalie gewesen sein, aber letztes Jahr (2020) lagen die
+Ernteausfälle [zwischen 30 und 50
+Prozent](https://www.deutschlandfunk.de/extremwetter-und-ernteausfaelle-klimawandel-stellt.724.de.html?dram:article_id=426057).
+Fast komplett durch die Dürre bedingt. Ein Faktor, der sich definitiv noch
+zuspitzen wird. Dieses Jahr ist alles extrem feucht, sodass sowieso schon
+geschwächte Pflanzen/Bäume/etc. direkt von der anderen Seite mit Fäule zu
+kämpfen haben.
+
+Bisher wurden diese Umstände durch den Fakt abgefedert, dass wir sowieso schon
+zu viel wegschmeißen bzw importieren konnten. Aber gerade unsere
+Gemüse/Obst-Importländer wie z.Bsp. Spanien oder die Niederlande werden durch
+Hitze (Spanien) oder Überflutungen (Niederlande) noch mehr zu kämpfen haben als
+wir. Die Niederlande sind [bereits
+jetzt](https://www.tagesschau.de/ausland/europa/niederlande-klimawandel-103.html)
+unterhalb des Meeresspiegels, während sie sich gerade noch so *über Wasser*
+halten, [weil durchgehend Pumpen im Einsatz
+sind](https://www.youthreporter.eu/de/beitrag/wenn-ein-land-unter-dem-meeresspiegel-liegt.10462/).
+
+
+### Wasserknappheit
+Letztes Jahr haben wir das in Nieder-Beerbach überdeutlich selber gemerkt, dass
+einfach mal zwei Wochen Wassersparen angesagt war. In Niedersachsen gab es erste
+Fälle von Wasserverteilung durch die Feuerwehr, weil die Becken einfach leer
+sind.
+
+Durch unsere geographisch überaus günstige Lage wird es auch in der
+mittelfristigen Zukunft nur um wenige Tage bis Wochen gehen und zusätzlich
+örtlich begrenzt sein, aber die Auswirkungen werden trotzdem gravierend und
+sorgen für [Warnungen von Wasserwerken und
+Forschern](https://www.dw.com/de/wasserarmut-wasserknappheit-d%C3%BCrre-in-deutschland-nationaler-wasserdialog-wasserstrategie/a-56227882).
+
+
+### Waldsterben
+
+Zusätzlich zur Trinkwasserknappheit sind gerade 1/3 unserer Wälder dabei zu
+sterben. Die Trockenheit alleine reicht häufig aus und wo diese nicht reicht
+helfen "Schädlinge" dabei unseren Wäldern den Rest zu geben.
+
+Die Folgen sind nicht einfach nur "weniger grün" oder, dass wir weitere
+CO<sub>2</sub> Filter damit entfernen, sondern rapide abnehmende Biodiversität, Bodenschäden
+(wie z.Bsp. Erdrutsche) und gravierendere Wetterphänomene, die nicht mehr durch Wälder geblockt oder
+geschwächt werden.
+
+Eine Fläche von ehemals gut 12 Millionen Hektar hat in den letzten 20 Jahren mal
+eben 300.000 Hektar schon eingebüßt - und da sind die Kohlestrom-Wälder noch
+nicht eingerechnet. Ganz konkret [sind nur
+~21%](https://www.bmel.de/DE/themen/wald/wald-in-deutschland/waldzustandserhebung.html)
+unserer Bäume überhaupt noch gesund.
+
+
+### Zoonosen
+Corona war nicht die erste Zoonose und wird nicht die letzte gewesen sein. Was
+ohne menschlichen Einfluß eine Sache von Jahrhunderten war, wird häufiger
+vorkommen. Sowohl meine Generation wird noch mindestens eine weitere Zoonose wie
+Corona mitbekommen und für meine Töchter wird es Fall der Gewohnheit.
+
+Die **Bundeszentrale für politische Bildung** selber [geht auf ihren Seiten in
+die Details
+ein](https://www.bpb.de/politik/innenpolitik/coronavirus/308483/pandemien-umwelt-und-klima),
+aber wie so häufig gilt dann doch eher, was RWE oder die heimische Stahl- und
+Autoindustrie sich wünscht.
+
+Während wir also noch mit SARS-CoV2 kämpfen sind, gibt es schon weitere
+Erreger diverser Art die auf dem Weg zu uns sind. Nicht nur, dass unsere
+Bemühungen beim Klima/Menschenschutz zwischen mangelhaft und ungenügend sind,
+treten wir als Menschheit noch einmal nach, indem wir primär durch unsere
+[Fleisch- und Tierindustrie multiresistente Keime
+züchten](https://www.deutschlandfunkkultur.de/multiresistente-keime-in-der-landwirtschaft-die-naechste.976.de.html?dram:article_id=487266).
+
+
+## Weltweite Folgen
+
+Wenn wir vom Klimawandel reden, reden wir häufig auch von den s.g. Kipppunkten.
+Davon haben wir bisher in etwa 16 identifiziert. Ein Kipppunkt ist eine Stelle,
+ab der ein Prozess in Gang gesetzt wird, den wir **nicht** wieder umkehren
+können. Ab dieser Stelle läuft's halt und zwar in den meisten Fälle mit
+selbstverstärkender Wirkung.
+
+### Permafrost
+
+Einen der Kipppunkte die wir bereits erreicht haben, ist dass Weltweit [der
+Permafrost](https://www.n-tv.de/wissen/Permafrostboeden-weltweit-erwaermen-sich-article20813171.html)
+auftaut. Dabei werden große Mengen Methan freigegeben, was die Erwärmung
+natürlich zusätzlich weiter beschleunigt. Methan ist schon am ehesten das, was
+uns nachhaltig schadet, aber auftauender Permafrost hat noch deutlich mehr
+Probleme.
+
+So berichtet zum Beispiel [die online Variante des
+Geomagazins](https://www.geo.de/natur/oekologie/23609-rtkl-gefahr-aus-dem-eis-viren-und-bakterien-werden-durch-den-auftauenden)
+von mehreren Studien, die über weitere Bakterien, Viren und mehr berichten, die
+sich dort verstecken.
+Das allermeiste wird harmlos sein, aber selbst harmlose 15.000 Jahre alte
+Erreger können unser Immunsystem extrem empfindlich treffen.
+
+Ein echtes Beispiel gab es zum Beispiel bei der Übersiedelung nach Amerika, wo
+europäische Kolonisten ihre Krankheiten mitbrachten und ganze Stämme
+auslöschten. Nicht weil diese Krankheiten an sich so gefährlich waren, sondern
+weil die Immunsysteme der American Natives nicht vorbereitet waren.
+
+
+### Regenwald
+
+Der Regenwald wurde und wird fälschlicherweise noch als [die grüne Lunge der
+Erde](https://www.regenwald.org/themen/der-regenwald) bezeichnet. Leider haben
+wir dieses Jahr den Punkt erreicht, wo aus dem Regenwald **mehr**(!)
+Treibhausgase austreten, [als er
+absorbiert](https://www.frontiersin.org/articles/10.3389/ffgc.2021.618401/full).
+Das ist extrem bitter und ist in diesem Fall zu fast [100% auf
+Fleischkonsum](https://www.faszination-regenwald.de/info-center/zerstoerung/)
+zurück zu führen.
+
+Um es noch einmal deutlich zu sagen/schreiben: Wir haben dieses Jahr den Punkt
+erreicht, wo der Regenwald NICHT mehr die grüne Lunge ist. Ganz trivial bedeutet
+das, dass wir unsere Schulbücher umschreiben müssen, praktisch heißt das, dass
+wir eines der wichtigsten Ökosysteme des Planeten nachhaltig vernichtet haben.
+Und das für stark veredeltes Soja?
+
+Ironischerweise wird hier auf die Sojafelder und böse Veggies verwiesen, dass
+vom weltweiten Soja nur 6% in diversen Veggieprodukten landet und der Rest zu
+Tierfutter verarbeitet wird, wird gerne verschwiegen.
+Vom Regenwaldsoja landet auf direktem Wege in deutschen Mägen sowieso praktisch
+nichts, da hierfür die Produkte halbwegs regionale Erzeuger verwendet werden. So
+braucht eine Kuh rund 12kg Soja um ein Kilo Fleisch zu erzeugen.
+Schwein/Geflügel ist da zum Glück deutlich genügsamer.
+
+
+## Aber wir können doch nicht die Welt retten
+
+... wie bewegen wir die anderen dazu mitzuhelfen?
+
+Müssen wir nicht. Wir müssen hauptsächlich einmal anfangen, nicht mehr zu
+bremsen. In Europa sind wir [DIE](https://www.germanwatch.org/de/15938)
+[Bremse](https://www.sueddeutsche.de/politik/klimawandel-klimaschutz-deutschland-1.4164096)
+[schlechthin](https://www.tagesspiegel.de/politik/vertrauliche-dokumente-deutschland-wird-zum-klima-bremser/24134082.html).
+
+Obwohl wir nur 1% der Weltbevölkerung stellen erzeugen wir rund 2% der
+Klimagase. Da sind in China/Taiwan produzierte Produkte oder Diensleistungen wie
+Server&Co aus dem Ausland, die für den deutschen Markt bestimmt sind und uns
+eigentlich zugerechnet werden *müssten*, noch nicht einberechnet.
+
+Wir sind in Deutschland pro Kopf noch deutlich vor China, welches bei rund 5t
+CO<sub>2</sub> liegt, während wir bei durchschnittlich 11t sind. Doppelt so viel
+wie das schlimme China. Bei über 200 Ländern sind wir momentan mit dem absoluten
+Ausstaß unter den Top10. Wollen wir wirklich, dass fast 200 Länder mit der
+gleichen Argumentation kommen? Würden wir unseren Kindern "aber die andern!" als
+Argument durchlassen?
+
+
+Edit: Abschließend bleibt hier noch einmal diese Wunderbare Zusammenfassung [von
+Quarks](https://www.quarks.de/umwelt/klimawandel/so-steht-es-wirklich-um-unser-klima/)
+des ersten Teilberichts vom IPCC. Insgesamt wird es 3 Berichte und 1
+Zusammenfassung geben. Wichtig hierbei ist, dass die Berichte schon fertig sind,
+aber erst 2022 veröffentlicht werden, weil die Regierungen noch einmal Einfluss
+nehmen können. Eine Zusammenfassung des Leaks aus Teil 2 (sollte erst Januar
+2022 kommen) hat [der
+Spiegel](https://www.spiegel.de/wissenschaft/mensch/geleakter-teil-des-ipcc-berichts-die-reichsten-zehn-prozent-verursachen-mehr-als-ein-drittel-der-treibhausgase-a-6d2e8438-7f3e-49bc-8967-4e3aeb6be585).
+
+Relevant ist hier vielleicht auch, dass der GRUND für diesen Leak ist, dass die
+Wissenschaftler [Angst
+haben](https://utopia.de/news/leaks-des-ipcc-berichts-die-reichsten-10-prozent-verursachen-ueber-36-prozent-der-treibhausgase/),
+dass der Bericht [von den
+Regierungen](https://www.theguardian.com/environment/2021/aug/12/greenhouse-gas-emissions-must-peak-within-4-years-says-leaked-un-report)
+verwässert wird.
+
+---
+
+# Talks
+
+## [Python Unplugged: Verborgene Batterien schürfen](https://loki.dev/vortraege/europython2024-python-batteries-included/)
+
+Event: EuroPython 2024, Prague
+Date: 2024-07-10
+
+**Slides (PDF):** [PDF herunterladen](https://loki.dev/slides/vortraege/ep2024-python-unplugged/europython2024-python-unplugged-slides.pdf)
+
+**Repository:** [github.com/dev-loki/europython2024-python-unplugged-slides](https://github.com/dev-loki/europython2024-python-unplugged-slides)
+
+## Worum geht es?
+
+Ein Einsteiger-Vortrag über all die unbekannten Module der Python-Standardbibliothek.
+- Python-Grundkenntnisse erforderlich
+- Kein `pip install PACKAGE` nötig <3
+- Schwerpunkte: `itertools`, `collections` und `functools`
+- Ausflüge in `contextlib`, `urllib` und weitere Pakete
+- Einiges erfordert `python3.12` (z.B. `batched`)
+
+Das Repository enthält weitere Code-Beispiele, die:
+- detaillierter sind
+- ausführlich kommentiert sind
+- „vollständig" und ausführbar sind
+
+*(Vortrag auf Englisch)*
+
+---
+
+## [Schneller entwickeln mit Test-Driven Development](https://loki.dev/vortraege/tdd/)
+
+Event: PyCon DE 2022
+Date: 2022-04-12
+
+*(Vortrag auf Englisch)*
+
+## Original-Abstract
+
+> In diesem Vortrag zeige ich, dass TDD eigentlich kein Prozess für das Testen ist, sondern eine hilfreiche Entwicklungsmethode, die das lästige „Lass mal die Anwendung aufmachen und schauen ob das noch funktioniert" weitgehend eliminiert.
+>
+> Nach dem Vortrag wisst ihr, wie ihr TDD in euren Workflow integriert und zu eurem Vorteil nutzen könnt. Wir räumen mit dem verbreiteten Missverständnis auf, dass TDD eine Testtechnik ist, und haben am Ende einen funktionierenden Prototypen.
+
+## Nachbetrachtung
+
+In diesem Vortrag habe ich gezeigt, wie man einen minimalen URL-Shortener mit FastAPI/pytest im TDD-Stil baut. Es war fast erfolgreich – ich hatte nicht mit so vielen Fragen gerechnet ;).
+
+Generell war ich **viel** zu nervös für eine gute Performance, und auch wenn mir Leute Komplimente gemacht haben, glaube ich, dass ich es deutlich besser hätte machen können!
+
+Meine Erkenntnis: 1h 30min war zu wenig Zeit um wirklich tief in die TDD-Methodik einzutauchen. 2h wären ideal gewesen.
+
+Mein Ziel: Das nach dem Jobwechsel (mit vielen neuen Dingen zum Lernen) verbessern.
+
+## Wird es einen richtigen Kurs geben?
+
+Wahrscheinlich ja – für den nicht-konferenz-Einsatz würde ich aber lieber einen intensiveren 2–4h-Kurs machen, der auch Themen wie Datenbank-Migration und Deployment abdeckt.
+
+## Kann man es sehen?
+
+Ja, wenn es sein muss :D. Aber Achtung: Mein Englisch war sehr eingerostet, da ich 1–2 Jahre lang kein Englisch gesprochen hatte. Ich bin super froh, dass es mit dem neuen Job wieder besser geworden ist :)
+
+{{ youtube(id="_6AaG-cgMjk", class="youtube") }}
+
+---
+
+## [Stressfrei Programmieren mit Clean Code I](https://loki.dev/vortraege/clean-code-i/)
+
+Date: 2021-09-02
+
+**Talk aktualisiert:**
+- Auf englisch übersetzt
+- Fehler bereinigt
+- Dart spezifische Teile entfernt
+- An [neuen Arbeitgeber](https://mara.solutions) angepasst :)
+
+## Folien
+
+<iframe src="https://loki.dev/slides/vortraege/clean-code-i/" style="width:100%;height:400px" title="Clean Code I Slides">
+</iframe>
+
+---

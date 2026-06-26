@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}loki.dev — man loki{% endblock %}
+
+{% block content %}
+<article class="manpage">
+  <div class="man-header" aria-hidden="true">
+    <span>LOKI(1)</span>
+    <span>Torsten Zielke</span>
+    <span>LOKI(1)</span>
+  </div>
+  <hr>
+
+  <section class="man-section name-section">
+    <img src="/loki-mascot.jpg" alt="loki.dev logo" class="logo-aside" width="160" height="135">
+    <h1 class="name-line">loki — Torsten Zielke <span class="caret" aria-hidden="true">▌</span></h1>
+  </section>
+
+  <section class="man-section">
+    <h2>Synopsis</h2>
+    <p>{{ section.extra.synopsis }}</p>
+    <p class="fg-dim">{{ section.extra.employer }}</p>
+  </section>
+
+  <section class="man-section">
+    <h2>Description</h2>
+    <div>{{ section.content | safe }}</div>
+  </section>
+
+  <section class="man-section">
+    <h2>See Also</h2>
+    <dl class="see-also">
+      <div>
+        <dt><a href="{% if lang == "en" %}/en{% endif %}/vortraege/">talks(1)</a></dt>
+        <dd>{% if lang == "en" %}talks &amp; slides{% else %}vorträge &amp; slides{% endif %}</dd>
+      </div>
+      <div>
+        <dt><a href="{% if lang == "en" %}/en{% endif %}/blog/">blog(1)</a></dt>
+        <dd>writing</dd>
+      </div>
+      <div>
+        <dt><a href="https://github.com/dev-loki" rel="noopener" target="_blank">github</a></dt>
+        <dd>github.com/dev-loki</dd>
+      </div>
+      <div>
+        <dt><a href="https://www.linkedin.com/in/torsten-zielke" rel="noopener" target="_blank">linkedin</a></dt>
+        <dd>in/torsten-zielke</dd>
+      </div>
+      <div>
+        <dt><a href="https://www.xing.com/profile/Torsten_Zielke2" rel="noopener" target="_blank">xing</a></dt>
+        <dd>profile/Torsten_Zielke2</dd>
+      </div>
+    </dl>
+  </section>
+</article>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}talks — loki.dev{% endblock %}
+{% block cmd %}ls -t ~/vortraege{% endblock %}
+
+{% block content %}
+<h1 class="transcript-cmd">
+  <span class="fg-dim">loki@dev:~$</span>
+  <span class="cmd">ls -t ~/vortraege</span>
+</h1>
+
+{% if section.pages %}
+<ul class="listing" aria-label="{% if lang == "en" %}All talks{% else %}Alle Vorträge{% endif %}" style="list-style:none;padding:0;margin:0">
+  {% for page in section.pages %}
+  <li class="listing-talk">
+    <span class="date">{{ page.date | date(format="%Y-%m") }}</span>
+    <div>
+      <div><a href="{{ page.permalink | safe }}">{{ page.title }}</a></div>
+      {% if page.extra.event or page.extra.location %}
+      <div class="talk-meta">
+        {% if page.extra.event %}{{ page.extra.event }}{% endif %}
+        {% if page.extra.location %} · {{ page.extra.location }}{% endif %}
+      </div>
+      {% endif %}
+      <div class="talk-links">
+        {% if page.extra.slides_url %}<a href="{{ page.extra.slides_url }}" rel="noopener" target="_blank">[ slides ]</a>{% endif %}
+        {% if page.extra.video_url %}<a href="{{ page.extra.video_url }}" rel="noopener" target="_blank">[ video ]</a>{% endif %}
+        {% if page.extra.abstract_url %}<a href="{{ page.extra.abstract_url }}" rel="noopener" target="_blank">[ abstract ]</a>{% endif %}
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="fg-dim">{% if lang == "en" %}No talks.{% else %}Keine Vorträge.{% endif %}</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+# loki.dev
+
+> Torsten Zielke — software architect & tech lead
+
+Source: https://loki.dev  |  Built with Zola.
+
+## Home
+
+- [Torsten Zielke](https://loki.dev/): Software architect & tech lead. Man-page style home.
+
+## Blog
+
+- [Claude Code, Claw Code und das Ende der Geheimnisse?](https://loki.dev/blog/claude-code-leak-und-claw-code/): Ein Blick auf den Claude Code Leak, das daraus entstandene Claw Code Projekt und was das über die aktuelle KI-Entwicklung und deren rechtliche Grauzonen aussagt.
+- [Immutability / Const vs Let](https://loki.dev/blog/const-immutability/): Warum Immutability so nützlich ist und wie man sie in TypeScript gezielt einsetzt.
+- [Linter & Stylecheck](https://loki.dev/blog/linter-stylecheck/): Über den Sinn, Arbeit an Werkzeuge auszulagern und damit eine stabilere Codebasis zu erreichen
+- [Magic Numbers](https://loki.dev/blog/magic-numbers/): Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt werden, ohne dass ihre Bedeutung auf den ersten Blick erkennbar ist.
+- [Advanced GIT: Git Worktree](https://loki.dev/blog/advanced-git-worktree/): git worktree ist ein super Werkzeug um mit mehreren Branches parallel zu arbeiten
+- [Wahlhelfer zur Bundestagswahl 2021](https://loki.dev/blog/wahlhelfer-btw-2021/): Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt
+- [Klimakatastrophe I: Was ist](https://loki.dev/blog/klimakatastrophe-i-was-ist/): Der erste Beitrag von mir zum Thema Klima: Was ist, Was kommt, was sein könnte und was wir dafür machen müssen
+
+## Talks
+
+- [Python Unplugged: Verborgene Batterien schürfen](https://loki.dev/vortraege/europython2024-python-batteries-included/) (EuroPython 2024)
+- [Schneller entwickeln mit Test-Driven Development](https://loki.dev/vortraege/tdd/) (PyCon DE 2022)
+- [Stressfrei Programmieren mit Clean Code I](https://loki.dev/vortraege/clean-code-i/)
+
+## Legal
+
+- [Impressum](https://loki.dev/impressum/): Legal notice (§5 TMG)

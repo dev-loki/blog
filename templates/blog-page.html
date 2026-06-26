@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — loki.dev{% endblock %}
+{% block description %}{% if page.description %}{{ page.description }}{% else %}{{ page.title }} — loki.dev{% endif %}{% endblock %}
+{% block cmd %}cat ~/blog/{{ page.slug }}.md{% endblock %}
+
+{% block content %}
+<article>
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(format="%Y-%m-%d") }}</time>
+      {% if page.reading_time %} · ~{{ page.reading_time }} min{% endif %}
+      {% if page.taxonomies.tags %}
+      · {% for tag in page.taxonomies.tags %}<a href="{% if lang == 'en' %}/en{% endif %}/tags/{{ tag | slugify }}/" class="tag">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}
+      {% endif %}
+    </div>
+  </header>
+  <div class="post-content">
+    {{ page.content | safe }}
+  </div>
+  <nav class="post-nav" aria-label="{% if lang == "en" %}Page navigation{% else %}Seitennavigation{% endif %}">
+    <a href="{% if lang == "en" %}/en{% endif %}/blog/">[ ← blog ]</a>
+    {% if config.generate_feeds %}<a href="{{ get_url(path='atom.xml') }}">[ rss ]</a>{% endif %}
+  </nav>
+</article>
+{% endblock %}

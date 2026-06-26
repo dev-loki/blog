@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{% if lang == "en" %}Tags{% else %}Tags{% endif %} — loki.dev{% endblock %}
+{% block cmd %}ls ~/tags/{% endblock %}
+
+{% block content %}
+<article>
+  <header class="post-header">
+    <h1>{% if lang == "en" %}Tags{% else %}Tags{% endif %}</h1>
+  </header>
+  <ul class="tag-list">
+    {% for term in terms %}
+    <li>
+      <a href="{{ term.permalink | safe }}">{{ term.name }}</a>
+      <span class="fg-dim">({{ term.pages | length }})</span>
+    </li>
+    {% endfor %}
+  </ul>
+</article>
+{% endblock %}

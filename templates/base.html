@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}loki.dev{% endblock %}</title>
+  <meta name="description" content="{% block description %}Torsten Zielke — software architect & tech lead{% endblock %}">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/giallo.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta property="og:site_name" content="loki.dev">
+  <meta property="og:type" content="{% if page is defined %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{% block og_title %}{% if page is defined %}{{ page.title }} — loki.dev{% elif section is defined and section.title and section.title != "loki" %}{{ section.title }} — loki.dev{% else %}loki.dev{% endif %}{% endblock %}">
+  <meta property="og:description" content="{% if page is defined and page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}">
+  <meta property="og:image" content="{{ config.base_url }}/loki-mascot.jpg">
+  <meta property="og:url" content="{{ current_url | default(value=config.base_url) | safe }}">
+  <meta name="twitter:card" content="summary">
+  <script>!function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}()</script>
+  {% if config.generate_feeds %}
+  <link rel="alternate" type="application/atom+xml" title="RSS — loki.dev" href="{{ get_url(path='atom.xml') }}">
+  {% endif %}
+</head>
+<body>
+  <a class="skip" href="#main">{% if lang == "en" %}Skip to content{% else %}Zum Inhalt springen{% endif %}</a>
+  <div class="wrap">
+    <header>
+      <div class="prompt-line">
+        <span class="prompt-prefix"><span class="host">loki@dev</span><span class="fg-dim">:~$</span>  </span>
+        <input id="terminal-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="{% block cmd %}man loki{% endblock %}" aria-label="Terminal — type help for commands">
+      </div>
+      <nav aria-label="{% if lang == "en" %}Main navigation{% else %}Hauptnavigation{% endif %}">
+        {% set cp = current_path | default(value="") %}
+        {% if lang == "en" %}
+          <a href="/en/" {% if cp == "/en/" %}class="active"{% endif %}>[ ~/ ]</a>
+          <a href="/en/vortraege/" {% if cp is starting_with("/en/vortraege") %}class="active"{% endif %}>[ talks ]</a>
+          <a href="/en/blog/" {% if cp is starting_with("/en/blog") %}class="active"{% endif %}>[ blog ]</a>
+        {% else %}
+          <a href="/" {% if cp == "/" %}class="active"{% endif %}>[ ~/ ]</a>
+          <a href="/vortraege/" {% if cp is starting_with("/vortraege") %}class="active"{% endif %}>[ talks ]</a>
+          <a href="/blog/" {% if cp is starting_with("/blog") %}class="active"{% endif %}>[ blog ]</a>
+        {% endif %}
+        {% set_global trans_url = "" %}
+        {% if lang == "de" %}
+          {% if page is defined %}{% for t in page.translations %}{% if t.lang == "en" %}{% set_global trans_url = t.permalink %}{% endif %}{% endfor %}{% endif %}
+          {% if section is defined %}{% for t in section.translations %}{% if t.lang == "en" %}{% set_global trans_url = t.permalink %}{% endif %}{% endfor %}{% endif %}
+          <a href="{% if trans_url %}{{ trans_url }}{% else %}/en/{% endif %}" class="nav-lang" hreflang="en">[ EN ]</a>
+        {% else %}
+          {% if page is defined %}{% for t in page.translations %}{% if t.lang == "de" %}{% set_global trans_url = t.permalink %}{% endif %}{% endfor %}{% endif %}
+          {% if section is defined %}{% for t in section.translations %}{% if t.lang == "de" %}{% set_global trans_url = t.permalink %}{% endif %}{% endfor %}{% endif %}
+          <a href="{% if trans_url %}{{ trans_url }}{% else %}/{% endif %}" class="nav-lang" hreflang="de">[ DE ]</a>
+        {% endif %}
+        <button id="theme-toggle" title="toggle theme"></button>
+      </nav>
+    </header>
+    <div id="terminal-output" role="log" aria-live="polite" aria-atomic="false"></div>
+
+    <main id="main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://github.com/dev-loki" rel="noopener" target="_blank">github</a> ·
+        <a href="https://www.linkedin.com/in/torsten-zielke" rel="noopener" target="_blank">linkedin</a> ·
+        <a href="https://www.xing.com/profile/Torsten_Zielke2" rel="noopener" target="_blank">xing</a>
+        {% if config.generate_feeds %}
+        · <a href="{{ get_url(path='atom.xml') }}">rss</a>
+        {% endif %}
+        · <a href="/impressum/">{% if lang == "en" %}imprint{% else %}impressum{% endif %}</a>
+      </div>
+      <div>Tux by Larry Ewing · built with <a href="https://www.getzola.org" rel="noopener" target="_blank">Zola</a></div>
+    </footer>
+  </div>
+  <script src="/terminal.js" defer></script>
+</body>
+</html>

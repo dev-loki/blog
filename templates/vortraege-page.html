@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} — loki.dev{% endblock %}
+{% block description %}{% if page.description %}{{ page.description }}{% else %}{{ page.title }} — loki.dev{% endif %}{% endblock %}
+{% block cmd %}cat ~/vortraege/{{ page.slug }}.md{% endblock %}
+
+{% block content %}
+<article>
+  <header class="post-header">
+    <h1>{{ page.title }}</h1>
+    <div class="post-meta">
+      <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(format="%Y-%m-%d") }}</time>
+      {% if page.extra.event %} · {{ page.extra.event }}{% endif %}
+      {% if page.extra.location %} · {{ page.extra.location }}{% endif %}
+    </div>
+    {% if page.extra.slides_url or page.extra.video_url or page.extra.abstract_url %}
+    <div class="talk-links" style="margin-top:0.5rem">
+      {% if page.extra.slides_url %}<a href="{{ page.extra.slides_url }}" rel="noopener" target="_blank">[ slides ]</a>{% endif %}
+      {% if page.extra.video_url %}<a href="{{ page.extra.video_url }}" rel="noopener" target="_blank">[ video ]</a>{% endif %}
+      {% if page.extra.abstract_url %}<a href="{{ page.extra.abstract_url }}" rel="noopener" target="_blank">[ abstract ]</a>{% endif %}
+    </div>
+    {% endif %}
+  </header>
+  <div class="post-content">
+    {{ page.content | safe }}
+  </div>
+  <nav class="post-nav" aria-label="{% if lang == "en" %}Page navigation{% else %}Seitennavigation{% endif %}">
+    <a href="{% if lang == "en" %}/en{% endif %}/vortraege/">[ ← talks ]</a>
+  </nav>
+</article>
+{% endblock %}

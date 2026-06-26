@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}#{{ term.name }} — loki.dev{% endblock %}
+{% block cmd %}ls ~/tags/{{ term.name }}/{% endblock %}
+
+{% block content %}
+<article>
+  <header class="post-header">
+    <h1>#{{ term.name }}</h1>
+    <div class="post-meta">{{ term.pages | length }} {% if lang == "en" %}post{% if term.pages | length != 1 %}s{% endif %}{% else %}Beitrag{% if term.pages | length != 1 %}e{% endif %}{% endif %}</div>
+  </header>
+  <ul class="post-list">
+    {% for page in term.pages %}
+    <li>
+      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+      <span class="fg-dim">· <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(format='%Y-%m-%d') }}</time></span>
+    </li>
+    {% endfor %}
+  </ul>
+  <p style="margin-top:1.5rem"><a href="{% if lang == 'en' %}/en{% endif %}/tags/">[ ← tags ]</a></p>
+</article>
+{% endblock %}
