@@ -29,13 +29,15 @@
 
   <section class="man-section">
     <h2>See Also</h2>
+    {% set talks = get_section(path="vortraege/_index.md", lang=lang) %}
+    {% set blog = get_section(path="blog/_index.md", lang=lang) %}
     <dl class="see-also">
       <div>
-        <dt><a href="{% if lang == "en" %}/en{% endif %}/vortraege/">talks(1)</a></dt>
+        <dt><a href="{% if lang == "en" %}/en{% endif %}/vortraege/">talks({{ talks.pages | length }})</a></dt>
         <dd>{% if lang == "en" %}talks &amp; slides{% else %}vorträge &amp; slides{% endif %}</dd>
       </div>
       <div>
-        <dt><a href="{% if lang == "en" %}/en{% endif %}/blog/">blog(1)</a></dt>
+        <dt><a href="{% if lang == "en" %}/en{% endif %}/blog/">blog({{ blog.pages | length }})</a></dt>
         <dd>writing</dd>
       </div>
       <div>
