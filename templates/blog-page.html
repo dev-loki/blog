@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }} — loki.dev{% endblock %}
-{% block description %}{% if page.description %}{{ page.description }}{% else %}{{ page.title }} — loki.dev{% endif %}{% endblock %}
+{% block title %}{{ page.title }} · loki.dev{% endblock %}
+{% block description %}{% if page.description %}{{ page.description }}{% else %}{{ page.title }} · loki.dev{% endif %}{% endblock %}
 {% block cmd %}cat ~/blog/{{ page.slug }}.md{% endblock %}
 
 {% block content %}
