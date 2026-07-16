@@ -1,6 +1,6 @@
 base_url = "https://loki.dev"
 title = "loki.dev"
-description = "Torsten Zielke — software architect & tech lead"
+description = "Der Blog von Torsten Zielke, Software-Architekt und Tech-Lead: praxisnahe Serien zu modernem Python-Tooling (uv, ruff, ty, prek), zu Linux und Rust sowie Gedanken zu KI-gestützter Softwareentwicklung."
 default_language = "de"
 minify_html = true
 compile_sass = false
@@ -19,7 +19,7 @@ style = "class"
 
 [languages.en]
 title = "loki.dev"
-description = "Torsten Zielke — software architect & tech lead"
+description = "The blog of Torsten Zielke, software architect and tech lead: hands-on series on modern Python tooling (uv, ruff, ty, prek), on Linux and Rust, and thoughts on AI-assisted software development."
 generate_feeds = true
 feed_filenames = ["atom.xml"]
 

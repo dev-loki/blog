@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}loki.dev{% endblock %}</title>
-  <meta name="description" content="{% block description %}Torsten Zielke — software architect & tech lead{% endblock %}">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/giallo.css">
+  <meta name="description" content="{% block description %}{{ config.description }}{% endblock %}">
+  <link rel="canonical" href="{{ current_url | default(value=config.base_url) | safe }}">
+  <link rel="stylesheet" href="{{ get_url(path='style.css', cachebust=true) }}">
+  <link rel="stylesheet" href="{{ get_url(path='giallo.css', cachebust=true) }}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
   <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
@@ -14,14 +15,14 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <meta property="og:site_name" content="loki.dev">
   <meta property="og:type" content="{% if page is defined %}article{% else %}website{% endif %}">
-  <meta property="og:title" content="{% block og_title %}{% if page is defined %}{{ page.title }} — loki.dev{% elif section is defined and section.title and section.title != "loki" %}{{ section.title }} — loki.dev{% else %}loki.dev{% endif %}{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{% if page is defined %}{{ page.title }} · loki.dev{% elif section is defined and section.title and section.title != "loki" %}{{ section.title }} · loki.dev{% else %}loki.dev{% endif %}{% endblock %}">
   <meta property="og:description" content="{% if page is defined and page.description %}{{ page.description }}{% else %}{{ config.description }}{% endif %}">
   <meta property="og:image" content="{{ config.base_url }}/loki-mascot.jpg">
   <meta property="og:url" content="{{ current_url | default(value=config.base_url) | safe }}">
   <meta name="twitter:card" content="summary">
   <script>!function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}()</script>
   {% if config.generate_feeds %}
-  <link rel="alternate" type="application/atom+xml" title="RSS — loki.dev" href="{{ get_url(path='atom.xml') }}">
+  <link rel="alternate" type="application/atom+xml" title="RSS · loki.dev" href="{{ get_url(path='atom.xml') }}">
   {% endif %}
 </head>
 <body>
@@ -30,7 +31,7 @@
     <header>
       <div class="prompt-line">
         <span class="prompt-prefix"><span class="host">loki@dev</span><span class="fg-dim">:~$</span>  </span>
-        <input id="terminal-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="{% block cmd %}man loki{% endblock %}" aria-label="Terminal — type help for commands">
+        <input id="terminal-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="{% block cmd %}man loki{% endblock %}" aria-label="Terminal, type help for commands">
       </div>
       <nav aria-label="{% if lang == "en" %}Main navigation{% else %}Hauptnavigation{% endif %}">
         {% set cp = current_path | default(value="") %}
@@ -70,11 +71,12 @@
         {% if config.generate_feeds %}
         · <a href="{{ get_url(path='atom.xml') }}">rss</a>
         {% endif %}
-        · <a href="/impressum/">{% if lang == "en" %}imprint{% else %}impressum{% endif %}</a>
+        · <a href="{% if lang == "en" %}/en/impressum/{% else %}/impressum/{% endif %}">{% if lang == "en" %}imprint{% else %}impressum{% endif %}</a>
+        · <a href="{% if lang == "en" %}/en/datenschutz/{% else %}/datenschutz/{% endif %}">{% if lang == "en" %}privacy{% else %}datenschutz{% endif %}</a>
       </div>
       <div>Tux by Larry Ewing · built with <a href="https://www.getzola.org" rel="noopener" target="_blank">Zola</a></div>
     </footer>
   </div>
-  <script src="/terminal.js" defer></script>
+  <script src="{{ get_url(path='terminal.js', cachebust=true) }}" defer></script>
 </body>
 </html>
