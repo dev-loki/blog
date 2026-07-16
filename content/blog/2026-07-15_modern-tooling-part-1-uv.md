@@ -1,6 +1,7 @@
 +++
 title = "Moderne Werkzeuge Teil 1: Blitzschnelles Package Management mit uv"
 date = "2026-07-13T19:50:00Z"
+updated = "2026-07-16T15:15:29Z"
 description = "uv ersetzt pip, virtualenv, pyenv und pip-tools durch ein einziges Rust-Binary: vom lokalen Setup über Dependency Groups bis zum Docker-Build."
 draft = false
 [taxonomies]
@@ -12,15 +13,15 @@ Ich schreibe das gerade, weil das Python-Ökosystem einen echten Umbruch erlebt.
 Genau genommen sogar mehrere:
 
 1. Das Python-Ökosystem wird zu großen Teilen durch Rust-basierte Werkzeuge
-   ersetzt. Das haben wir zu großen Teilen [Astral](https://astral.sh) zu verdanken.
+   ersetzt. Das habe ich zu großen Teilen [Astral](https://astral.sh) zu verdanken.
 2. Immer größere Teile der Entwicklung werden von KI diverser Hersteller
    erledigt, und die Kontrolle selbiger führt zu wachsenden Problemen.
 
 Praktischerweise passen diese beiden Umbrüche perfekt zusammen.
 
 Mein Ziel ist also, erst diese neuen Rust-basierten Werkzeuge vorzustellen und
-dann zu zeigen, wie sie in der KI-getriebenen Entwicklung helfen können. Wir
-schauen uns vier+ dieser Werkzeuge an, und zwar nicht abstrakt, sondern anhand
+dann zu zeigen, wie sie in der KI-getriebenen Entwicklung helfen können. Ich
+schaue mir vier+ dieser Werkzeuge an, und zwar nicht abstrakt, sondern anhand
 eines realen FastAPI-Projekt-Templates: `uv`, `ruff`, `ty` und `prek` (+weitere
 Mini-Tools).
 
@@ -89,7 +90,7 @@ bei Bedarf einfach herunter. `pyenv` wird damit überflüssig.
 ### Dependency Groups statt requirements-Wildwuchs
 
 Statt `requirements.txt`, `requirements-dev.txt` und `requirements-test.txt`
-definiert unser Template alles in der `pyproject.toml`, mit dem Standard für
+definiert mein Template alles in der `pyproject.toml`, mit dem Standard für
 [Dependency Groups (PEP 735)](https://peps.python.org/pep-0735/), inklusive
 Gruppen, die andere Gruppen einbinden:
 
@@ -124,7 +125,7 @@ sind `--all-groups` bzw. sehr spezifisch `--group lint|tests|dev`.
 
 Wichtig für stabile Deployments ist die `uv.lock`: Sie hält jede Abhängigkeit
 (inklusive Subabhängigkeiten) mit exakter Version und Hash fest,
-plattformübergreifend. In CI und Docker erzwingen wir mit `--frozen`, dass das
+plattformübergreifend. In CI und Docker erzwinge ich mit `--frozen`, dass das
 Lockfile aktuell ist. Weicht die `pyproject.toml` davon ab, schlägt der Build
 fehl, statt still etwas anderes zu installieren.
 
@@ -180,7 +181,5 @@ laufen lassen. Perfekt für DevOps und Ähnliches. :)
 
 ---
 
-**Wie es weitergeht:** In [Teil 2: Einheitliches Linting und Formatting mit ruff](@/blog/2026-07-14_modern-tooling-part-2-ruff.md) sehen wir uns an, wie
-wir Coding-Standards ohne Wartezeiten durchsetzen. Du kannst (später) auch direkt zu
-[Teil 3 (ty)](@/blog/2026-07-14_modern-tooling-part-3-ty.md) oder 
-[Teil 4 (prek)](@/blog/2026-07-14_modern-tooling-part-4-prek.md) springen.
+**Wie es weitergeht:** In [Teil 2: Einheitliches Linting und Formatting mit ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md) sehe ich mir an, wie
+ich Coding-Standards ohne Wartezeiten durchsetze. Teil 3 (ty) und Teil 4 (prek) sind noch in Arbeit.

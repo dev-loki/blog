@@ -8,8 +8,8 @@ tags = ["tooling", "python", "git"]
 +++
 
 Im Laufe dieser Serie haben wir unseren Python-Stack mit `uv`
-([Teil 1](@/blog/2026-07-14_modern-tooling-part-1-uv.md)), `ruff`
-([Teil 2](@/blog/2026-07-14_modern-tooling-part-2-ruff.md)) und `ty`
+([Teil 1](@/blog/2026-07-15_modern-tooling-part-1-uv.md)), `ruff`
+([Teil 2](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)) und `ty`
 ([Teil 3](@/blog/2026-07-14_modern-tooling-part-3-ty.md)) neu aufgebaut. In
 **Teil 4** bringen wir alles zusammen: Die Checks sollen automatisch laufen,
 bevor Code überhaupt ins Repository gelangt.
@@ -150,7 +150,7 @@ Software selbst.
 
 ---
 **Serienübersicht:**
-* [Teil 1: uv](@/blog/2026-07-14_modern-tooling-part-1-uv.md)
-* [Teil 2: ruff](@/blog/2026-07-14_modern-tooling-part-2-ruff.md)
+* [Teil 1: uv](@/blog/2026-07-15_modern-tooling-part-1-uv.md)
+* [Teil 2: ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)
 * [Teil 3: ty](@/blog/2026-07-14_modern-tooling-part-3-ty.md)
 * [Teil 4: prek](@/blog/2026-07-14_modern-tooling-part-4-prek.md)

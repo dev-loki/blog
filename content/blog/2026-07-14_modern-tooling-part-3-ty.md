@@ -8,8 +8,8 @@ tags = ["tooling", "python"]
 +++
 
 Bisher haben wir in dieser Serie das Paketmanagement mit `uv`
-([Teil 1](@/blog/2026-07-14_modern-tooling-part-1-uv.md)) und das Linting mit
-`ruff` ([Teil 2](@/blog/2026-07-14_modern-tooling-part-2-ruff.md)) optimiert.
+([Teil 1](@/blog/2026-07-15_modern-tooling-part-1-uv.md)) und das Linting mit
+`ruff` ([Teil 2](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)) optimiert.
 In **Teil 3** kommt der anspruchsvollste Teil der statischen Analyse: das
 Type Checking.
 
@@ -109,4 +109,4 @@ auf ihn wartet. Typdisziplin hält man nur durch, wenn das Feedback schnell
 kommt, und genau das liefert `ty`.
 
 ---
-**Wie es weitergeht:** Im abschließenden Artikel, [Teil 4: Hochperformante Git Hooks mit prek](@/blog/2026-07-14_modern-tooling-part-4-prek.md), werden wir all diese Werkzeuge miteinander verknüpfen. Du kannst auch zu [Teil 1](@/blog/2026-07-14_modern-tooling-part-1-uv.md) oder [Teil 2](@/blog/2026-07-14_modern-tooling-part-2-ruff.md) zurückkehren.
+**Wie es weitergeht:** Im abschließenden Artikel, [Teil 4: Hochperformante Git Hooks mit prek](@/blog/2026-07-14_modern-tooling-part-4-prek.md), werden wir all diese Werkzeuge miteinander verknüpfen. Du kannst auch zu [Teil 1](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2](@/blog/2026-07-16_modern-tooling-part-2-ruff.md) zurückkehren.
