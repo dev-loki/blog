@@ -8,6 +8,345 @@ Source: https://loki.dev  |  Built with Zola.
 
 # Blog
 
+## [Moderne Werkzeuge Teil 2: Einheitliches Linting und Formatting mit ruff](https://loki.dev/blog/modern-tooling-part-2-ruff/)
+
+Date: 2026-07-16
+Description: Black, Flake8, Isort und pyupgrade ersetzt durch ein einziges Rust-Binary, inklusive einer Opt-out-Strategie mit select = ["ALL"].
+Tags: tooling, python, clean-code
+
+Nachdem ich in [Teil 1](@/blog/2026-07-15_modern-tooling-part-1-uv.md) das
+Paketmanagement mit `uv` aufgeräumt habe, will ich mich heute in Teil 2 um
+**ruff** kümmern.
+
+
+### Toolchain-Suppe
+
+"Code-Qualität" hieß lange, vier bis fünf Tools hintereinander zu
+schalten:
+- Black für das Formatting
+- Isort für die Import-Sortierung
+- Flake8 (oder pylint) für das Linting (plus ein Dutzend Plugins)
+- pyupgrade für moderne Syntax
+- und Bandit für Sicherheitschecks
+
+Auch hier galt: Jedes Tool hat seine eigene Konfigurationsdatei, eine eigene
+Version und eigene Konflikte mit: Black und Isort mussten z. B. explizit
+aufeinander abgestimmt werden, damit sie sich nicht gegenseitig die Imports
+umformatierten.
+
+Und es war langsam. Auf mittleren Codebasen liefen diese Checks sekunden- bzw.
+teilweise sogar minutenlang. Imho zu langsam, um sie bei jedem Speichern oder
+Commit auszuführen. Ich hatte sie trotzdem immer aktiv, war dann meist schon
+beim nächsten Problem und wurde prompt wieder rausgeworfen, weil es irgendein
+Trivialproblem gab. Also mehr als einmal deaktiviert und am Ende vergessen, sie
+nochmal auszuführen, nur um dann von einer roten CI-Pipeline genervt zu werden.
+
+
+### ruff!
+
+`ruff` ist Linter **und** Formatter in einem Rust-Binary. Es implementiert die
+Regeln von Flake8 (inklusive der populären Plugins), Isort, pyupgrade und
+großen Teilen von Bandit, und formatiert Black-kompatibel (mit minimalen
+Abweichungen). Die Laufzeit liegt selbst auf großen Codebasen im
+Millisekundenbereich, was einen entscheidenden Unterschied macht:
+
+Checks, die instant sind, laufen bei jedem Speichern im Editor, bei jedem
+Commit und in der CI. Checks, die Sekunden dauern, laufen irgendwann nur noch
+in der CI. Zusammen mit `--fix` einfach geniales Tooling, das auch unabhängig
+von der IDE funktioniert <3.
+
+Die beiden Befehle, die du brauchst:
+
+```bash
+# Linting-Fehler finden und automatisch beheben, wo möglich
+uv run ruff check --fix .
+
+# Die Codebasis formatieren
+uv run ruff format .
+```
+
+In der CI drehe ich den Spieß um, dort wird nichts repariert, sondern nur
+geprüft:
+
+```yaml
+- name: Formatting Check (Ruff)
+  run: uv run ruff format --check .
+
+- name: Linting Check (Ruff)
+  run: uv run ruff check .
+```
+
+
+### Meine Konfiguration: Opt-out statt Opt-in
+
+Die meisten Projekte aktivieren eine Handvoll Regelgruppen und ergänzen nach
+und nach. Mein Template geht den umgekehrten Weg: **alle** Regeln an, und
+jede Ausnahme muss begründet werden. Das zwingt dazu, sich bei jedem `ignore`
+bewusst zu entscheiden, und dokumentiert die Entscheidung gleich mit:
+
+```toml
+# Teil der pyproject.toml
+[tool.ruff.lint]
+# Ich will strikt sein und nur bewusst abwählen!
+select = [ "ALL" ]
+fixable = [ "ALL" ]
+
+ignore = [
+  # strict
+  "D102",    # würde Docstrings für jede öffentliche Methode erzwingen
+  "D203",    # inkompatibel zu D211 (kein Leerzeile vor Klassen-Docstring)
+  "EM101",   # würde erzwingen, Exception-Texte erst in Variablen zu speichern
+
+  # inkompatibel mit "ruff format"
+  "COM812",
+
+  # temporär - als Beispiel
+  "TC003",   # würde TYPE_CHECKING-Blöcke erzwingen.
+]
+```
+
+Der Kommentar hinter jeder Regel ist kein Nice-to-have, sondern der Kern der
+Strategie: In einem Jahr weiß niemand mehr, warum `COM812` aus ist, außer es
+steht daneben.
+
+
+### Per-File-Ignores: Tests sind anders
+
+Regeln, die im Produktivcode sinnvoll sind, sind in Tests oft Lärm. `assert`
+ist in Tests der Normalfall (im Produktivcode verbietet ihn die
+Bandit-Regel `S101`), und "Magic Numbers" in einem Testfall sind schlicht die
+Testdaten:
+
+```toml
+# Teil der pyproject.toml
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "ANN201",   # Rückgabe-Annotationen für Testfunktionen: unnötig
+    "PLR2004",  # Magic Values in Vergleichen: das SIND die Testdaten
+    "S101",     # assert ist in pytest essentiell
+]
+```
+
+
+### Import-Sortierung inklusive
+
+Isort ist als Regelgruppe `I` gleich mit an Bord. Damit die Sortierung auch in
+Grenzfällen deterministisch bleibt, deklariere ich explizit, was third-party
+und was mein eigener Code ist:
+
+```toml
+[tool.ruff.lint.isort]
+known-third-party = ["fastapi", "pydantic", "starlette"]
+known-local-folder = ["app"]
+```
+
+Kurze Erinnerung: `isort` sorgt dafür, dass die Importblöcke grob in 3
+Kategorien unterteilt sind:
+1. "batteries included" Imports, z. B.: `from math import sqrt`
+2. 3rd party Imports: `from fastapi import FastAPI`
+3. Projektimports: `from my_project.domain import ImportantClass`
+
+Innerhalb der Blöcke dann alphabetisch.
+
+
+### Fazit
+
+`ruff` ersetzt vier Konfigurationsdateien durch einen Block in der
+`pyproject.toml` und macht Linting so schnell, dass es keine Ausrede mehr
+gibt, es nicht überall laufen zu lassen. Die Opt-out-Strategie mit
+`select = ["ALL"]` ist dabei bewusst radikal: Sie kostet beim Aufsetzen etwas
+Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
+dokumentierter Entschluss ist statt ein historischer Zufall.
+
+---
+**Wie es weitergeht:** *Teil 3: Die Zukunft des Type Checkings mit ty* und *Teil 4 (prek)* sind gerade in Arbeit. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
+
+---
+
+## [Moderne Werkzeuge Teil 1: Blitzschnelles Package Management mit uv](https://loki.dev/blog/modern-tooling-part-1-uv/)
+
+Date: 2026-07-13
+Description: uv ersetzt pip, virtualenv, pyenv und pip-tools durch ein einziges Rust-Binary: vom lokalen Setup über Dependency Groups bis zum Docker-Build.
+Tags: tooling, python
+
+Hey und willkommen zu meiner vierteiligen Serie über moderne Python-Werkzeuge.
+Ich schreibe das gerade, weil das Python-Ökosystem einen echten Umbruch erlebt.
+Genau genommen sogar mehrere:
+
+1. Das Python-Ökosystem wird zu großen Teilen durch Rust-basierte Werkzeuge
+   ersetzt. Das habe ich zu großen Teilen [Astral](https://astral.sh) zu verdanken.
+2. Immer größere Teile der Entwicklung werden von KI diverser Hersteller
+   erledigt, und die Kontrolle selbiger führt zu wachsenden Problemen.
+
+Praktischerweise passen diese beiden Umbrüche perfekt zusammen.
+
+Mein Ziel ist also, erst diese neuen Rust-basierten Werkzeuge vorzustellen und
+dann zu zeigen, wie sie in der KI-getriebenen Entwicklung helfen können. Ich
+schaue mir vier+ dieser Werkzeuge an, und zwar nicht abstrakt, sondern anhand
+eines realen FastAPI-Projekt-Templates: `uv`, `ruff`, `ty` und `prek` (+weitere
+Mini-Tools).
+
+In **Teil 1 (dieser hier)** geht es um das Fundament: **`uv`**.
+
+
+### Das Problem, dass ich sehe: fünf Tools für eine Aufgabe
+
+Wer bisher ein Python-Projekt sauber aufsetzen wollte, brauchte einen ganzen
+Werkzeugkasten:
+
+* `pyenv`, um die richtige Python-Version zu installieren
+* `venv` oder `virtualenv` (`pipenv` habe ich auch schon genutzt), um eine isolierte Umgebung zu erzeugen
+* `pip`, um Pakete zu installieren
+* `pip-tools`, `pip freeze` (oder `poetry`), um Abhängigkeiten zu locken
+* dazu das `source .venv/bin/activate`-Ritual (gerne auch automatisiert via zsh/bash script)
+
+Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigene
+Konfigurationstypen), eigene Eigenheiten und eigene Fehlerquellen. Das Ergebnis
+ist: "Works on my machine". Gratis dazu: eine CI-Pipeline, die Minuten mit dem
+Auflösen von Abhängigkeiten verbringt.
+
+
+### Die Lösung: uv, ein einzelnes Binary
+
+`uv` ersetzt den kompletten Stack durch ein einziges Rust-Binary. Es ist
+Paket-Installer, Environment-Manager, Dependency-Resolver und
+Python-Versions-Manager in einem. Das Beste: es ist dabei um Größenordnungen schneller.
+
+Installation geht flott:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# oder auf macOS:
+brew install uv
+```
+_(Wie immer gilt: install script erst lesen oder sogar erst runterladen und
+dann ausführen. Hier ist der Einfachheit halber nur der direkte Schritt aus der
+Doku vermerkt)_
+
+
+### Workflow
+
+Danach reduziert sich der Python-Alltag auf drei Befehle:
+
+```bash
+# Abhängigkeiten aus dem Lockfile installieren (inkl. venv-Erstellung)
+uv sync
+
+# Ein Paket hinzufügen: aktualisiert pyproject.toml UND uv.lock
+uv add fastapi
+
+# Beliebigen Befehl in der Projektumgebung ausführen
+uv run pytest
+```
+
+Es gibt also kein `activate` mehr. `uv run` sorgt selbst dafür, dass der Befehl
+in der richtigen Umgebung läuft und dass diese Umgebung mit dem Lockfile
+übereinstimmt. Ist sie es nicht, synchronisiert `uv` sie vorher automatisch.
+Via `uv venv` (optional mit `--python 314`) kann man auch getrennt eine `venv`
+Umgebung erstellen. Alternativ kann man im Projekt eine `.python-version`
+Datei mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
+bei Bedarf einfach herunter. `pyenv` wird damit überflüssig.
+
+
+### Dependency Groups statt requirements-Wildwuchs
+
+Statt `requirements.txt`, `requirements-dev.txt` und `requirements-test.txt`
+definiert mein Template alles in der `pyproject.toml`, mit dem Standard für
+[Dependency Groups (PEP 735)](https://peps.python.org/pep-0735/), inklusive
+Gruppen, die andere Gruppen einbinden:
+
+```toml
+[dependency-groups]
+dev = [
+  "prek==0.4.9",
+  { include-group = "tests" },
+  { include-group = "lint" },
+]
+
+tests = [
+  "httpx==0.*",
+  "pytest==9.*",
+  "pytest-asyncio",
+]
+
+lint = [
+  "ruff==0.*",
+  "ty==0.*",
+  "bandit==1.*",
+  "import-linter>=2.11",
+]
+```
+
+`uv sync` installiert standardmäßig die `dev`-Gruppe, `uv sync --no-dev` lässt
+sie weg. Perfekt für die Production Environment. Weitere Flags für die Gruppen
+sind `--all-groups` bzw. sehr spezifisch `--group lint|tests|dev`.
+
+
+### Reproduzierbarkeit: uv.lock
+
+Wichtig für stabile Deployments ist die `uv.lock`: Sie hält jede Abhängigkeit
+(inklusive Subabhängigkeiten) mit exakter Version und Hash fest,
+plattformübergreifend. In CI und Docker erzwinge ich mit `--frozen`, dass das
+Lockfile aktuell ist. Weicht die `pyproject.toml` davon ab, schlägt der Build
+fehl, statt still etwas anderes zu installieren.
+
+So sieht das in einem beispielhaften Dockerfile meines Templates aus (Multi-Stage, mit Cache-Mount):
+
+```dockerfile
+# Bewusst kein alpine, da das gerade mit binary builds (z. B. psycopg2/etc.)
+# schonmal Mehrarbeit ist.
+FROM python:3.14-slim AS builder
+
+ENV UV_COMPILE_BYTECODE=1
+ENV UV_LINK_MODE=copy
+
+# Erster Schritt: uv haben. Es gibt aber auch fertige Docker Images!
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+COPY pyproject.toml uv.lock ./
+
+# Erst nur Dependencies, dieser Layer wird gecached,
+# solange sich das Lockfile nicht ändert
+RUN uv sync --frozen --no-dev --no-install-project
+
+# Dann der sourcecode -> häufige änderungen
+COPY src ./src
+
+# Install mithilfe von cache (macht gerade bei CI einen gigantischen Unterschied)
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+```
+
+Und in der GitHub-Actions-Pipeline übernimmt die offizielle Action Setup und
+Caching in einem Schritt:
+
+```yaml
+- name: Install uv
+  uses: astral-sh/setup-uv@v8.2.0
+  with:
+    python-version: "3.14"
+    enable-cache: true
+
+- name: Install dependencies
+  run: uv sync --all-groups
+```
+
+### Fazit
+
+`uv` braucht weniger Konfiguration als der alte Stack und ist trotzdem
+deutlich schneller. Es ist der Grund, warum alle folgenden Teile dieser Serie
+mit `uv run ...` beginnen. Damit werden Python-Entwicklung, CI, CD u. v. m.
+schneller.
+
+Bonusfeature: [Scripts mit Inline-Dependencies](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies)
+laufen lassen. Perfekt für DevOps und Ähnliches. :)
+
+---
+
+**Wie es weitergeht:** In [Teil 2: Einheitliches Linting und Formatting mit ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md) sehe ich mir an, wie
+ich Coding-Standards ohne Wartezeiten durchsetze. Teil 3 (ty) und Teil 4 (prek) sind noch in Arbeit.
+
+---
+
 ## [Claude Code, Claw Code und das Ende der Geheimnisse?](https://loki.dev/blog/claude-code-leak-und-claw-code/)
 
 Date: 2026-05-04
@@ -1127,6 +1466,8 @@ verwässert wird.
 
 Event: EuroPython 2024, Prague
 Date: 2024-07-10
+
+{{ youtube(id="W5ZOFvGmmbo", class="youtube") }}
 
 **Slides (PDF):** [PDF herunterladen](https://loki.dev/slides/vortraege/ep2024-python-unplugged/europython2024-python-unplugged-slides.pdf)
 
