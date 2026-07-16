@@ -8,7 +8,10 @@ event = "EuroPython 2024"
 location = "Prague"
 slides_url = "https://loki.dev/slides/vortraege/ep2024-python-unplugged"
 abstract_url = "https://ep2024.europython.eu/session/python-unplugged-mining-for-hidden-batteries"
+video_url = "https://www.youtube.com/watch?v=W5ZOFvGmmbo"
 +++
+
+{{ youtube(id="W5ZOFvGmmbo", class="youtube") }}
 
 **Slides (PDF):** [PDF herunterladen](https://loki.dev/slides/vortraege/ep2024-python-unplugged/europython2024-python-unplugged-slides.pdf)
 
