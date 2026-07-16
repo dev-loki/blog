@@ -2,7 +2,7 @@
 title = "Impressum"
 +++
 
-## Angaben gem&auml;&szlig; &sect; 5 TMG
+## Angaben gem&auml;&szlig; &sect; 5 DDG
 
 Torsten Zielke<br>
 Kiefernweg 2a<br>
