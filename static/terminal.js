@@ -20,7 +20,7 @@
    * Command names offered by Tab-completion (the first word).
    * @type {readonly string[]}
    */
-  const COMMANDS = ['help','ls','cd','pwd','whoami','man','clear','exit','cmatrix','sl','echo','date','uname'];
+  const COMMANDS = ['help','ls','cd','pwd','whoami','man','clear','exit','cmatrix','sl','crt','echo','date','uname'];
 
   /**
    * Path/target names offered by Tab-completion (the argument word).
@@ -129,12 +129,13 @@
       case 'ls':      lsCmd(args); break;
       case 'cd':      cdCmd(args); break;
       case 'pwd':     print(window.location.pathname); break;
-      case 'whoami':  print('torsten zielke\ntech-lead · software-architect · cloud-solutions-architect\niVivid GmbH, Salzgitter, DE'); break;
+      case 'whoami':  print('torsten zielke\ntech-lead · software-architect · cloud-solutions-architect\niVivid GmbH, Oberschneiding, DE'); break;
       case 'man':     manCmd(args); break;
       case 'clear':   output.innerHTML = ''; return;
       case 'exit':    output.innerHTML = ''; input.blur(); return;
       case 'cmatrix': cmatrix(); break;
       case 'sl':      sl(); break;
+      case 'crt':     crt(); break;
       case 'echo':    print(args.join(' ')); break;
       case 'date':    print(new Date().toString()); break;
       case 'uname':   print('loki.dev 1.0.0 static-html amd64'); break;
@@ -185,6 +186,7 @@
       'EASTER EGGS',
       '  cmatrix         ...',
       '  sl              ...',
+      '  crt             ...',
     ].join('\n'));
   }
 
@@ -244,6 +246,7 @@
     man:     'man [command]\n\n  Display manual entry for command.\n  man loki  — open the home page.',
     cmatrix: 'cmatrix\n\n  "Wake up, Neo..."\n  Press any key or click to exit.',
     sl:      'sl\n\n  You meant ls, didn\'t you?\n  Press Escape to cancel.',
+    crt:     'crt\n\n  Toggle green-phosphor CRT mode: monochrome tint plus scanlines.\n  Type crt again to power down.',
   };
 
   /**
@@ -470,6 +473,44 @@
       }
     }
     raf = requestAnimationFrame(animate);
+  }
+
+  // ── crt ──────────────────────────────────────────────────────────────────────
+
+  /**
+   * Easter egg: toggle an old-school green-phosphor CRT look. A page-wide CSS
+   * filter recolours everything to green monochrome, and a fixed overlay lays
+   * down scanlines. Toggling again removes both. The scanlines stay under
+   * reduced-motion; only the flicker is skipped. Pure DOM, no CSS-file changes.
+   * @returns {void}
+   */
+  function crt() {
+    const existing = document.getElementById('crt-overlay');
+    if (existing) {
+      existing.remove();
+      document.documentElement.style.filter = '';
+      print('crt: back to flat pixels');
+      return;
+    }
+
+    // grayscale -> sepia -> hue-rotate to green is the classic monochrome-CRT recolour
+    document.documentElement.style.filter =
+      'grayscale(1) sepia(1) hue-rotate(70deg) saturate(3) contrast(1.1) brightness(1.1)';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'crt-overlay';
+    // below cmatrix/sl (9999) so those still cover it; never eats clicks
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;pointer-events:none;' +
+      'background:repeating-linear-gradient(rgba(0,0,0,0.28) 0 1px, transparent 1px 3px);';
+    document.body.appendChild(overlay);
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      overlay.animate(
+        [{ opacity: 0.85 }, { opacity: 1 }],
+        { duration: 120, iterations: Infinity, direction: 'alternate', easing: 'steps(2)' }
+      );
+    }
+    print('crt: green phosphor online. type "crt" again to power down');
   }
 
   // ── theme toggle ─────────────────────────────────────────────────────────────
