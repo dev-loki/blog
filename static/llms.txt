@@ -10,6 +10,7 @@ Source: https://loki.dev  |  Built with Zola.
 
 ## Blog
 
+- [Moderne Werkzeuge Teil 3: Die Zukunft des Type Checkings mit ty](https://loki.dev/blog/modern-tooling-part-3-ty/): Astrals Type Checker ty im Praxiseinsatz: Warum Geschwindigkeit über Typdisziplin entscheidet, und wo der Early-Adopter-Preis liegt.
 - [Moderne Werkzeuge Teil 2: Einheitliches Linting und Formatting mit ruff](https://loki.dev/blog/modern-tooling-part-2-ruff/): Black, Flake8, Isort und pyupgrade ersetzt durch ein einziges Rust-Binary, inklusive einer Opt-out-Strategie mit select = ["ALL"].
 - [Moderne Werkzeuge Teil 1: Blitzschnelles Package Management mit uv](https://loki.dev/blog/modern-tooling-part-1-uv/): uv ersetzt pip, virtualenv, pyenv und pip-tools durch ein einziges Rust-Binary: vom lokalen Setup über Dependency Groups bis zum Docker-Build.
 - [Claude Code, Claw Code und das Ende der Geheimnisse?](https://loki.dev/blog/claude-code-leak-und-claw-code/): Ein Blick auf den Claude Code Leak, das daraus entstandene Claw Code Projekt und was das über die aktuelle KI-Entwicklung und deren rechtliche Grauzonen aussagt.
