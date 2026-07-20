@@ -180,5 +180,5 @@ Perfect for DevOps and the like. :)
 ---
 
 **What's next:** In [Part 2: Consistent Linting and Formatting with ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md)
-I look at how to enforce coding standards without the wait. Part 3 (ty) and
-Part 4 (prek) are still in the works.
+I look at how to enforce coding standards without the wait. [Part 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
+is out now too; Part 4 (prek) is still in the works.

@@ -145,6 +145,6 @@ of time to set up, but in return you get a ruleset where every exception is a
 documented decision instead of a historical accident.
 
 ---
-**What's next:** *Part 3: The future of type checking with ty* and
-*Part 4 (prek)* are currently in the works. Missed the start? Then head back to
-[Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md).
+**What's next:** [Part 3: The future of type checking with ty](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
+covers type checking; *Part 4 (prek)* is still in the works. Missed the start?
+Then head back to [Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md).

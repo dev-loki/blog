@@ -152,4 +152,4 @@ Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
 dokumentierter Entschluss ist statt ein historischer Zufall.
 
 ---
-**Wie es weitergeht:** *Teil 3: Die Zukunft des Type Checkings mit ty* und *Teil 4 (prek)* sind gerade in Arbeit. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
+**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking; *Teil 4 (prek)* ist noch in Arbeit. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
