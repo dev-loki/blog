@@ -106,6 +106,26 @@ Typfehler in Datei B auslösen. Dank der Geschwindigkeit von `ty` kann ich mir
 den Voll-Check bei jedem Commit leisten. Nice :).
 
 
+### Im Editor
+
+`ty` ist nicht nur ein CLI-Tool, sondern bringt einen eigenen Language Server
+mit: Autocompletion, Hover, Go-to-Definition und Auto-Imports, alles in
+`ty`-Geschwindigkeit.
+
+**VS Code:** Es gibt eine offizielle
+[ty-Extension](https://docs.astral.sh/ty/editors/) von Astral. Sie schaltet den
+Language Server der Python-Extension automatisch ab (setzt
+`python.languageServer` auf `None`), damit nicht zwei Language Server
+gleichzeitig laufen.
+
+**PyCharm:** Ab Version 2025.3 ist `ty` direkt eingebaut. Unter
+*Settings → Python | Tools → ty* die Checkbox *Enable* setzen. PyCharm findet die
+im Interpreter installierte `ty`-Version dann selbst.
+
+Darunter steckt immer derselbe Language Server, den man auch manuell starten
+kann (`uv run ty server`), z. B. für Neovim.
+
+
 ### Einschränkungen
 
 `ty` ist jung. Mein Template pinnt es auf `ty==0.*`: die Null vor dem Punkt ist
@@ -133,4 +153,4 @@ Typdisziplin hält man nur durch, wenn das Feedback schnell kommt, und genau das
 liefert `ty`.
 
 ---
-**Wie es weitergeht:** Der abschließende *Teil 4: Hochperformante Git Hooks mit prek* ist noch in Arbeit; dort verknüpfe ich all diese Werkzeuge miteinander. Zurück geht es zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.md).
+**Wie es weitergeht:** Im abschließenden [Teil 4: Hochperformante Git Hooks mit prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md) verknüpfe ich all diese Werkzeuge miteinander. Zurück geht es zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.md).

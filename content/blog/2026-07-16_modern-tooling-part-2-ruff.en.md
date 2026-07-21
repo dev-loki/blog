@@ -136,6 +136,43 @@ categories:
 And within the blocks, alphabetically.
 
 
+### In the editor: feedback as you type
+
+The real win comes when `ruff` runs as you type, not only at commit time.
+
+**VS Code:** The official
+[Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+(by charliermarsh/Astral) handles both linting and formatting. What matters to
+me is that it uses the version pinned in the project: `ruff.importStrategy`
+defaults to `fromEnvironment`, so it picks up the `ruff` from the `uv`
+environment instead of the bundled one.
+
+```json
+// .vscode/settings.json
+{
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+  "ruff.importStrategy": "fromEnvironment"
+}
+```
+
+The `.ruff` suffix on the code actions makes sure it's really `ruff` doing the
+fixing and import sorting, not some other formatter by accident.
+
+**PyCharm:** From version 2025.3 on, Ruff support is built in. Enable it under
+*Settings → Tools → Ruff*, and *Reformat Code* and *Optimize Imports* will use
+`ruff`. For older versions there's the
+[Ruff plugin by koxudaxi](https://plugins.jetbrains.com/plugin/20574-ruff). In
+both cases it's worth pointing it at the `ruff` from the project environment
+rather than a globally installed one.
+
+
 ### Conclusion
 
 `ruff` replaces four config files with one block in `pyproject.toml` and makes
@@ -146,5 +183,6 @@ documented decision instead of a historical accident.
 
 ---
 **What's next:** [Part 3: The future of type checking with ty](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
-covers type checking; *Part 4 (prek)* is still in the works. Missed the start?
+covers type checking, and [Part 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md) ties it all
+together with Git hooks. Missed the start?
 Then head back to [Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md).

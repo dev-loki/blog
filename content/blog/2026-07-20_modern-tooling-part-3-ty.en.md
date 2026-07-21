@@ -103,6 +103,24 @@ file B. Thanks to `ty`'s speed I can afford the full check on every commit.
 Nice :).
 
 
+### In the editor
+
+`ty` is not just a CLI tool, it ships its own language server: autocompletion,
+hover, go-to-definition and auto-imports, all at `ty` speed.
+
+**VS Code:** There's an official
+[ty extension](https://docs.astral.sh/ty/editors/) from Astral. It automatically
+turns off the Python extension's language server (sets `python.languageServer`
+to `None`) so you don't run two language servers at once.
+
+**PyCharm:** From version 2025.3 on, `ty` is built in. Tick *Enable* under
+*Settings → Python | Tools → ty*. PyCharm then picks up the `ty` version
+installed in your interpreter.
+
+Underneath it's always the same language server, which you can also start
+manually (`uv run ty server`), e.g. for Neovim.
+
+
 ### Caveats
 
 `ty` is young. My template pins it to `ty==0.*`: the zero before the dot isn't
@@ -128,7 +146,7 @@ fast: locally, on every commit, without anyone having to wait. Type discipline
 only sticks when the feedback is fast, and that's exactly what `ty` delivers.
 
 ---
-**What's next:** The final *Part 4: High-performance Git hooks with prek* is
-still in the works; there I tie all these tools together. You can head back to
+**What's next:** In the final [Part 4: High-performance Git hooks with prek](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md)
+I tie all these tools together. You can head back to
 [Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md) or
 [Part 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md).

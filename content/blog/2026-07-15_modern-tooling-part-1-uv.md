@@ -182,4 +182,4 @@ laufen lassen. Perfekt für DevOps und Ähnliches. :)
 ---
 
 **Wie es weitergeht:** In [Teil 2: Einheitliches Linting und Formatting mit ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md) sehe ich mir an, wie
-ich Coding-Standards ohne Wartezeiten durchsetze. Auch [Teil 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.md) ist inzwischen da; Teil 4 (prek) ist noch in Arbeit.
+ich Coding-Standards ohne Wartezeiten durchsetze. Es gibt auch schon [Teil 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.md) und [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md).

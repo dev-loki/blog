@@ -142,6 +142,44 @@ Kategorien unterteilt sind:
 Innerhalb der Blöcke dann alphabetisch.
 
 
+### Im Editor: Feedback beim Tippen
+
+Der eigentliche Gewinn kommt, wenn `ruff` schon beim Tippen läuft und nicht erst
+beim Commit.
+
+**VS Code:** Die offizielle
+[Ruff-Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+(von charliermarsh/Astral) übernimmt Linting und Formatting. Wichtig ist mir,
+dass sie die im Projekt gepinnte Version nutzt: `ruff.importStrategy` steht per
+Default auf `fromEnvironment`, greift also auf das `ruff` aus der `uv`-Umgebung
+zu statt auf die mitgelieferte Version.
+
+```json
+// .vscode/settings.json
+{
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+  "ruff.importStrategy": "fromEnvironment"
+}
+```
+
+Das `.ruff`-Suffix an den Code-Actions sorgt dafür, dass wirklich `ruff` fixt
+und die Imports sortiert und nicht versehentlich ein anderer Formatter.
+
+**PyCharm:** Ab Version 2025.3 ist die Ruff-Unterstützung eingebaut. Unter
+*Settings → Tools → Ruff* aktivieren, dann greifen *Reformat Code* und *Optimize
+Imports* auf `ruff` zu. Für ältere Versionen gibt es das
+[Ruff-Plugin von koxudaxi](https://plugins.jetbrains.com/plugin/20574-ruff). In
+beiden Fällen lohnt es sich, auf das `ruff` aus der Projektumgebung zu zeigen
+statt auf eine global installierte Version.
+
+
 ### Fazit
 
 `ruff` ersetzt vier Konfigurationsdateien durch einen Block in der
@@ -152,4 +190,4 @@ Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
 dokumentierter Entschluss ist statt ein historischer Zufall.
 
 ---
-**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking; *Teil 4 (prek)* ist noch in Arbeit. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
+**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking, in [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md) bringen Git Hooks alles zusammen. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
