@@ -113,6 +113,26 @@ Typfehler in Datei B auslösen. Dank der Geschwindigkeit von `ty` kann ich mir
 den Voll-Check bei jedem Commit leisten. Nice :).
 
 
+### Im Editor
+
+`ty` ist nicht nur ein CLI-Tool, sondern bringt einen eigenen Language Server
+mit: Autocompletion, Hover, Go-to-Definition und Auto-Imports, alles in
+`ty`-Geschwindigkeit.
+
+**VS Code:** Es gibt eine offizielle
+[ty-Extension](https://docs.astral.sh/ty/editors/) von Astral. Sie schaltet den
+Language Server der Python-Extension automatisch ab (setzt
+`python.languageServer` auf `None`), damit nicht zwei Language Server
+gleichzeitig laufen.
+
+**PyCharm:** Ab Version 2025.3 ist `ty` direkt eingebaut. Unter
+*Settings → Python | Tools → ty* die Checkbox *Enable* setzen. PyCharm findet die
+im Interpreter installierte `ty`-Version dann selbst.
+
+Darunter steckt immer derselbe Language Server, den man auch manuell starten
+kann (`uv run ty server`), z. B. für Neovim.
+
+
 ### Einschränkungen
 
 `ty` ist jung. Mein Template pinnt es auf `ty==0.*`: die Null vor dem Punkt ist
@@ -140,7 +160,170 @@ Typdisziplin hält man nur durch, wenn das Feedback schnell kommt, und genau das
 liefert `ty`.
 
 ---
-**Wie es weitergeht:** Der abschließende *Teil 4: Hochperformante Git Hooks mit prek* ist noch in Arbeit; dort verknüpfe ich all diese Werkzeuge miteinander. Zurück geht es zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.md).
+**Wie es weitergeht:** Im abschließenden [Teil 4: Hochperformante Git Hooks mit prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md) verknüpfe ich all diese Werkzeuge miteinander. Zurück geht es zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.md).
+
+---
+
+## [Moderne Werkzeuge Teil 4: Hochperformante Git Hooks mit prek](https://loki.dev/blog/modern-tooling-part-4-prek/)
+
+Date: 2026-07-20
+Description: prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie unser komplettes Quality Gate vor jedem Commit läuft.
+Tags: tooling, python, git
+
+Im Laufe dieser Serie habe ich meinen Python-Stack mit `uv` ([Teil
+1](@/blog/2026-07-15_modern-tooling-part-1-uv.md)), `ruff` ([Teil
+2](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)) und `ty` ([Teil
+3](@/blog/2026-07-20_modern-tooling-part-3-ty.md)) neu aufgebaut. In **Teil 4**
+bringe ich dann alles zusammen: Die Checks sollen automatisch laufen, bevor
+Code überhaupt ins Repository gelangt. Kein Mensch hat Bock, ständig diesen
+Stack an Tools von Hand auszuführen.
+
+
+### Git Hooks als Quality Gate
+
+Jeder Check, der erst in der CI scheitert, ist eine Verzögerung und reißt mich
+aus meinen Tasks raus: schreiben, committen, pushen, fünf Minuten warten, rote
+Pipeline, fixen, "Fix linting"-Commit, nochmal pushen. Ein Pre-Commit-Hook
+verschiebt genau dieselben Checks an den frühestmöglichen Punkt: Fehler werden
+behoben, *bevor* sie in der Historie landen, und die CI wird vom Fehlerfinder
+zum reinen Sicherheitsnetz.
+
+
+### Der Engpass beim klassischen pre-commit
+
+Das [`pre-commit`](https://pre-commit.com)-Framework ist seit Jahren ein
+Standard dafür. Auch Tools wie lefthook oder husky sind super. prek ist aber
+flott und dank Kompatibilität zu pre-commit mein Tool der Wahl. Denn pre-commit
+hat einige Nachteile: Es ist selbst ein Python-Paket, isoliert jeden Hook in
+einer eigenen virtuellen Umgebung und führt Hooks sequenziell aus. Das erste
+`git commit` nach einem frischen Clone kann Minuten dauern, während Umgebungen
+aufgebaut werden.
+
+
+### prek
+
+[`prek`](https://github.com/j178/prek) ist eine Reimplementierung des
+pre-commit-Frameworks in Rust, und der entscheidende Punkt ist: **Es liest
+dieselbe `.pre-commit-config.yaml`**. Aber mit smarterem Caching und ohne den
+Virtualenv-Overhead:
+
+
+```bash
+# Installation (ein statisches Binary, kein Python nötig)
+uv tool install prek
+# alternativ mit brew/pacman/apt/etc.
+
+# Git-Hook im Repository aktivieren (einmalig pro Clone)
+prek install
+
+# Hooks manuell ausführen
+prek run                # gegen gestagte Dateien
+prek run --all-files    # gegen die gesamte Codebasis
+prek run gitleaks --all-files  # einen einzelnen Hook gezielt
+```
+
+### Mein Hook-Setup im Detail
+
+Die `.pre-commit-config.yaml` meines Templates verkettet alles, was ich in
+den letzten drei Teilen aufgebaut habe. Interessant ist dabei die
+Unterscheidung zwischen zwei Hook-Arten:
+
+**Remote-Hooks** kommen aus fremden Repositories: die Basics wie
+YAML/TOML-Validierung, Trailing Whitespace und der Secret-Scanner
+[gitleaks](https://github.com/gitleaks/gitleaks):
+
+```yaml
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: check-yaml
+  - id: check-toml
+  - id: check-merge-conflict
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.30.1
+  hooks:
+  - id: gitleaks
+```
+
+**Lokale Hooks** dagegen laufen über `uv run` in meiner Projektumgebung:
+damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
+`uv.lock` gepinnt sind, statt in irgendeiner separaten Hook-Umgebung:
+
+```yaml
+- repo: local
+  hooks:
+  - id: ruff-format
+    name: ruff format
+    entry: uv run ruff format
+    language: system
+    types: [python]
+
+  - id: ruff-check
+    name: ruff check
+    entry: uv run ruff check --fix
+    language: system
+    types: [python]
+
+  - id: ty
+    name: ty-check
+    entry: uv run ty check --verbose --output-format=full .
+    language: system
+    types: [python]
+    pass_filenames: false
+
+  - id: bandit
+    name: bandit
+    entry: uv run bandit -r src/app -c pyproject.toml
+    language: system
+    types: [python]
+    pass_filenames: false
+```
+
+Dazu kommt noch [import-linter](https://import-linter.readthedocs.io), der
+meine Architektur bewacht: Er schlägt fehl, sobald jemand aus der
+Domain-Schicht heraus Infrastruktur importiert: Architekturregeln als
+ausführbarer Check statt als Wiki-Seite.
+
+
+### Ein Commit, das ganze Quality Gate
+
+Bei jedem `git commit` läuft damit automatisch: Formatting, Linting mit
+Auto-Fix, Type Checking, Security-Scan (bandit), Secret-Scan (gitleaks) und
+die Architekturprüfung. Dank prek weitgehend parallel und in wenigen
+Sekunden, schnell genug, dass niemand in Versuchung kommt, es abzuschalten.
+
+Für den Notfall gibt es trotzdem die Hintertür:
+
+```bash
+git commit --no-verify
+```
+
+Aber genau dafür (naja, oder für die Fälle, wo jemand `prek install` vergessen
+hat) ist die CI das Sicherheitsnetz: Dort laufen dieselben Checks
+(`ruff format --check`, `ruff check`, `ty check`, `bandit`, `lint-imports`,
+`pytest`) noch einmal, nur eben als letzte Instanz, nicht als erste.
+
+
+### Fazit der Serie
+
+Diese vier Tools `uv`, `ruff`, `ty` und `prek` ersetzen jeweils einen
+langsamen, fragmentierten Teil der Python-Toolchain durch ein schnelles
+Rust-Binary, und bleiben dabei kompatibel zu dem, was sie ablösen
+(`pyproject.toml`, Black-Formatierung, `.pre-commit-config.yaml`).
+
+Und wenn ich ehrlich bin, sind sie meist die ersten Tools ihrer Art, denn eine
+Codebasis, die hier schon perfekt war, habe ich bisher nicht gesehen.
+
+---
+
+**Serienübersicht:**
+* [Teil 1: uv](@/blog/2026-07-15_modern-tooling-part-1-uv.md)
+* [Teil 2: ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)
+* [Teil 3: ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md)
+* [Teil 4: prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md)
 
 ---
 
@@ -285,6 +468,44 @@ Kategorien unterteilt sind:
 Innerhalb der Blöcke dann alphabetisch.
 
 
+### Im Editor: Feedback beim Tippen
+
+Der eigentliche Gewinn kommt, wenn `ruff` schon beim Tippen läuft und nicht erst
+beim Commit.
+
+**VS Code:** Die offizielle
+[Ruff-Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+(von charliermarsh/Astral) übernimmt Linting und Formatting. Wichtig ist mir,
+dass sie die im Projekt gepinnte Version nutzt: `ruff.importStrategy` steht per
+Default auf `fromEnvironment`, greift also auf das `ruff` aus der `uv`-Umgebung
+zu statt auf die mitgelieferte Version.
+
+```json
+// .vscode/settings.json
+{
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+  "ruff.importStrategy": "fromEnvironment"
+}
+```
+
+Das `.ruff`-Suffix an den Code-Actions sorgt dafür, dass wirklich `ruff` fixt
+und die Imports sortiert und nicht versehentlich ein anderer Formatter.
+
+**PyCharm:** Ab Version 2025.3 ist die Ruff-Unterstützung eingebaut. Unter
+*Settings → Tools → Ruff* aktivieren, dann greifen *Reformat Code* und *Optimize
+Imports* auf `ruff` zu. Für ältere Versionen gibt es das
+[Ruff-Plugin von koxudaxi](https://plugins.jetbrains.com/plugin/20574-ruff). In
+beiden Fällen lohnt es sich, auf das `ruff` aus der Projektumgebung zu zeigen
+statt auf eine global installierte Version.
+
+
 ### Fazit
 
 `ruff` ersetzt vier Konfigurationsdateien durch einen Block in der
@@ -295,7 +516,7 @@ Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
 dokumentierter Entschluss ist statt ein historischer Zufall.
 
 ---
-**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking; *Teil 4 (prek)* ist noch in Arbeit. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
+**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking, in [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md) bringen Git Hooks alles zusammen. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
 
 ---
 
@@ -479,7 +700,7 @@ laufen lassen. Perfekt für DevOps und Ähnliches. :)
 ---
 
 **Wie es weitergeht:** In [Teil 2: Einheitliches Linting und Formatting mit ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md) sehe ich mir an, wie
-ich Coding-Standards ohne Wartezeiten durchsetze. Auch [Teil 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.md) ist inzwischen da; Teil 4 (prek) ist noch in Arbeit.
+ich Coding-Standards ohne Wartezeiten durchsetze. Es gibt auch schon [Teil 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.md) und [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md).
 
 ---
 
@@ -489,7 +710,7 @@ Date: 2026-05-04
 Description: Ein Blick auf den Claude Code Leak, das daraus entstandene Claw Code Projekt und was das über die aktuelle KI-Entwicklung und deren rechtliche Grauzonen aussagt.
 Tags: ki, tooling
 
-Sorry für die lange Funkstille! Seit dem letzten Post ist ja doch einiges an Zeit ins Land gegangen. Ich hab hier noch einen ganzen Stapel an Entwürfen rumliegen (`.md.draft`), aber wenn ich mir die so anschaue, müssen die wohl alle erst mal grundlegend überarbeitet werden – die Welt (und vor allem die KI-Welt) dreht sich einfach zu schnell ;).
+Sorry für die lange Funkstille! Seit dem letzten Post ist ja doch einiges an Zeit ins Land gegangen. Ich hab hier noch einen ganzen Stapel an Entwürfen rumliegen (`.md.draft`), aber wenn ich mir die so anschaue, müssen die wohl alle erst mal grundlegend überarbeitet werden, die Welt (und vor allem die KI-Welt) dreht sich einfach zu schnell ;).
 
 Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt, noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal - sogar frei von KI geschrieben.
 
@@ -503,7 +724,7 @@ Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), so
 
 ### Die rechtliche Seite: DMCA-Whack-A-Mole
 
-Natürlich findet Anthropic das Ganze weniger witzig. Es gab wohl schon über 8100 Löschanfragen. [Heise hat dazu einen sehr guten Artikel geschrieben](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html), der die rechtlichen Aspekte beleuchtet. Es ist die klassische "Geburtsstunde" eines Tools aus einem Leak heraus – und der verzweifelte Versuch, die Katze wieder in den Sack zu kriegen.
+Natürlich findet Anthropic das Ganze weniger witzig. Es gab wohl schon über 8100 Löschanfragen. [Heise hat dazu einen sehr guten Artikel geschrieben](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html), der die rechtlichen Aspekte beleuchtet. Es ist die klassische "Geburtsstunde" eines Tools aus einem Leak heraus, und der verzweifelte Versuch, die Katze wieder in den Sack zu kriegen.
 
 Ich finde das ziemlich bezeichnend für den current State der KI:
 - Die Tools werden immer mächtiger, aber auch komplexer.
@@ -525,7 +746,7 @@ Tags: typescript, clean-code
 - `const` bevorzugen statt `let`
 - Variablen so oft wie möglich unveränderlich halten
 
-Ich erkläre hier, warum Immutability so nützlich ist und wie man sie in TypeScript einsetzt – ähnliche Konzepte gelten aber auch in anderen Sprachen.
+Ich erkläre hier, warum Immutability so nützlich ist und wie man sie in TypeScript einsetzt, ähnliche Konzepte gelten aber auch in anderen Sprachen.
 
 ## Was ist Immutability?
 
@@ -586,7 +807,7 @@ Dieses Beispiel ist trivial, aber in jedem Fall: Wir WISSEN, dass `uppercaseName
 
 ## Warum
 
-Immutability bedeutet nicht, alles konsequent durchzuziehen, und veränderliche Variablen sind auch nicht per se schlecht – aber sie eliminieren einige Fehlerquellen beim Programmieren und Debuggen.
+Immutability bedeutet nicht, alles konsequent durchzuziehen, und veränderliche Variablen sind auch nicht per se schlecht, aber sie eliminieren einige Fehlerquellen beim Programmieren und Debuggen.
 
 [Biome](https://biomejs.dev) hat einen Lint `lint/style/useConst`, der zwingt, `const` zu verwenden, wenn eine Variable nie neu zugewiesen wird. Ich würde aber noch einen Schritt weiter gehen und `let` so oft wie möglich durch `const` ersetzen.
 
@@ -617,7 +838,7 @@ console.log({ originalObject, mutatedObject });
 
 Wir erwarten, dass `originalObject` noch gleich ist und `mutatedObject` den neuen Wert enthält. Wenn wir uns angewöhnen, bestehende Objekte nicht zu verändern und `const` zu verwenden, werden wir nie von Verhalten **innerhalb** einer Funktion überrascht.
 
-Funktionen, die Parameter nicht mutieren und ausschließlich von ihren Parametern abhängen, heißen **pure functions**. Ein Konzept mit vielen Vorteilen gegenüber **unreinen** Funktionen – dazu mehr im nächsten Artikel.
+Funktionen, die Parameter nicht mutieren und ausschließlich von ihren Parametern abhängen, heißen **pure functions**. Ein Konzept mit vielen Vorteilen gegenüber **unreinen** Funktionen, dazu mehr im nächsten Artikel.
 
 ## Aber const-Objekte sind doch NICHT unveränderlich
 
@@ -684,7 +905,7 @@ function greetCustomer(customer) {
 Das ist besser, weil es:
 
 - die Komplexität reduziert und die Struktur des Endtextes klarer macht
-- die Einrückungstiefe verringert – auch ein Thema für einen eigenen Artikel!
+- die Einrückungstiefe verringert, auch ein Thema für einen eigenen Artikel!
 - die Logik in eine pure function auslagert, während die Funktion mit Seiteneffekten nur diese nutzt
 - `buildGreeting` damit einfacher testbar macht, da wir nicht auf Console-Output angewiesen sind
 
@@ -698,7 +919,7 @@ Tags: tooling, clean-code
 
 ## Stylecheck
 
-Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig – Hauptsache, er ist überall gleich!
+Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig: Hauptsache, er ist überall gleich!
 
 
 #### Warum?
@@ -712,7 +933,7 @@ Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den
 
 - [prettier](https://prettier.io) ist das bekanntere Werkzeug dafür
 - Ich bevorzuge aber [biome](https://biomejs.dev/formatter), da es schneller ist und auch **Linting** übernehmen kann
-    - Es ist zu 97 % kompatibel mit Prettier (gleiche Regeln) – die Unterschiede [sind nachvollziehbar](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
+    - Es ist zu 97 % kompatibel mit Prettier (gleiche Regeln), die Unterschiede [sind nachvollziehbar](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
     - Es kann formatieren: JavaScript, TypeScript, JSX, TSX, JSON, CSS und GraphQL
 
 
@@ -879,10 +1100,10 @@ Tags: clean-code
 
 Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt werden, ohne dass ihre eigentliche Bedeutung direkt erkennbar ist.
 
-Dieser Artikel ist Teil einer Serie, die ich für die Arbeit schreibe – gedacht für Junior-Entwickler und externe Mitarbeiter.
+Dieser Artikel ist Teil einer Serie, die ich für die Arbeit schreibe, gedacht für Junior-Entwickler und externe Mitarbeiter.
 Wenn der Code generisch genug ist, verwende ich echte Beispiele aus der Praxis, ansonsten erfinde ich etwas ;).
 
-Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist – die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten "Konstanten", aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
+Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist, die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten "Konstanten", aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
 
 ```python
 from typing import Final
@@ -910,7 +1131,7 @@ if (error.response.status === HttpStatus.CONFLICT) {
 }
 ```
 
-Selbst wenn wir nicht alle HTTP-Status-Codes auswendig kennen, wissen wir jetzt, dass hier ein Konflikt vorliegt – ganz ohne Kommentare oder zusätzliche Komplexität.
+Selbst wenn wir nicht alle HTTP-Status-Codes auswendig kennen, wissen wir jetzt, dass hier ein Konflikt vorliegt, ganz ohne Kommentare oder zusätzliche Komplexität.
 
 
 ### Timeout
@@ -1642,7 +1863,7 @@ Date: 2022-04-12
 
 ## Nachbetrachtung
 
-In diesem Vortrag habe ich gezeigt, wie man einen minimalen URL-Shortener mit FastAPI/pytest im TDD-Stil baut. Es war fast erfolgreich – ich hatte nicht mit so vielen Fragen gerechnet ;).
+In diesem Vortrag habe ich gezeigt, wie man einen minimalen URL-Shortener mit FastAPI/pytest im TDD-Stil baut. Es war fast erfolgreich, ich hatte nicht mit so vielen Fragen gerechnet ;).
 
 Generell war ich **viel** zu nervös für eine gute Performance, und auch wenn mir Leute Komplimente gemacht haben, glaube ich, dass ich es deutlich besser hätte machen können!
 
@@ -1652,11 +1873,11 @@ Mein Ziel: Das nach dem Jobwechsel (mit vielen neuen Dingen zum Lernen) verbesse
 
 ## Wird es einen richtigen Kurs geben?
 
-Wahrscheinlich ja – für den nicht-konferenz-Einsatz würde ich aber lieber einen intensiveren 2–4h-Kurs machen, der auch Themen wie Datenbank-Migration und Deployment abdeckt.
+Wahrscheinlich ja, für den nicht-konferenz-Einsatz würde ich aber lieber einen intensiveren 2-4h-Kurs machen, der auch Themen wie Datenbank-Migration und Deployment abdeckt.
 
 ## Kann man es sehen?
 
-Ja, wenn es sein muss :D. Aber Achtung: Mein Englisch war sehr eingerostet, da ich 1–2 Jahre lang kein Englisch gesprochen hatte. Ich bin super froh, dass es mit dem neuen Job wieder besser geworden ist :)
+Ja, wenn es sein muss :D. Aber Achtung: Mein Englisch war sehr eingerostet, da ich 1-2 Jahre lang kein Englisch gesprochen hatte. Ich bin super froh, dass es mit dem neuen Job wieder besser geworden ist :)
 
 {{ youtube(id="_6AaG-cgMjk", class="youtube") }}
 
