@@ -17,7 +17,7 @@ For completeness, my personal criticisms of the Wahl-O-Mat:
 - It only reflects what politicians say, not what they actually do. It would be nice if those two things didn't diverge so often.
 - Only a limited set of political theses is covered.
 
-All these points have some merit — you can't go infinitely deep, of course.
+All these points have some merit: you can't go infinitely deep, of course.
 
 Still, I find the basic concept of the Wahl-O-Mat genuinely useful, because it enables discussion and can establish a rough "alignment". If I have 2% overlap with a party, the chance that I should vote for them is very very small.
 
@@ -36,7 +36,7 @@ Every question comes with detailed information and direct links to the parliamen
 
 Every vote is rated Yes/No/Abstention and placed in context at the end. Weighting is not possible.
 
-Despite the lack of smaller parties, a clear recommendation — especially for politically engaged users who want a lot of background information.
+Despite the lack of smaller parties, a clear recommendation, especially for politically engaged users who want a lot of background information.
 
 **Edit:** The newest version of **deinWal** is finally online. The core concept is unchanged. Unfortunately, the main disadvantage remains: only established parties are included.
 
@@ -67,7 +67,7 @@ Exclusively focused on social policy, the Sozial-O-Mat compares your views with 
 
 Operated by the Diakonie (a German social welfare organisation). Each of the four topics opens with a short introduction highlighting its relevance.
 
-Instead of videos or explanations, each thesis is supported by a "story" — a personal narrative to help frame the issue. Interesting concept, though it does nudge the reader in a certain direction.
+Instead of videos or explanations, each thesis is supported by a "story": a personal narrative to help frame the issue. Interesting concept, though it does nudge the reader in a certain direction.
 
 Each thesis can be rated Positive/Neutral/Negative, or skipped to remove it from the equation.
 
@@ -87,7 +87,7 @@ Enter your gross salary, optionally your married partner's, and get a pure tax-b
 
 **Link:** [agrarheute.com](https://www.agrarheute.com/agraromat)
 
-Since — as we all know — food obviously only comes from the supermarket, this voting aid is strictly for farmers ;).
+Since, as we all know, food obviously only comes from the supermarket, this voting aid is strictly for farmers ;).
 
 As the name suggests, it focuses exclusively on agricultural policy and adjacent topics. No additional background information.
 
@@ -100,7 +100,7 @@ Interesting as a curiosity and supplement, but I personally lack the expertise t
 
 **Link:** [klimawahlcheck.org](https://klimawahlcheck.org)
 
-I also write about climate [here on the blog](@/blog/klimakatastrophe_i_was_ist.md) and will definitely cover it much more — but specifically climate-focused there's the Klimawahlcheck.
+I also write about climate [here on the blog](@/blog/klimakatastrophe_i_was_ist.md) and will definitely cover it much more, but specifically climate-focused there's the Klimawahlcheck.
 
 It's divided into 6 categories:
 
@@ -111,13 +111,13 @@ It's divided into 6 categories:
 5. Climate Justice & Climate Targets
 6. Agriculture & Biodiversity
 
-Personally one of the most important tools for me, because it's not just about "the climate" in a naive sense — it actually covers all the interconnected social, economic, and scientific topics as well.
+Personally one of the most important tools for me, because it's not just about "the climate" in a naive sense: it actually covers all the interconnected social, economic, and scientific topics as well.
 
 Unlike the others, each topic is rated on a 5-step scale from <span style="background:red;color:yellow;padding:2px 4px;border-radius:3px">red</span> to <span style="background:green;color:white;padding:2px 4px;border-radius:3px">green</span>. Topics can also be skipped. Each thesis comes with a short background summary.
 
 Afterwards you see an overview diagram placing parties to the left/right/aligned with you. After completing all categories there's a full evaluation.
 
-As I said, this is the most important tool for me personally — climate decisions have significant knock-on effects for the economy, quality of life, and even survival.
+As I said, this is the most important tool for me personally: climate decisions have significant knock-on effects for the economy, quality of life, and even survival.
 
 Clear recommendation. Obviously ;).
 
@@ -126,9 +126,9 @@ Clear recommendation. Obviously ;).
 
 Link: [waehlbar2021.de](https://waehlbar2021.de)
 
-Going well beyond a simple matcher, **waehlbar2021** provides comprehensive background information AND detailed positions from almost all parties. CDU/CSU is predictably missing — apparently they figured that not responding at all means nobody can hold them to anything.
+Going well beyond a simple matcher, **waehlbar2021** provides comprehensive background information AND detailed positions from almost all parties. CDU/CSU is predictably missing: apparently they figured that not responding at all means nobody can hold them to anything.
 
-The best feature: seeing directly the MPs from your own constituency with their voting records. Enter your postcode and get all local candidates suggested — including their alignment on individual theses.
+The best feature: seeing directly the MPs from your own constituency with their voting records. Enter your postcode and get all local candidates suggested, including their alignment on individual theses.
 
 MPs who haven't yet responded can be messaged directly here asking for transparency.
 
@@ -152,7 +152,7 @@ A clear recommendation here too.
 
 ## Conclusion
 
-In my view, every voter should work through at least one — but ideally all — of these tools before the election, to get a feeling for exactly what each party stands for.
+In my view, every voter should work through at least one (but ideally all) of these tools before the election, to get a feeling for exactly what each party stands for.
 
 One of the biggest problems in our democracy (in my opinion) is that parties and politicians have learned to speak without making any concrete commitments. This leads many people to vote for parties that are actually completely unsuitable for their own interests. The voting aids don't change that fact, but they help build an understanding of party positions without needing to read full manifestos.
 
@@ -170,6 +170,6 @@ My recommendation is this "formula":
 
   - 1/3 from the **other tools**, by giving points to each recommended party
 
-  - 1/3 from **your own research**. Here it's important not to be influenced either by Tagesschau/ZDFheute etc. — or (and this is crucial!) by Facebook/WhatsApp groups/etc.
+  - 1/3 from **your own research**. Here it's important not to be influenced either by Tagesschau/ZDFheute etc., or (and this is crucial!) by Facebook/WhatsApp groups/etc.
 
   Take the things that matter to you (pension, taxes, climate, whatever) and explicitly engage with the opposing positions and arguments too. This ensures we're not making a pure gut decision for one of the most important elections in decades.

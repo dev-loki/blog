@@ -11,10 +11,10 @@ tags = ["clean-code"]
 
 Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt werden, ohne dass ihre eigentliche Bedeutung direkt erkennbar ist.
 
-Dieser Artikel ist Teil einer Serie, die ich für die Arbeit schreibe – gedacht für Junior-Entwickler und externe Mitarbeiter.
+Dieser Artikel ist Teil einer Serie, die ich für die Arbeit schreibe, gedacht für Junior-Entwickler und externe Mitarbeiter.
 Wenn der Code generisch genug ist, verwende ich echte Beispiele aus der Praxis, ansonsten erfinde ich etwas ;).
 
-Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist – die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten "Konstanten", aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
+Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist, die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten "Konstanten", aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
 
 ```python
 from typing import Final
@@ -42,7 +42,7 @@ if (error.response.status === HttpStatus.CONFLICT) {
 }
 ```
 
-Selbst wenn wir nicht alle HTTP-Status-Codes auswendig kennen, wissen wir jetzt, dass hier ein Konflikt vorliegt – ganz ohne Kommentare oder zusätzliche Komplexität.
+Selbst wenn wir nicht alle HTTP-Status-Codes auswendig kennen, wissen wir jetzt, dass hier ein Konflikt vorliegt, ganz ohne Kommentare oder zusätzliche Komplexität.
 
 
 ### Timeout

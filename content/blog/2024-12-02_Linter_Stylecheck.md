@@ -10,7 +10,7 @@ tags = ["tooling", "clean-code"]
 
 ## Stylecheck
 
-Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig – Hauptsache, er ist überall gleich!
+Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig: Hauptsache, er ist überall gleich!
 
 
 #### Warum?
@@ -24,7 +24,7 @@ Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den
 
 - [prettier](https://prettier.io) ist das bekanntere Werkzeug dafür
 - Ich bevorzuge aber [biome](https://biomejs.dev/formatter), da es schneller ist und auch **Linting** übernehmen kann
-    - Es ist zu 97 % kompatibel mit Prettier (gleiche Regeln) – die Unterschiede [sind nachvollziehbar](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
+    - Es ist zu 97 % kompatibel mit Prettier (gleiche Regeln), die Unterschiede [sind nachvollziehbar](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
     - Es kann formatieren: JavaScript, TypeScript, JSX, TSX, JSON, CSS und GraphQL
 
 

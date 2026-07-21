@@ -36,11 +36,11 @@ project_name/
    - make_that_users_dont_die_immediately/
 ```
 
-Each folder acts like its own Git repository — but they all share the same Git metadata. Instead of leaving your current state and switching entirely, a `git worktree add BRANCH_NAME` creates a folder pointing to that branch for you.
+Each folder acts like its own Git repository, but they all share the same Git metadata. Instead of leaving your current state and switching entirely, a `git worktree add BRANCH_NAME` creates a folder pointing to that branch for you.
 
 ## So how does it work?
 
-Super simple — really :).
+Super simple, really :).
 
 1. `mkdir my_project` (create project directory) and navigate into it: `cd my_project`
 2. Clone the repository (note the first special step): `git clone --bare GIT_URL .bare`

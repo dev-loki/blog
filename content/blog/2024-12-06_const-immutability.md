@@ -13,7 +13,7 @@ tags = ["typescript", "clean-code"]
 - `const` bevorzugen statt `let`
 - Variablen so oft wie möglich unveränderlich halten
 
-Ich erkläre hier, warum Immutability so nützlich ist und wie man sie in TypeScript einsetzt – ähnliche Konzepte gelten aber auch in anderen Sprachen.
+Ich erkläre hier, warum Immutability so nützlich ist und wie man sie in TypeScript einsetzt, ähnliche Konzepte gelten aber auch in anderen Sprachen.
 
 ## Was ist Immutability?
 
@@ -74,7 +74,7 @@ Dieses Beispiel ist trivial, aber in jedem Fall: Wir WISSEN, dass `uppercaseName
 
 ## Warum
 
-Immutability bedeutet nicht, alles konsequent durchzuziehen, und veränderliche Variablen sind auch nicht per se schlecht – aber sie eliminieren einige Fehlerquellen beim Programmieren und Debuggen.
+Immutability bedeutet nicht, alles konsequent durchzuziehen, und veränderliche Variablen sind auch nicht per se schlecht, aber sie eliminieren einige Fehlerquellen beim Programmieren und Debuggen.
 
 [Biome](https://biomejs.dev) hat einen Lint `lint/style/useConst`, der zwingt, `const` zu verwenden, wenn eine Variable nie neu zugewiesen wird. Ich würde aber noch einen Schritt weiter gehen und `let` so oft wie möglich durch `const` ersetzen.
 
@@ -105,7 +105,7 @@ console.log({ originalObject, mutatedObject });
 
 Wir erwarten, dass `originalObject` noch gleich ist und `mutatedObject` den neuen Wert enthält. Wenn wir uns angewöhnen, bestehende Objekte nicht zu verändern und `const` zu verwenden, werden wir nie von Verhalten **innerhalb** einer Funktion überrascht.
 
-Funktionen, die Parameter nicht mutieren und ausschließlich von ihren Parametern abhängen, heißen **pure functions**. Ein Konzept mit vielen Vorteilen gegenüber **unreinen** Funktionen – dazu mehr im nächsten Artikel.
+Funktionen, die Parameter nicht mutieren und ausschließlich von ihren Parametern abhängen, heißen **pure functions**. Ein Konzept mit vielen Vorteilen gegenüber **unreinen** Funktionen, dazu mehr im nächsten Artikel.
 
 ## Aber const-Objekte sind doch NICHT unveränderlich
 
@@ -172,6 +172,6 @@ function greetCustomer(customer) {
 Das ist besser, weil es:
 
 - die Komplexität reduziert und die Struktur des Endtextes klarer macht
-- die Einrückungstiefe verringert – auch ein Thema für einen eigenen Artikel!
+- die Einrückungstiefe verringert, auch ein Thema für einen eigenen Artikel!
 - die Logik in eine pure function auslagert, während die Funktion mit Seiteneffekten nur diese nutzt
 - `buildGreeting` damit einfacher testbar macht, da wir nicht auf Console-Output angewiesen sind

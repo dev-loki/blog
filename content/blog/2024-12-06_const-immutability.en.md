@@ -117,9 +117,9 @@ Functions which don't mutate parameters and are solely depending on parameters
 are called **pure functions**. A concept which has various advantages over
 **unpure** functions. But I'll go into that in the next article.
 
-## But const objects ARE immutable
+## But const objects are NOT immutable
 
-Right. They are. Especially because of javascript, but other languages like
+Right. Especially because of javascript, but other languages like
 python/php/etc. have similar problems. Fortunately with typescript we have
 powerful tools at our hands: `Readonly`, `readonly` and `as const`.
 
