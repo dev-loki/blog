@@ -181,4 +181,4 @@ Perfect for DevOps and the like. :)
 
 **What's next:** In [Part 2: Consistent Linting and Formatting with ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md)
 I look at how to enforce coding standards without the wait. [Part 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
-and [Part 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md) are out now too.
+and [Part 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md) are out now too. As an outlook, there's also [Part 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md) on how the same tools keep AI agents productive.

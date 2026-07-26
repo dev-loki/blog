@@ -153,4 +153,4 @@ Typdisziplin hält man nur durch, wenn das Feedback schnell kommt, und genau das
 liefert `ty`.
 
 ---
-**Wie es weitergeht:** Im abschließenden [Teil 4: Hochperformante Git Hooks mit prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md) verknüpfe ich all diese Werkzeuge miteinander. Zurück geht es zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.md).
+**Wie es weitergeht:** Im abschließenden [Teil 4: Hochperformante Git Hooks mit prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md) verknüpfe ich all diese Werkzeuge miteinander. Zurück geht es zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md) oder [Teil 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.md). Als Bonus behandelt [Teil 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.md) KI-Agenten.

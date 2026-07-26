@@ -149,4 +149,4 @@ only sticks when the feedback is fast, and that's exactly what `ty` delivers.
 **What's next:** In the final [Part 4: High-performance Git hooks with prek](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md)
 I tie all these tools together. You can head back to
 [Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md) or
-[Part 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md).
+[Part 2 (ruff)](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md). As a bonus, [Part 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md) covers AI agents.

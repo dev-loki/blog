@@ -190,4 +190,4 @@ Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
 dokumentierter Entschluss ist statt ein historischer Zufall.
 
 ---
-**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking, in [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md) bringen Git Hooks alles zusammen. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md).
+**Wie es weitergeht:** In [Teil 3: Die Zukunft des Type Checkings mit ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md) geht es ans Type Checking, in [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md) bringen Git Hooks alles zusammen. Den Anfang verpasst? Dann geht es zurück zu [Teil 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.md). Als Bonus zeigt [Teil 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.md), wie dieselben Werkzeuge zum Korsett für KI-Agenten werden.

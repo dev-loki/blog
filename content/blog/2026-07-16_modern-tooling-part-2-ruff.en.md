@@ -185,4 +185,4 @@ documented decision instead of a historical accident.
 **What's next:** [Part 3: The future of type checking with ty](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
 covers type checking, and [Part 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md) ties it all
 together with Git hooks. Missed the start?
-Then head back to [Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md).
+Then head back to [Part 1 (uv)](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md). As a bonus, [Part 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md) shows how the same tools become a corset for AI agents.
