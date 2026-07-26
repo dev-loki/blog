@@ -1,7 +1,8 @@
 +++
 title = "Moderne Werkzeuge Teil 5: Die Toolchain als Korsett für KI-Agenten"
-date = "2026-07-27T09:00:00Z"
-draft = true
+date = "2026-07-26T12:00:00Z"
+description = "Wie die schnelle, strikte Toolchain aus uv, ruff, ty und prek zum Korsett für KI-Agenten wird: deterministisches Feedback, das produktiven und vertrauenswürdigen Agenten-Code erst möglich macht."
+draft = false
 [taxonomies]
 tags = ["tooling", "python", "ki"]
 +++
@@ -14,20 +15,20 @@ denn beide passen besser zusammen, als es zunächst aussieht.
 
 Kurz gesagt: Dieselben `uv`-, `ruff`-, `ty`- und `prek`-Checks, die mir die
 Arbeit erleichtern, sind auch das Korsett, das einen KI-Agenten produktiv und
-vertrauenswürdig macht.
+vertrauenswürdig(er) macht.
 
 
 ### Warum ein Agent Leitplanken braucht
 
 Ein KI-Agent schreibt in Sekunden plausibel aussehenden Code. Plausibel heißt
-aber nicht korrekt: Er erfindet APIs, übersieht den `None`-Fall, ignoriert die
+aber nicht korrekt: Er erfindet APIs, übersieht `None`/`null`-Fälle, ignoriert die
 Architekturgrenzen des Projekts oder baut sich eben mal eine neue Abhängigkeit
 ein. Wer das alles per Hand reviewen will, hat den Geschwindigkeitsgewinn sofort
 wieder verloren.
 
 Statt dem Agenten mehr zu vertrauen, gebe ich ihm eine Umgebung, in der Fehler
 sofort und deterministisch auffallen. Genau dafür habe ich die Toolchain ohnehin
-schon aufgebaut.
+schon aufgebaut (und auch vor KI schon so genutzt).
 
 
 ### Dieselben Checks, jetzt als Feedback-Loop für den Agenten
@@ -38,12 +39,13 @@ bis 4 sind schon eine maschinenlesbare, deterministische Wahrheit über den Code
 - `uv run ruff check --fix .` räumt auf und meldet, was es nicht selbst fixen kann
 - `uv run ty check` fängt Typ- und `None`-Fehler ab, bevor sie Laufzeitfehler werden
 - `uv run bandit` und `import-linter` bewachen Sicherheit und Architektur
-- `uv run pytest` sagt, ob es überhaupt noch tut
+- `uv run pytest` sagt, ob der Code überhaupt noch tut, was er soll
 
 Der Agent bekommt diese Befehle an die Hand (bei mir in einer `AGENTS.md` bzw.
-`CLAUDE.md`) und arbeitet in genau der Schleife, die ich als Mensch auch nutze:
-schreiben, prüfen, den Fehlern folgen, nachbessern, wiederholen. Der Unterschied
-ist nur, dass er die Schleife viel häufiger und schneller durchläuft.
+`CLAUDE.md`/`GEMINI.md` mit Hinweis auf die `AGENTS.md`) und arbeitet in genau der
+Schleife, die ich als Mensch auch nutze: schreiben, prüfen, den Fehlern folgen,
+nachbessern, wiederholen. Der Unterschied ist nur, dass er die Schleife viel
+häufiger und schneller durchläuft.
 
 
 ### Warum Geschwindigkeit zur Grundvoraussetzung wird
