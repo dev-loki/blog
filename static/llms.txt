@@ -10,6 +10,7 @@ Source: https://loki.dev  |  Built with Zola.
 
 ## Blog
 
+- [Moderne Werkzeuge Teil 5: Die Toolchain als Korsett für KI-Agenten](https://loki.dev/blog/modern-tooling-part-5-ai-harness/): Wie die schnelle, strikte Toolchain aus uv, ruff, ty und prek zum Korsett für KI-Agenten wird: deterministisches Feedback, das produktiven und vertrauenswürdigen Agenten-Code erst möglich macht.
 - [Moderne Werkzeuge Teil 3: Die Zukunft des Type Checkings mit ty](https://loki.dev/blog/modern-tooling-part-3-ty/): Astrals Type Checker ty im Praxiseinsatz: Warum Geschwindigkeit über Typdisziplin entscheidet, und wo der Early-Adopter-Preis liegt.
 - [Moderne Werkzeuge Teil 4: Hochperformante Git Hooks mit prek](https://loki.dev/blog/modern-tooling-part-4-prek/): prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie unser komplettes Quality Gate vor jedem Commit läuft.
 - [Moderne Werkzeuge Teil 2: Einheitliches Linting und Formatting mit ruff](https://loki.dev/blog/modern-tooling-part-2-ruff/): Black, Flake8, Isort und pyupgrade ersetzt durch ein einziges Rust-Binary, inklusive einer Opt-out-Strategie mit select = ["ALL"].
