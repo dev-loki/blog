@@ -18,9 +18,9 @@ fi
 
 source "$ENV_FILE"
 
-# support both DEPLOY_*/SSH_* naming
-DEPLOY_USER="${DEPLOY_USER:-${SSH_USER:-}}"
-DEPLOY_HOST="${DEPLOY_HOST:-${SSH_HOST:-}}"
+# .env defines these; the :- keeps `set -u` from aborting before the check below.
+DEPLOY_USER="${DEPLOY_USER:-}"
+DEPLOY_HOST="${DEPLOY_HOST:-}"
 DEPLOY_PATH="${DEPLOY_PATH:-}"
 DEPLOY_KEY="${DEPLOY_KEY:-}"
 
