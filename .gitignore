@@ -3,3 +3,8 @@ public
 
 # separate project (own repo)
 0w.is/
+
+# Snapshot of the pre-Zola site, kept locally but out of git. Nothing in the
+# build references it; the history before the removal has it if it is ever
+# needed.
+backup/
