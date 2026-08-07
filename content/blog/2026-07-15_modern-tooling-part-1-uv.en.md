@@ -8,9 +8,9 @@ draft = false
 tags = ["tooling", "python"]
 +++
 
-Hey and welcome to my four-part series on modern Python tooling. I'm writing it
-now because the Python ecosystem is going through a real upheaval. Several, in
-fact:
+Hey and welcome to my series on modern Python tooling: four parts on the tools
+themselves, plus a bonus part on AI agents. I'm writing it now because the
+Python ecosystem is going through a real upheaval. Several, in fact:
 
 1. The Python ecosystem is being replaced in large part by Rust-based tools.
    I largely have [Astral](https://astral.sh) to thank for that.
@@ -179,6 +179,9 @@ Perfect for DevOps and the like. :)
 
 ---
 
-**What's next:** In [Part 2: Consistent Linting and Formatting with ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md)
-I look at how to enforce coding standards without the wait. [Part 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
-and [Part 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md) are out now too. As an outlook, there's also [Part 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md) on how the same tools keep AI agents productive.
+**The series:**
+* Part 1: uv (this part)
+* [Part 2: ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md)
+* [Part 3: ty](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
+* [Part 4: prek](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md)
+* [Part 5: a corset for AI agents (bonus)](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md)

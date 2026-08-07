@@ -153,9 +153,9 @@ codebase that was already perfect here is something I've never seen before.
 
 ---
 
-**Series overview:**
+**The series:**
 * [Part 1: uv](@/blog/2026-07-15_modern-tooling-part-1-uv.en.md)
 * [Part 2: ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.en.md)
 * [Part 3: ty](@/blog/2026-07-20_modern-tooling-part-3-ty.en.md)
-* [Part 4: prek](@/blog/2026-07-20_modern-tooling-part-4-prek.en.md)
-* [Part 5: a corset for AI agents](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md) (bonus)
+* Part 4: prek (this part)
+* [Part 5: a corset for AI agents (bonus)](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.en.md)

@@ -87,3 +87,4 @@ Agenten in der Spur halten.
 * [Teil 2: ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)
 * [Teil 3: ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md)
 * [Teil 4: prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md)
+* Teil 5: Korsett für KI-Agenten (Bonus, dieser Teil)

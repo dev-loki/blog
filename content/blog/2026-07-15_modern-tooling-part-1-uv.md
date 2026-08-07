@@ -8,7 +8,8 @@ draft = false
 tags = ["tooling", "python"]
 +++
 
-Hey und willkommen zu meiner vierteiligen Serie über moderne Python-Werkzeuge.
+Hey und willkommen zu meiner Serie über moderne Python-Werkzeuge: vier Teile
+über die Werkzeuge selbst, dazu ein Bonusteil über KI-Agenten.
 Ich schreibe das gerade, weil das Python-Ökosystem einen echten Umbruch erlebt.
 Genau genommen sogar mehrere:
 
@@ -181,5 +182,9 @@ laufen lassen. Perfekt für DevOps und Ähnliches. :)
 
 ---
 
-**Wie es weitergeht:** In [Teil 2: Einheitliches Linting und Formatting mit ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md) sehe ich mir an, wie
-ich Coding-Standards ohne Wartezeiten durchsetze. Es gibt auch schon [Teil 3 (ty)](@/blog/2026-07-20_modern-tooling-part-3-ty.md) und [Teil 4 (prek)](@/blog/2026-07-20_modern-tooling-part-4-prek.md). Als Ausblick gibt es außerdem [Teil 5](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.md) darüber, wie dieselben Werkzeuge KI-Agenten produktiv halten.
+**Die Serie:**
+* Teil 1: uv (dieser Teil)
+* [Teil 2: ruff](@/blog/2026-07-16_modern-tooling-part-2-ruff.md)
+* [Teil 3: ty](@/blog/2026-07-20_modern-tooling-part-3-ty.md)
+* [Teil 4: prek](@/blog/2026-07-20_modern-tooling-part-4-prek.md)
+* [Teil 5: Korsett für KI-Agenten (Bonus)](@/blog/2026-07-27_modern-tooling-part-5-ai-harness.md)
