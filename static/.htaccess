@@ -47,7 +47,7 @@ AddCharset UTF-8 .txt .md .xml .json .js .css .svg
 # Unlisted is not private. Anyone with the URL can read it. If a file here ever
 # needs to be actually restricted, that is HTTP auth, not this.
 <IfModule mod_headers.c>
-  <FilesMatch "^DATUM-App-idea\.html$">
+  <FilesMatch "^(DATUM-App-idea|vibe-check)\.html$">
     Header set X-Robots-Tag "noindex, nofollow, noarchive"
   </FilesMatch>
 </IfModule>

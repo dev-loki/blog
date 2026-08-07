@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vibe-check · Code-Audit für KI-generierte Codebases</title>
+<meta name="description" content="Architektur, Code-Qualität, Performance, Code Health und Security-Basics für KI-generierte Codebases. Offline, read-only, mit Fix-Prompts und einem Harness, das die Checks danach dauerhaft weiterfährt.">
+<link rel="canonical" href="https://vibe-check.loki.dev/">
+<link rel="icon" href="https://loki.dev/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="https://loki.dev/favicon-32x32.png" sizes="32x32" type="image/png">
+<meta property="og:site_name" content="loki.dev">
+<meta property="og:type" content="website">
+<meta property="og:title" content="vibe-check · Code-Audit für KI-generierte Codebases">
+<meta property="og:description" content="Dein Modell hat es geschrieben. Jemand sollte es lesen.">
+<meta property="og:image" content="https://loki.dev/loki-mascot.jpg">
+<meta property="og:url" content="https://vibe-check.loki.dev/">
+<meta name="twitter:card" content="summary">
+<script>
+/* Applied before first paint, so there is no flash of the wrong language.
+   Priority: an explicit choice from the toggle, then the browser's own
+   preference, then german. Anything not de-* gets english, because a visitor
+   whose browser asks for fr-FR is better served by english than by german. */
+!function(){var d=document.documentElement,t,l;
+try{t=localStorage.getItem('vc-theme');l=localStorage.getItem('vc-lang')}catch(e){}
+if(l!=='de'&&l!=='en'){l=/^de\b/i.test(navigator.language||'')?'de':'en'}
+d.dataset.theme=t==='dark'?'dark':'light';d.dataset.lang=l;d.lang=l}()
+</script>
+<style>
+/* ── tokens: loki.dev palette, light by default, plus ANSI severity accents ── */
+:root {
+  --bg: #f4f4f4; --bg-soft: #e9e9e9; --bg-lift: #dedede;
+  --fg: #141414; --fg-dim: #4a4a4a; --fg-faint: #757575;
+  --rule: #d4d4d4; --inv-bg: #141414; --inv-fg: #f4f4f4;
+  --crit: #b3261e; --warn: #8a5a00; --ok: #2f6b32; --info: #1f6b6e;
+  --shadow: 0 6px 22px rgba(0,0,0,.14);
+  --glow: none;
+  --grain: .5;
+  --font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+}
+html[data-theme="dark"] {
+  --bg: #0b0b0b; --bg-soft: #141414; --bg-lift: #1b1b1b;
+  --fg: #e6e6e6; --fg-dim: #9a9a9a; --fg-faint: #5e5e5e;
+  --rule: #2a2a2a; --inv-bg: #e6e6e6; --inv-fg: #0b0b0b;
+  --crit: #e2564a; --warn: #d7a13c; --ok: #7fae74; --info: #5f9ea0;
+  --shadow: 0 6px 26px rgba(0,0,0,.55);
+  --glow: 0 0 18px rgba(230,230,230,.055);
+  --grain: 1;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 400 15px/1.6 var(--font);
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 2.2rem;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: var(--grain); mix-blend-mode: soft-light;
+  background:
+    repeating-linear-gradient(to bottom,
+      rgba(127,127,127,.045) 0 1px, transparent 1px 3px),
+    radial-gradient(120% 80% at 50% 0%, transparent 55%, rgba(0,0,0,.28) 100%);
+}
+
+/* language switch: the inactive language is removed from the a11y tree too */
+html[data-lang="de"] [lang="en"], html[data-lang="en"] [lang="de"] { display: none; }
+
+.sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+.skip {
+  position: fixed; top: -3rem; left: .5rem; z-index: 60;
+  background: var(--inv-bg); color: var(--inv-fg); padding: .4rem .8rem;
+  text-decoration: none; transition: top .15s;
+}
+.skip:focus { top: .5rem; }
+
+a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--rule); }
+a:hover, a:focus-visible { border-bottom-color: currentColor; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+.term { position: relative; z-index: 1; max-width: 86ch; margin: 0 auto; padding: 0 1.1rem; }
+
+/* ── window chrome ─────────────────────────────────────────────────────── */
+.titlebar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: .5rem;
+  margin: 0 -1.1rem; padding: .55rem 1.1rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(7px);
+  border-bottom: 1px solid var(--rule);
+  font-size: .78rem; color: var(--fg-dim);
+}
+.dots { display: flex; gap: .35rem; flex: none; }
+.dots i { width: .62em; height: .62em; border-radius: 50%; display: block; }
+.dots i:nth-child(1) { background: var(--crit); }
+.dots i:nth-child(2) { background: var(--warn); }
+.dots i:nth-child(3) { background: var(--ok); }
+.tb-title { flex: 1; text-align: center; letter-spacing: .04em; }
+.tb-title b { color: var(--fg); font-weight: 600; }
+.tb-title span.sz { color: var(--fg-faint); }
+@media (max-width: 620px) { .tb-title span.sz { display: none; } }
+button.tb-btn {
+  font: inherit; color: var(--fg-dim); background: none; cursor: pointer;
+  border: 1px solid transparent; padding: .1rem .35rem; flex: none;
+}
+button.tb-btn:hover { color: var(--fg); border-color: var(--rule); }
+button.tb-btn b { color: var(--fg); font-weight: 600; }
+
+nav.tabs { display: flex; flex-wrap: wrap; gap: .1rem; padding: .7rem 0 .2rem; font-size: .85rem; }
+nav.tabs a { border: 0; color: var(--fg-dim); padding: .15rem .45rem; }
+nav.tabs a:hover { color: var(--fg); background: var(--bg-soft); }
+
+/* ── prompt lines, headings ────────────────────────────────────────────── */
+.pr { white-space: pre-wrap; word-break: break-word; }
+.pr .host { color: var(--fg-dim); }
+.pr .cmd { color: var(--fg); }
+.pr .flag { color: var(--info); }
+.caret {
+  display: inline-block; width: .55em; height: 1.05em; vertical-align: -.16em;
+  background: var(--fg); animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+section { padding: 2.6rem 0 .4rem; scroll-margin-top: 3.2rem; }
+h1, h2, h3 { font-weight: 600; letter-spacing: -.01em; }
+h1 {
+  font-size: clamp(1.6rem, 6vw, 2.4rem); line-height: 1.14;
+  margin: .5rem 0 .7rem; text-shadow: var(--glow);
+}
+h1 .dim { color: var(--fg-dim); font-weight: 400; }
+h2 { font-size: clamp(1.05rem, 3.4vw, 1.3rem); margin: .9rem 0 .8rem; text-transform: lowercase; letter-spacing: .02em; }
+h3 { font-size: .95rem; margin: 0 0 .5rem; }
+p { margin: 0 0 1rem; max-width: 68ch; }
+.lede { font-size: clamp(1rem, 2.6vw, 1.12rem); color: var(--fg-dim); }
+.lede b { color: var(--fg); font-weight: 600; }
+.kicker { font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--fg-faint); }
+.dim { color: var(--fg-dim); }
+.faint { color: var(--fg-faint); }
+.sm { font-size: .82rem; }
+
+.box { border: 1px solid var(--rule); background: var(--bg-soft); padding: .9rem 1rem; margin: 0 0 1.1rem; }
+.box.tight { padding: .7rem .85rem; }
+.box-h {
+  display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule); margin: -.9rem -1rem .8rem;
+  padding: .5rem 1rem; font-size: .8rem; color: var(--fg-dim);
+}
+.box-h .n { color: var(--fg-faint); }
+
+/* ── scan log ──────────────────────────────────────────────────────────── */
+.log { font-size: .875rem; line-height: 1.75; }
+.log .row { display: flex; gap: .6rem; opacity: 0; }
+.log .row.in { animation: fadein .22s ease-out forwards; }
+.log .row .lbl { color: var(--fg-dim); }
+.log .row .lead { flex: 1; color: var(--fg-dim); overflow: hidden; white-space: nowrap; }
+.log .row .lead::after {
+  content: " ........................................................";
+  color: var(--fg-faint);
+}
+.log .row .val { color: var(--fg); white-space: nowrap; }
+.log .row .val.c { color: var(--crit); }
+.log .row .val.w { color: var(--warn); }
+.log .row .val.o { color: var(--ok); }
+@keyframes fadein { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: none; } }
+
+.result {
+  display: flex; flex-wrap: wrap; gap: .35rem 1.4rem;
+  border-top: 1px dashed var(--rule); margin-top: .8rem; padding-top: .8rem; font-size: .875rem;
+}
+.result b { font-size: 1.05rem; }
+.result .c b { color: var(--crit); }
+.result .w b { color: var(--warn); }
+.result .m b { color: var(--info); }
+
+/* ── panes ─────────────────────────────────────────────────────────────── */
+.panes { display: grid; gap: .8rem; grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 720px) { .panes { grid-template-columns: 1fr; } }
+.pane { border: 1px solid var(--rule); background: var(--bg-soft); }
+.pane.wide { grid-column: 1 / -1; }
+.pane > h3 {
+  margin: 0; padding: .5rem .75rem; font-size: .82rem;
+  border-bottom: 1px solid var(--rule); color: var(--fg);
+  background: var(--bg-lift); letter-spacing: .06em;
+}
+.pane > h3::before { content: "┤ "; color: var(--fg-faint); }
+.pane > h3::after { content: " ├"; color: var(--fg-faint); }
+.pane ul { list-style: none; margin: 0; padding: .65rem .75rem; font-size: .84rem; }
+.pane li { color: var(--fg-dim); padding: .12rem 0 .12rem 1.4ch; text-indent: -1.4ch; }
+.pane li::before { content: "· "; color: var(--fg-faint); }
+.pane .note {
+  margin: 0; padding: .5rem .75rem; border-top: 1px dashed var(--rule);
+  font-size: .8rem; color: var(--fg-faint); max-width: none;
+}
+
+/* ── scorecard + example popovers ──────────────────────────────────────── */
+.bars { font-size: .875rem; }
+.bar {
+  display: grid; grid-template-columns: 15ch 1fr 4.5ch 2.6ch; gap: .7rem;
+  align-items: center; padding: .18rem 0;
+}
+/* narrow: the label gets its own line, otherwise "security-basics" ends up as "securi…" */
+@media (max-width: 560px) {
+  .bar {
+    grid-template-columns: 1fr 4.5ch 4.4ch;
+    grid-template-areas: "k k k" "t v x";
+    gap: .1rem .5rem; font-size: .82rem; padding: .4rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar:last-of-type { border-bottom: 0; }
+  .bar .k { grid-area: k; overflow: visible; text-overflow: clip; color: var(--fg); }
+  .bar .t { grid-area: t; }
+  .bar .v { grid-area: v; }
+  .bar button.ex { grid-area: x; }
+}
+.bar .k { color: var(--fg-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .t { height: .72em; background: var(--bg-lift); border: 1px solid var(--rule); }
+.bar .f {
+  display: block; height: 100%; width: 0;
+  transition: width 1.1s cubic-bezier(.2,.75,.2,1);
+  background: repeating-linear-gradient(90deg, currentColor 0 3px, transparent 3px 5px);
+}
+.bar .v { text-align: right; color: var(--fg); }
+.bar.s1 .f, .bar.s1 .v { color: var(--crit); }
+.bar.s2 .f, .bar.s2 .v { color: var(--warn); }
+.bar.s3 .f, .bar.s3 .v { color: var(--ok); }
+button.ex {
+  font: inherit; font-size: .8rem; line-height: 1; cursor: pointer;
+  background: none; color: var(--fg-faint);
+  border: 1px solid var(--rule); padding: .12rem .3rem;
+}
+button.ex:hover, button.ex[aria-expanded="true"] { color: var(--fg); border-color: var(--fg-dim); }
+.bar:hover .k, .bar:hover .v { color: var(--fg); }
+/* touch: hover never fires, so the button is the only way in. Give it a real target.
+   Must come after the button.ex base rule to win on equal specificity. */
+@media (max-width: 560px) { button.ex { padding: .45rem .55rem; font-size: .85rem; } }
+
+[popover].pop {
+  position: fixed; margin: 0; inset: auto;
+  max-width: min(42ch, calc(100vw - 2rem));
+  border: 1px solid var(--fg-dim); background: var(--bg);
+  color: var(--fg); padding: .7rem .85rem; font: inherit; font-size: .82rem;
+  box-shadow: var(--shadow);
+}
+[popover].pop h4 { margin: 0 0 .4rem; font-size: .8rem; color: var(--warn); font-weight: 600; }
+[popover].pop p { margin: 0; max-width: none; color: var(--fg-dim); }
+[popover].pop code { color: var(--info); }
+[popover]:not(:popover-open) { display: none; }
+
+/* ── pre blocks ────────────────────────────────────────────────────────── */
+pre {
+  margin: 0; padding: .9rem 1rem; overflow-x: auto;
+  background: var(--bg-soft); border: 1px solid var(--rule);
+  font: inherit; font-size: .84rem; line-height: 1.7;
+}
+pre .g { color: var(--fg-faint); }
+pre .n { color: var(--fg); }
+pre .c { color: var(--fg-dim); }
+pre .add { color: var(--ok); }
+pre .del { color: var(--crit); }
+pre mark { background: none; color: var(--warn); font-weight: 600; }
+
+/* ── limits + data blocks ──────────────────────────────────────────────── */
+.callout { border-left: 2px solid var(--rule); background: var(--bg-soft); padding: .8rem 1rem; margin: 0 0 1.1rem; }
+.callout.warn { border-left-color: var(--warn); }
+.callout.ok { border-left-color: var(--ok); }
+.callout p { margin: 0 0 .7rem; font-size: .9rem; }
+.callout p:last-child { margin: 0; }
+.callout b { font-weight: 600; }
+.callout.warn b { color: var(--warn); }
+.callout.ok b { color: var(--ok); }
+
+/* ── pricing ───────────────────────────────────────────────────────────── */
+table { border-collapse: collapse; width: 100%; font-size: .875rem; }
+caption { text-align: left; color: var(--fg-faint); padding: 0 0 .5rem; font-size: .8rem; }
+th, td { text-align: left; padding: .5rem .8rem .5rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { color: var(--fg-dim); font-weight: 400; font-size: .8rem; letter-spacing: .06em; }
+td.price { text-align: right; white-space: nowrap; color: var(--fg); padding-right: 0; }
+td code { color: var(--info); }
+
+ul.check { list-style: none; margin: 0 0 1rem; padding: 0; font-size: .9rem; }
+ul.check li { padding: .22rem 0 .22rem 4ch; text-indent: -4ch; color: var(--fg-dim); }
+ul.check li b { color: var(--fg); font-weight: 600; }
+/* the marker sits on the li until JS wraps the content in a clickable label */
+ul.check li:not(:has(label))::before { content: "[ ] "; color: var(--fg-faint); }
+ul.check label { display: block; cursor: pointer; }
+ul.check label::before { content: "[ ] "; color: var(--fg-faint); }
+ul.check input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+ul.check label:has(input:checked) { color: var(--fg-faint); }
+ul.check label:has(input:checked)::before { content: "[x] "; color: var(--ok); }
+ul.check label:has(input:checked) b { color: var(--fg-dim); }
+ul.check label:hover::before { color: var(--fg); }
+ul.check label:has(input:focus-visible) { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+.cta {
+  display: inline-block; margin: .3rem 0 1rem; padding: .6rem .95rem;
+  border: 1px solid var(--fg-dim); color: var(--fg); font-size: .95rem;
+}
+.cta::before { content: "$ "; color: var(--fg-faint); }
+.cta:hover, .cta:focus-visible { background: var(--inv-bg); color: var(--inv-fg); border-color: var(--inv-bg); }
+.cta:hover::before, .cta:focus-visible::before { color: var(--inv-fg); }
+
+footer {
+  border-top: 1px solid var(--rule); margin-top: 2.6rem; padding: 1.1rem 0 1.6rem;
+  font-size: .8rem; color: var(--fg-dim);
+}
+footer a { color: var(--fg-dim); border: 0; }
+footer a:hover { color: var(--fg); }
+
+/* ── tmux statusline ───────────────────────────────────────────────────── */
+.status {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  display: flex; align-items: center; gap: .1rem;
+  background: var(--bg-lift); border-top: 1px solid var(--rule);
+  font-size: .76rem; color: var(--fg-dim); padding: .3rem .6rem;
+  overflow-x: auto; scrollbar-width: none;
+}
+.status::-webkit-scrollbar { display: none; }
+.status .tag { background: var(--inv-bg); color: var(--inv-fg); padding: .15rem .5rem; margin-right: .5rem; flex: none; font-weight: 600; }
+.status a { border: 0; color: var(--fg-dim); padding: .15rem .45rem; white-space: nowrap; flex: none; }
+.status a[aria-current="true"] { background: var(--bg-soft); color: var(--fg); }
+.status a[aria-current="true"]::after { content: "*"; color: var(--warn); }
+.status .clock { margin-left: auto; padding-left: 1rem; color: var(--fg-faint); flex: none; font-variant-numeric: tabular-nums; }
+@media (max-width: 660px) { .status .clock { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .log .row { opacity: 1 !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main"><span lang="de">Zum Inhalt springen</span><span lang="en">Skip to content</span></a>
+
+<div class="term">
+
+  <div class="titlebar">
+    <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="tb-title" aria-hidden="true"><b>vibe-check</b> <span class="sz">- loki@dev - 86x48</span></span>
+    <button class="tb-btn" id="lang" type="button">
+      <span aria-hidden="true">[ <b class="l-de">DE</b><span class="faint">|</span><b class="l-en">EN</b> ]</span>
+      <span class="sr" lang="de">Sprache wechseln, aktuell Deutsch</span>
+      <span class="sr" lang="en">Switch language, currently English</span>
+    </button>
+    <button class="tb-btn" id="theme" type="button">
+      <span aria-hidden="true">[ theme ]</span>
+      <span class="sr" lang="de">Farbschema wechseln</span>
+      <span class="sr" lang="en">Switch colour scheme</span>
+    </button>
+  </div>
+
+  <nav class="tabs" aria-label="Navigation">
+    <a href="https://loki.dev/">[ ~/ ]</a>
+    <a href="https://loki.dev/blog/">[ blog ]</a>
+    <a href="https://0w.is/" rel="noopener">[ tools ]</a>
+    <a href="#kontakt">[ <span lang="de">kontakt</span><span lang="en">contact</span> ]</a>
+  </nav>
+
+  <main id="main">
+
+    <!-- ── hero ─────────────────────────────────────────────────────── -->
+    <section id="start" style="padding-top:1.6rem">
+      <p class="kicker"><span lang="de">Code-Audit für KI-generierte Codebases</span><span lang="en">Code audit for AI-generated codebases</span></p>
+      <h1>
+        <span lang="de">Dein Modell hat es geschrieben.<br><span class="dim">Jemand sollte es lesen.</span></span>
+        <span lang="en">Your model wrote it.<br><span class="dim">Somebody should read it.</span></span>
+      </h1>
+      <p class="lede">
+        <span lang="de">In vier Tagen weißt du, was in deiner Codebase steckt: Architektur, Code-Qualität, Performance, Code Health und die Security-Basics. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach dauerhaft weiterfährt.</span>
+        <span lang="en">In four days you know what is in your codebase: architecture, code quality, performance, code health and the security basics. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps running the checks afterwards.</span>
+      </p>
+
+      <div class="box" style="margin-top:1.4rem">
+        <p class="pr" style="margin:0 0 .7rem"><span class="host">loki@dev:~$</span> <span class="cmd" id="typed" data-de="./vibe-check --scan ./dein-repo --offline --fix-prompts" data-en="./vibe-check --scan ./your-repo --offline --fix-prompts"></span><span class="caret" aria-hidden="true"></span></p>
+        <div class="log" id="log">
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">read-only snapshot</span><span lang="en">read-only snapshot</span></span><span class="val o">ok</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">stack erkannt</span><span lang="en">stack detected</span></span><span class="val">python · typescript · docker</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">architekturgrenzen</span><span lang="en">architecture boundaries</span></span><span class="val w">3 verletzt</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">performance-pfade</span><span lang="en">performance paths</span></span><span class="val w">6 n+1-queries</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">security-basics, owasp top 10</span><span lang="en">security basics, owasp top 10</span></span><span class="val c">14 funde</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">secrets im verlauf</span><span lang="en">secrets in history</span></span><span class="val c">1 gültig</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">testverhältnis</span><span lang="en">test ratio</span></span><span class="val w">0.04</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">report + fix-prompts</span><span lang="en">report + fix prompts</span></span><span class="val o">23</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">harness konfiguriert</span><span lang="en">harness configured</span></span><span class="val o">ok</span></div>
+        </div>
+        <div class="result">
+          <span class="c"><b>2</b> <span lang="de">kritisch</span><span lang="en">critical</span></span>
+          <span class="w"><b>5</b> <span lang="de">hoch</span><span lang="en">high</span></span>
+          <span class="m"><b>7</b> <span lang="de">mittel</span><span lang="en">medium</span></span>
+          <span class="faint"><span lang="de">beispiellauf, ein repo, vier tage</span><span lang="en">example run, one repo, four days</span></span>
+        </div>
+      </div>
+
+      <a class="cta" href="#kontakt"><span lang="de">anfrage per mail</span><span lang="en">ask by mail</span></a>
+      <p class="faint sm">
+        <span lang="de">Zwei Sätze reichen. Du bekommst eine kurze Fragenliste zurück und danach einen Festpreis, beides schriftlich und kostenlos.</span>
+        <span lang="en">Two sentences is enough. You get a short list of questions back and then a fixed price, both in writing and free of charge.</span>
+      </p>
+    </section>
+
+    <!-- ── für wen ──────────────────────────────────────────────────── -->
+    <section id="fuer-wen">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">whoami --target</span></p>
+      <h2><span lang="de">für wen</span><span lang="en">who it is for</span></h2>
+      <p>
+        <span lang="de">Teams, die mit Claude Code, Cursor, Copilot oder Codex schnell etwas gebaut haben und vor dem Launch wissen wollen, wo es weh tut. Prototypen, die zu Produkten geworden sind. Codebases, in denen seit Monaten niemand mehr systematisch gelesen hat, was das Modell abgeliefert hat.</span>
+        <span lang="en">Teams who built something fast with Claude Code, Cursor, Copilot or Codex and want to know where it hurts before launch. Prototypes that turned into products. Codebases where nobody has systematically read what the model shipped in months.</span>
+      </p>
+      <p class="dim">
+        <span lang="de">Wenn dein Code seit fünf Jahren von einem eingespielten Team gepflegt wird und du eine ISO-27001-Zertifizierung brauchst, bin ich der falsche Ansprechpartner. Schreib es mir trotzdem, dann sage ich dir, wen du stattdessen brauchst.</span>
+        <span lang="en">If your code has been maintained by a settled team for five years and you need an ISO 27001 certification, I am the wrong person. Write to me anyway and I will tell you who you actually need.</span>
+      </p>
+    </section>
+
+    <!-- ── was ich prüfe ────────────────────────────────────────────── -->
+    <section id="checks">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">vibe-check --list-checks</span></p>
+      <h2><span lang="de">was ich prüfe</span><span lang="en">what I check</span></h2>
+      <div class="panes">
+
+        <div class="pane">
+          <h3><span lang="de">architektur</span><span lang="en">architecture</span></h3>
+          <ul>
+            <li><span lang="de">Wo liegen die Grenzen, und halten sie</span><span lang="en">Where the boundaries are and whether they hold</span></li>
+            <li><span lang="de">Kopplung zwischen Services und Modulen</span><span lang="en">Coupling between services and modules</span></li>
+            <li><span lang="de">Duplikate, die auseinandergedriftet sind</span><span lang="en">Duplicates that have drifted apart</span></li>
+            <li><span lang="de">Datenmodell und Zuständigkeiten</span><span lang="en">Data model and ownership</span></li>
+            <li><span lang="de">Build- und Deploy-Kette, baut es offline</span><span lang="en">Build and deploy chain, does it build offline</span></li>
+          </ul>
+        </div>
+
+        <div class="pane">
+          <h3><span lang="de">code-qualität</span><span lang="en">code quality</span></h3>
+          <ul>
+            <li><span lang="de">Komplexität und God-Klassen</span><span lang="en">Complexity and god classes</span></li>
+            <li><span lang="de">Lint-Befunde, und wie viele davon automatisch behebbar sind</span><span lang="en">Lint findings, and how many are auto-fixable</span></li>
+            <li><span lang="de">Fehlerbehandlung: wo werden Exceptions geschluckt</span><span lang="en">Error handling: where exceptions get swallowed</span></li>
+            <li><span lang="de">Namensgebung und Lesbarkeit an den heißen Stellen</span><span lang="en">Naming and readability in the hot spots</span></li>
+            <li><span lang="de">Toter Code und Copy-Paste aus dem Modell</span><span lang="en">Dead code and copy-paste from the model</span></li>
+          </ul>
+        </div>
+
+        <div class="pane">
+          <h3><span lang="de">performance</span><span lang="en">performance</span></h3>
+          <ul>
+            <li><span lang="de">N+1-Abfragen und Queries in Schleifen</span><span lang="en">N+1 queries and queries inside loops</span></li>
+            <li><span lang="de">Fehlende Indizes auf Spalten, die gefiltert werden</span><span lang="en">Missing indexes on columns that get filtered</span></li>
+            <li><span lang="de">Blockierendes IO auf heißen Pfaden</span><span lang="en">Blocking IO on hot paths</span></li>
+            <li><span lang="de">Unbegrenzte Ergebnismengen, fehlende Pagination</span><span lang="en">Unbounded result sets, missing pagination</span></li>
+            <li><span lang="de">Caching: gibt es eins, und greift es</span><span lang="en">Caching: does it exist, and does it hit</span></li>
+            <li><span lang="de">Algorithmische Ausrutscher, die mit den Daten wachsen</span><span lang="en">Algorithmic slips that grow with your data</span></li>
+          </ul>
+          <p class="note">
+            <span lang="de">Ich lese das im Code. Lasttest und Profiling in Produktion sind nicht dabei, ich sage dir aber, an welchen Stellen sich beides lohnt.</span>
+            <span lang="en">I read this in the code. Load testing and production profiling are not included, but I tell you at which points both would pay off.</span>
+          </p>
+        </div>
+
+        <div class="pane">
+          <h3><span lang="de">code health</span><span lang="en">code health</span></h3>
+          <ul>
+            <li><span lang="de">Testverhältnis und Coverage, und ob es in CI durchgesetzt wird</span><span lang="en">Test ratio and coverage, and whether CI enforces it</span></li>
+            <li><span lang="de">Abhängigkeiten: was hängt drin, was ist verwundbar, was wird gescannt</span><span lang="en">Dependencies: what is pulled in, what is vulnerable, what gets scanned</span></li>
+            <li><span lang="de">Dokumentation: reicht sie, um jemanden neu anzusetzen</span><span lang="en">Documentation: enough to onboard somebody new</span></li>
+            <li><span lang="de">Bus-Faktor: wie viel Code gehört Leuten, die weg sind</span><span lang="en">Bus factor: how much code is owned by people who left</span></li>
+            <li><span lang="de">CI/CD: welche Gates existieren, welche sind abgeschaltet</span><span lang="en">CI/CD: which gates exist, which are switched off</span></li>
+          </ul>
+        </div>
+
+        <div class="pane wide">
+          <h3><span lang="de">security-basics</span><span lang="en">security basics</span></h3>
+          <ul>
+            <li><span lang="de">OWASP Top 10, Kategorie für Kategorie durchgegangen</span><span lang="en">OWASP Top 10, walked category by category</span></li>
+            <li><span lang="de">Authentifizierung und Autorisierung: wer darf was, und wo wird es vergessen</span><span lang="en">Authentication and authorisation: who may do what, and where it gets forgotten</span></li>
+            <li><span lang="de">Secrets im Repo und in der Git-Historie</span><span lang="en">Secrets in the repo and in the git history</span></li>
+            <li><span lang="de">Injection, Deserialisierung, Upload-Pfade, TLS</span><span lang="en">Injection, deserialisation, upload paths, TLS</span></li>
+            <li><span lang="de">Konfiguration und Deployment: offene Endpunkte, Defaults, die in Produktion stehen bleiben</span><span lang="en">Configuration and deployment: open endpoints, defaults left in production</span></li>
+          </ul>
+          <p class="note">
+            <span lang="de">Das sind die Basics, und die sitzen in KI-generiertem Code erfahrungsgemäß am schlechtesten. Einen vollständigen Penetrationstest macht jemand anderes, dafür gibt es Spezialisten mit anderem Werkzeug. Mein Teil findet die Probleme, die vorher im Code stehen, und macht den Pentest danach günstiger.</span>
+            <span lang="en">These are the basics, and in AI-generated code they are usually the weakest part. A full penetration test is somebody else's job, there are specialists with different tooling for that. My part finds the problems that sit in the code beforehand, which makes that pentest cheaper.</span>
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── methode ──────────────────────────────────────────────────── -->
+    <section id="methode">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">vibe-check --show-toolchain</span></p>
+      <h2><span lang="de">wie ich arbeite</span><span lang="en">how I work</span></h2>
+      <p>
+        <span lang="de">Ich fahre mehrere Werkzeuge parallel, prüfe jeden Treffer von Hand nach und setze daraus ein Bild zusammen.</span>
+        <span lang="en">I run several tools in parallel, verify every hit by hand, and assemble one picture out of it.</span>
+      </p>
+      <div class="box">
+        <div class="box-h"><span>toolchain</span><span class="n"><span lang="de">read-only, reproduzierbar</span><span lang="en">read-only, reproducible</span></span></div>
+        <ul class="check" style="margin:0">
+          <li><b><span lang="de">Klassische statische Analyse.</span><span lang="en">Classic static analysis.</span></b> <span lang="de">Linter, Komplexitätsmessung, Dependency- und Container-Scanner, je nach Stack. Etablierte Werkzeuge, deren Aussagen jemand anders nachprüfen kann.</span><span lang="en">Linters, complexity metrics, dependency and container scanners, depending on the stack. Established tools whose output somebody else can check.</span></li>
+          <li><b><span lang="de">Git-Archäologie.</span><span lang="en">Git archaeology.</span></b> <span lang="de">Wer hat was geschrieben, was ändert sich ständig, wo liegt Wissen fest. Das steht in keinem Linter-Report.</span><span lang="en">Who wrote what, what churns constantly, where knowledge is stuck. No linter report shows that.</span></li>
+          <li><b><span lang="de">Handarbeit.</span><span lang="en">Manual reading.</span></b> <span lang="de">Die kritischen Pfade lese ich selbst: Anmeldung, Rechteprüfung, Datenzugriff, Upload, Deployment. Genau dort sind Werkzeuge blind.</span><span lang="en">I read the critical paths myself: login, permission checks, data access, upload, deployment. That is exactly where tools are blind.</span></li>
+          <li><b><span lang="de">Architekturmethodik.</span><span lang="en">Architecture method.</span></b> <span lang="de">Grenzen, Kopplung, Abhängigkeitsrichtung, Datenhoheit. Handwerk, keine Messung.</span><span lang="en">Boundaries, coupling, dependency direction, data ownership. Craft, not measurement.</span></li>
+          <li><b><span lang="de">KI-Werkzeuge, optional.</span><span lang="en">AI tooling, optional.</span></b> <span lang="de">Als Beschleuniger beim Lesen großer Codebases, nie als einzige Quelle, und nur mit deiner Freigabe. Jeder Fund landet erst im Report, nachdem ich ihn selbst im Code gesehen habe.</span><span lang="en">As an accelerator for reading large codebases, never as the only source, and only with your sign-off. No finding enters the report before I have seen it in the code myself.</span></li>
+        </ul>
+      </div>
+      <p>
+        <span lang="de">Ein Werkzeug allein liefert Zahlen, und Zahlen sortieren sich nicht selbst. Ein Lint-Befund wird erst wichtig, wenn er auf einem Pfad sitzt, der auch Rechte prüft. Eine langsame Abfrage wird erst dringend, wenn dieselbe Tabelle im nächsten Quartal das Zehnfache an Zeilen hat. Diese Verbindungen herzustellen ist die Arbeit, für die du mich bezahlst.</span>
+        <span lang="en">One tool on its own produces numbers, and numbers do not sort themselves. A lint finding only matters once it sits on a path that also checks permissions. A slow query only becomes urgent once the same table holds ten times the rows next quarter. Making those connections is the work you are paying me for.</span>
+      </p>
+    </section>
+
+    <!-- ── scorecard ────────────────────────────────────────────────── -->
+    <section id="scorecard">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">cat report/scorecard.txt</span></p>
+      <h2><span lang="de">so sieht ein ergebnis aus</span><span lang="en">what a result looks like</span></h2>
+      <p>
+        <span lang="de">Jede Dimension bekommt eine Zahl von 0 bis 10 und ihre Begründung. Fahr über eine Zeile oder klick auf <span class="faint">[?]</span>, dann siehst du ein echtes Beispiel für die Art Problem, die dahinter steckt.</span>
+        <span lang="en">Every dimension gets a number from 0 to 10 and its justification. Hover a row or hit <span class="faint">[?]</span> to see a real example of the kind of problem behind it.</span>
+      </p>
+
+      <div class="box bars" id="bars">
+        <div class="box-h">
+          <span>scorecard</span>
+          <span class="n">0 … 10</span>
+          <span class="n" style="margin-left:auto"><span lang="de">[?] = beispiel</span><span lang="en">[?] = example</span></span>
+        </div>
+
+        <div class="bar s1" data-pop="p1">
+          <span class="k"><span lang="de">security-basics</span><span lang="en">security basics</span></span>
+          <span class="t"><b class="f" data-w="50"></b></span><span class="v">5/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p1"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s1" data-pop="p2">
+          <span class="k"><span lang="de">architektur</span><span lang="en">architecture</span></span>
+          <span class="t"><b class="f" data-w="40"></b></span><span class="v">4/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p2"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s2" data-pop="p3">
+          <span class="k">performance</span>
+          <span class="t"><b class="f" data-w="40"></b></span><span class="v">4/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p3"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s3" data-pop="p4">
+          <span class="k"><span lang="de">code-qualität</span><span lang="en">code quality</span></span>
+          <span class="t"><b class="f" data-w="60"></b></span><span class="v">6/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p4"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s1" data-pop="p5">
+          <span class="k"><span lang="de">tests &amp; CI</span><span lang="en">tests &amp; CI</span></span>
+          <span class="t"><b class="f" data-w="30"></b></span><span class="v">3/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p5"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s2" data-pop="p6">
+          <span class="k"><span lang="de">abhängigkeiten</span><span lang="en">dependencies</span></span>
+          <span class="t"><b class="f" data-w="40"></b></span><span class="v">4/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p6"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s3" data-pop="p7">
+          <span class="k"><span lang="de">dokumentation</span><span lang="en">documentation</span></span>
+          <span class="t"><b class="f" data-w="50"></b></span><span class="v">5/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p7"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+        <div class="bar s1" data-pop="p8">
+          <span class="k"><span lang="de">bus-faktor</span><span lang="en">bus factor</span></span>
+          <span class="t"><b class="f" data-w="30"></b></span><span class="v">3/10</span>
+          <button class="ex" type="button" aria-expanded="false" aria-controls="p8"><span aria-hidden="true">?</span><span class="sr" lang="de">Beispielproblem anzeigen</span><span class="sr" lang="en">show example problem</span></button>
+        </div>
+
+        <p class="faint sm" style="margin:.9rem 0 0">
+          <span lang="de">Beispielwerte aus einem echten Lauf, anonymisiert. Deine Zahlen werden anders aussehen, die Aufschlüsselung ist dieselbe.</span>
+          <span lang="en">Example values from a real run, anonymised. Your numbers will look different, the breakdown is the same.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ── deliverables ─────────────────────────────────────────────── -->
+    <section id="lieferung">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">tree ./vibe-check-report/</span></p>
+      <h2><span lang="de">was du bekommst</span><span lang="en">what you get</span></h2>
+      <p>
+        <span lang="de">Vier Dinge: den Report, die Deep Dives, einen Fix-Prompt pro Fund und ein Harness, das die Checks danach dauerhaft weiterfährt.</span>
+        <span lang="en">Four things: the report, the deep dives, one fix prompt per finding, and a harness that keeps running the checks afterwards.</span>
+      </p>
+<pre aria-label="tree"><span class="g">.</span>
+<span class="g">├──</span> <span class="n">00-ONEPAGER.pdf</span>              <span class="c"><span lang="de">eine Seite für die Budgetfreigabe</span><span lang="en">one page for the budget decision</span></span>
+<span class="g">├──</span> <span class="n">01-REPORT.md</span>                 <span class="c"><span lang="de">der Hauptreport, mit Scorecard</span><span lang="en">the main report, with scorecard</span></span>
+<span class="g">├──</span> <span class="n">01-REPORT.docx</span>               <span class="c"><span lang="de">derselbe Report, weiterreichbar</span><span lang="en">the same report, forwardable</span></span>
+<span class="g">├──</span> <span class="n">reports/</span>                     <span class="c"><span lang="de">ein Deep Dive pro Thema</span><span lang="en">one deep dive per topic</span></span>
+<span class="g">│   ├──</span> <span class="n">ARCHITECTURE.md</span>
+<span class="g">│   ├──</span> <span class="n">CODE-QUALITY.md</span>
+<span class="g">│   ├──</span> <span class="n">PERFORMANCE.md</span>
+<span class="g">│   ├──</span> <span class="n">SECURITY-BASICS.md</span>       <span class="c"><span lang="de">pro OWASP-Kategorie, mit Datei und Zeile</span><span lang="en">per OWASP category, with file and line</span></span>
+<span class="g">│   └──</span> <span class="n">TESTS-AND-CI.md</span>
+<span class="g">├──</span> <mark>fixes/</mark>                       <span class="c"><span lang="de">← spart dir die Nacharbeit</span><span lang="en">← saves you the rework</span></span>
+<span class="g">│   ├──</span> <span class="n">001-authz-luecke-preview.md</span>
+<span class="g">│   ├──</span> <span class="n">002-endpunkt-oeffentlich.md</span>
+<span class="g">│   └──</span> <span class="g"><span lang="de">… 21 weitere, nach Schwere sortiert</span><span lang="en">… 21 more, sorted by severity</span></span>
+<span class="g">├──</span> <mark>harness/</mark>                     <span class="c"><span lang="de">← läuft danach immer weiter</span><span lang="en">← keeps running afterwards</span></span>
+<span class="g">│   ├──</span> <span class="n">README.md</span>
+<span class="g">│   ├──</span> <span class="n">prompts/</span>
+<span class="g">│   └──</span> <span class="n">ci/</span>
+<span class="g">└──</span> <span class="n">scripts/</span>                     <span class="c"><span lang="de">jede Zahl selbst nachrechenbar</span><span lang="en">every number recomputable yourself</span></span>
+</pre>
+
+      <div class="callout ok" style="margin-top:1.1rem">
+        <p>
+          <b><span lang="de">Der Report ist das Kernstück.</span><span lang="en">The report is the centrepiece.</span></b>
+          <span lang="de">Executive-Zusammenfassung, Scorecard mit Begründung pro Dimension, jeder Fund mit Schwere, Datei und Zeile, und eine nach Aufwand und Wirkung sortierte Empfehlungsliste. Als Markdown und als Word-Dokument, damit du es intern weiterreichen kannst, ohne es neu zu schreiben.</span>
+          <span lang="en">Executive summary, scorecard with a justification per dimension, every finding with severity, file and line, and a recommendation list sorted by effort and impact. As Markdown and as a Word document, so you can pass it on internally without rewriting it.</span>
+        </p>
+      </div>
+
+      <p>
+        <span lang="de">Jede Kennzahl nennt das Skript, das sie erzeugt hat, und die Rohdaten liegen dabei. Du kannst jede Zahl im Report nachrechnen, ohne mir glauben zu müssen, und dein Team kann es in sechs Monaten auch noch.</span>
+        <span lang="en">Every metric names the script that produced it, and the raw data ships with it. You can recompute every number in the report without taking my word for it, and your team can still do that in six months.</span>
+      </p>
+    </section>
+
+    <!-- ── fix prompts ──────────────────────────────────────────────── -->
+    <section id="fixes">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">claude -p "$(cat fixes/001-authz-luecke-preview.md)"</span></p>
+      <h2><span lang="de">die fix-prompts</span><span lang="en">the fix prompts</span></h2>
+      <p>
+        <span lang="de">Ein Report sagt dir, was kaputt ist, und lässt dich dann damit allein. Deshalb liegt pro Fund ein Prompt dabei: Kontext, die konkreten Dateipfade, der Fix und ein Verifikationsschritt. Du wirfst ihn in dein Agent-Setup und arbeitest die Liste ab, in der Reihenfolge, die im Report steht.</span>
+        <span lang="en">A report tells you what is broken and then leaves you alone with it. So every finding comes with a prompt: context, the actual file paths, the fix and a verification step. Drop it into your agent setup and work the list, in the order the report gives you.</span>
+      </p>
+      <div class="box">
+        <div class="box-h"><span>fixes/001-authz-luecke-preview.md</span><span class="n"><span lang="de">kritisch</span><span lang="en">critical</span></span></div>
+<pre><span class="c">## <span lang="de">Befund</span><span lang="en">Finding</span></span>
+<span lang="de">Der Preview-Endpunkt prüft eine Tenant-Berechtigung, seine drei
+Geschwister-Endpunkte prüfen eine Admin-Rolle. Jeder Nutzer mit
+Leserecht auf einen Mandanten erreicht damit den Renderer.</span><span lang="en">The preview endpoint checks a tenant permission, its three sibling
+endpoints check an admin role. Any user with read access to a single
+tenant therefore reaches the renderer.</span>
+
+<span class="c">## <span lang="de">Dateien</span><span lang="en">Files</span></span>
+  src/report/preview.controller.ts:44
+  src/report/render.service.ts:120
+
+<span class="c">## Fix</span>
+<span class="del">- requireTenantPermission(ctx, "report:read")</span>
+<span class="add">+ requireAdminRole(ctx)</span>
+
+<span class="c">## <span lang="de">Verifikation</span><span lang="en">Verification</span></span>
+<span lang="de">Test: Nutzer ohne Admin-Rolle bekommt 403 auf /preview.
+Prüfe zusätzlich, dass alle vier Endpunkte dieselbe Guard-Funktion
+verwenden, und nicht vier Kopien davon.</span><span lang="en">Test: a user without the admin role gets 403 on /preview.
+Also check that all four endpoints use the same guard function,
+and not four copies of it.</span>
+</pre>
+      </div>
+      <p class="faint sm">
+        <span lang="de">Beispiel, generisch gehalten. Echte Prompts nennen deine Pfade und deine Zeilennummern.</span>
+        <span lang="en">Example, kept generic. Real prompts name your paths and your line numbers.</span>
+      </p>
+    </section>
+
+    <!-- ── harness ──────────────────────────────────────────────────── -->
+    <section id="harness">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">cat harness/README.md</span> <span class="flag">| head -20</span></p>
+      <h2><span lang="de">was danach läuft</span><span lang="en">what runs afterwards</span></h2>
+      <p>
+        <span lang="de">Ein Audit beschreibt den Stand an einem Tag. Drei Monate später stimmt die Hälfte nicht mehr, weil weiter generiert wurde. Deshalb liefere ich eine Anleitung und die Konfiguration für ein AI-Harness, das die Checks aus diesem Audit regelmäßig selbst fährt.</span>
+        <span lang="en">An audit describes the state on one day. Three months later half of it is wrong again, because generation continued. So I deliver instructions and the configuration for an AI harness that runs the checks from this audit on a schedule, by itself.</span>
+      </p>
+      <div class="box">
+        <div class="box-h"><span>harness/</span><span class="n"><span lang="de">läuft bei dir, ohne mich</span><span lang="en">runs on your side, without me</span></span></div>
+        <ul class="check" style="margin:0">
+          <li><b><span lang="de">Vor dem Commit.</span><span lang="en">Before the commit.</span></b> <span lang="de">Hooks, die Formatierung, Linting und Secret-Scanning erledigen, bevor etwas ins Repo kommt.</span><span lang="en">Hooks that handle formatting, linting and secret scanning before anything lands in the repo.</span></li>
+          <li><b><span lang="de">In der Pipeline.</span><span lang="en">In the pipeline.</span></b> <span lang="de">Die Gates, die bei dir fehlen oder abgeschaltet sind, als fertige Konfiguration mit sinnvollen Schwellwerten.</span><span lang="en">The gates you are missing or have switched off, as ready configuration with sensible thresholds.</span></li>
+          <li><b><span lang="de">Wöchentlich.</span><span lang="en">Weekly.</span></b> <span lang="de">Ein Prompt-Set für deinen Coding-Agenten, das Architektur, Performance und Security-Basics erneut prüft und einen kurzen Diff zum letzten Lauf schreibt.</span><span lang="en">A prompt set for your coding agent that re-checks architecture, performance and security basics and writes a short diff against the last run.</span></li>
+          <li><b><span lang="de">Für neue Features.</span><span lang="en">For new features.</span></b> <span lang="de">Regeln für dein Agent-Setup, damit die gefundenen Muster nicht sofort wieder neu generiert werden.</span><span lang="en">Rules for your agent setup, so the patterns I found do not get generated right back in.</span></li>
+        </ul>
+      </div>
+      <p class="sm dim">
+        <span lang="de">Wie so ein Harness aussieht, habe ich <a href="https://loki.dev/blog/modern-tooling-part-5-ai-harness/">im Blog aufgeschrieben</a>. Was du bekommst, ist die auf deinen Stack angepasste Variante davon.</span>
+        <span lang="en">I have <a href="https://loki.dev/en/blog/modern-tooling-part-5-ai-harness/">written up</a> what such a harness looks like. What you get is that, adapted to your stack.</span>
+      </p>
+    </section>
+
+    <!-- ── ablauf + daten ───────────────────────────────────────────── -->
+    <section id="ablauf">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">vibe-check --explain --offline</span></p>
+      <h2><span lang="de">ablauf</span><span lang="en">how it runs</span></h2>
+      <div class="box tight">
+        <p class="pr" style="margin:0;font-size:.875rem">
+          <span class="faint"><span lang="de">deine mail</span><span lang="en">your mail</span></span>
+          <span class="g">→</span> <span class="faint"><span lang="de">fragenliste</span><span lang="en">question list</span></span>
+          <span class="g">→</span> <span class="faint"><span lang="de">festpreis</span><span lang="en">fixed price</span></span>
+          <span class="g">→</span> <span class="faint"><span lang="de">übergabe</span><span lang="en">handover</span></span>
+          <span class="g">→</span> <span class="faint"><span lang="de">lesen &amp; messen</span><span lang="en">read &amp; measure</span></span>
+          <span class="g">→</span> <span class="cmd"><span lang="de">lieferung</span><span lang="en">delivery</span></span>
+          <span class="g">→</span> <span class="faint"><span lang="de">rückfragen</span><span lang="en">follow-up questions</span></span>
+        </p>
+        <p class="faint sm" style="margin:.5rem 0 0">
+          <span lang="de">Bei einem einzelnen Repository normalerweise innerhalb einer Woche.</span>
+          <span lang="en">For a single repository usually inside a week.</span>
+        </p>
+      </div>
+      <div class="callout">
+        <p>
+          <b><span lang="de">Alles läuft schriftlich.</span><span lang="en">Everything runs in writing.</span></b>
+          <span lang="de">Ich arbeite asynchron, per Mail. Das Scoping ist eine Fragenliste, die du beantwortest wenn es dir passt, und die Rückfragen zum Report laufen genauso. Kein Termin, den wir drei Mal verschieben, und du hast alles schwarz auf weiß, auch in sechs Monaten noch. Wenn du an einer Stelle lieber telefonieren willst, machen wir das, es ist nur nirgends nötig.</span>
+          <span lang="en">I work asynchronously, by mail. Scoping is a list of questions you answer when it suits you, and follow-up questions on the report work the same way. No meeting we reschedule three times, and you have everything in writing, still readable in six months. If you would rather talk at some point we can, it is just never required.</span>
+        </p>
+      </div>
+
+      <h2 id="daten" style="margin-top:2rem"><span lang="de">dein code und deine daten</span><span lang="en">your code and your data</span></h2>
+      <p>
+        <span lang="de">Das ist der Teil, an dem die meisten Audits unangenehm werden. Deshalb steht er hier vor dem Preis.</span>
+        <span lang="en">This is the part where most audits get uncomfortable. That is why it sits before the price.</span>
+      </p>
+      <div class="callout ok">
+        <p><b><span lang="de">Rein offline, rein lesend.</span><span lang="en">Offline only, read only.</span></b>
+          <span lang="de">Ich bekomme ein Archiv oder einen read-only Zugang, sonst nichts. Deine Systeme sehe ich nie von innen, und in deiner Produktion läuft nichts von mir. Im Repo verändere ich keine Zeile, alle Skripte lesen nur.</span>
+          <span lang="en">I get an archive or read-only access, nothing else. I never see your systems from the inside, and nothing of mine runs in your production. I change no line in the repo, every script only reads.</span></p>
+        <p><b><span lang="de">Der Code bleibt auf verschlüsselten Rechnern.</span><span lang="en">The code stays on encrypted machines.</span></b>
+          <span lang="de">Vollverschlüsselte Datenträger, kein Sync in eine Cloud, keine Weitergabe an Dritte, keine Subunternehmer.</span>
+          <span lang="en">Full-disk encryption, no cloud sync, no sharing with third parties, no subcontractors.</span></p>
+        <p><b><span lang="de">Sprachmodelle nur nach deiner Freigabe.</span><span lang="en">Language models only with your sign-off.</span></b>
+          <span lang="de">Ich arbeite mit KI-Werkzeugen. Wenn dabei Teile deines Codes an einen Anbieter gehen, sage ich dir vorher welcher, wir halten es schriftlich fest, und du kannst es ablehnen. Dann läuft die Analyse lokal, mit denselben Skripten und etwas mehr Zeit für das Lesen.</span>
+          <span lang="en">I work with AI tooling. If parts of your code would go to a provider, I tell you which one up front, we put it in writing, and you can say no. Then the analysis runs locally, with the same scripts and a little more reading time.</span></p>
+        <p><b><span lang="de">Löschung mit Bestätigung.</span><span lang="en">Deletion, confirmed in writing.</span></b>
+          <span lang="de">14 Tage nach der Abnahme lösche ich Arbeitskopien und Rohdaten und schicke dir die Bestätigung. Was ich behalte, sind die Skripte, und die kennen deinen Code nicht.</span>
+          <span lang="en">14 days after sign-off I delete working copies and raw data and send you the confirmation. What I keep are the scripts, and they know nothing about your code.</span></p>
+        <p><b><span lang="de">NDA und AVV gehören dazu.</span><span lang="en">NDA and a DPA are part of it.</span></b>
+          <span lang="de">NDA selbstverständlich, Auftragsverarbeitungsvertrag auf Wunsch. Wenn im Repo personenbezogene Daten liegen, etwa Dumps oder echte Testdaten, sage ich es dir, und wir klären die Rechtsgrundlage bevor ich anfange.</span>
+          <span lang="en">NDA as a matter of course, a data processing agreement on request. If the repo contains personal data, dumps or real test data for instance, I tell you, and we settle the legal basis before I start.</span></p>
+        <p><b><span lang="de">Keine Namen im Report.</span><span lang="en">No names in the report.</span></b>
+          <span lang="de">Der Bus-Faktor steht ohne Personennamen drin. Eine Auswertung pro Person liefere ich nur, wenn du sie ausdrücklich willst, weil sie mitbestimmungsrelevant sein kann.</span>
+          <span lang="en">Bus factor is reported without personal names. A per-person breakdown only if you explicitly ask for it, because it can trigger works council co-determination.</span></p>
+      </div>
+      <p class="sm dim">
+        <span lang="de">Der Offline-Ansatz ist eine bewusste Entscheidung. Ein dynamischer Test braucht Freigaben, die du in einer Woche nicht bekommst. Statisch komme ich in vier Tagen an die Funde, die in KI-generiertem Code ohnehin am häufigsten sind.</span>
+        <span lang="en">The offline approach is a deliberate decision. A dynamic test needs sign-offs you will not get inside a week. Statically I reach the findings that dominate AI-generated code in four days.</span>
+      </p>
+    </section>
+
+    <!-- ── grenzen ──────────────────────────────────────────────────── -->
+    <section id="grenzen">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">vibe-check --limits</span></p>
+      <h2><span lang="de">wo mein audit aufhört</span><span lang="en">where my audit stops</span></h2>
+      <p>
+        <span lang="de">Ich sage dir das lieber jetzt als in der Rechnung.</span>
+        <span lang="en">I would rather tell you now than in the invoice.</span>
+      </p>
+      <div class="callout warn">
+        <p><b><span lang="de">Kein Penetrationstest.</span><span lang="en">Not a penetration test.</span></b>
+          <span lang="de">Ich lese Code, ich greife kein laufendes System an. Keine Exploits gegen deine Umgebung, keine Infrastrukturtests. Wenn ein Kunde oder ein Auditor einen Pentest verlangt, brauchst du einen Pentest, und ich sage dir, was er nach meinem Durchgang noch finden sollte.</span>
+          <span lang="en">I read code, I do not attack a running system. No exploits against your environment, no infrastructure testing. If a customer or an auditor demands a pentest, you need a pentest, and I will tell you what it should still find after my pass.</span></p>
+        <p><b><span lang="de">Kein Lasttest.</span><span lang="en">No load test.</span></b>
+          <span lang="de">Performance lese ich im Code. Was deine Datenbank unter echter Last macht, zeigt nur eine Messung in deiner Umgebung.</span>
+          <span lang="en">I read performance in the code. What your database does under real load only shows up in a measurement in your environment.</span></p>
+        <p><b><span lang="de">Keine Zertifizierung, kein Testat.</span><span lang="en">No certification, no attestation.</span></b>
+          <span lang="de">Du bekommst einen Report von einem Software-Architekten, der beruflich fremden Code liest. Kein Siegel, das du an einen Auditor weitergeben kannst.</span>
+          <span lang="en">You get a report from a software architect who reads other people's code for a living. Not a seal you can hand to an auditor.</span></p>
+      </div>
+    </section>
+
+    <!-- ── preise ───────────────────────────────────────────────────── -->
+    <section id="preise">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">vibe-check --help</span> <span class="flag">| grep -A5 SCOPE</span></p>
+      <h2><span lang="de">preise</span><span lang="en">pricing</span></h2>
+      <!-- ZAHLEN: an einem Tagessatz von ca. 1.000 bis 1.200 EUR gerechnet. Bitte prüfen. -->
+      <div class="box" style="padding-bottom:.4rem">
+        <table>
+          <caption>
+            <span lang="de">Fixpreis, gestaffelt nach Größe. Keine Stundenzettel, keine Überraschung auf der Rechnung.</span>
+            <span lang="en">Fixed price, banded by size. No timesheets, no surprise on the invoice.</span>
+          </caption>
+          <thead><tr>
+            <th scope="col">SCOPE</th>
+            <th scope="col" style="text-align:right"><span lang="de">FIXPREIS</span><span lang="en">FIXED PRICE</span></th>
+          </tr></thead>
+          <tbody>
+            <tr><td><code>--repos=1 --loc&lt;20k</code></td><td class="price">1.200 €</td></tr>
+            <tr><td><code>--repos&lt;=3 --loc&lt;60k</code></td><td class="price">2.500 €</td></tr>
+            <tr><td><code>--repos=*</code> <span class="faint"><span lang="de">nach der Fragenliste</span><span lang="en">after the question list</span></span></td><td class="price dim"><span lang="de">angebot</span><span lang="en">quote</span></td></tr>
+            <tr><td><code>--no-ai</code> <span class="faint"><span lang="de">rein lokal, ohne KI-Werkzeuge</span><span lang="en">fully local, no AI tooling</span></span></td><td class="price">+ 30 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <p>
+          <b><code>--no-ai</code></b>
+          <span lang="de">Wenn dein Code kein Sprachmodell sehen darf, egal welches, dann läuft der ganze Durchgang rein lokal. Die Skripte sind dieselben und die Zahlen kommen identisch heraus, aber ich lese die kritischen Pfade komplett von Hand. Das dauert etwa ein Drittel länger, deshalb der Aufschlag. Das Ergebnis ist dasselbe, es kostet mich nur mehr Zeit.</span>
+          <span lang="en">If no language model may see your code, whichever one, the whole pass runs fully local. The scripts are the same and the numbers come out identical, but I read the critical paths entirely by hand. That takes roughly a third longer, hence the surcharge. The result is the same, it just costs me more time.</span>
+        </p>
+      </div>
+      <p class="dim">
+        <span lang="de">Report, Deep Dives, Fix-Prompts und Harness sind immer dabei, nie als Aufpreis. Das Scoping kostet nichts, und wenn ich aus deinen Antworten sehe, dass sich das Audit für dich nicht lohnt, schreibe ich dir das statt ein Angebot zu schicken.</span>
+        <span lang="en">Report, deep dives, fix prompts and harness are always included, never an add-on. Scoping costs nothing, and if your answers tell me the audit is not worth it for you, I write you that instead of sending an offer.</span>
+      </p>
+    </section>
+
+    <!-- ── voraussetzungen ──────────────────────────────────────────── -->
+    <section id="voraussetzungen">
+      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">cat checkliste.txt</span></p>
+      <h2><span lang="de">was ich brauche</span><span lang="en">what I need</span></h2>
+      <ul class="check">
+        <li><b><span lang="de">Eine schriftliche Freigabe von dem, dem der Code gehört.</span><span lang="en">Written authorisation from whoever owns the code.</span></b> <span lang="de">Nicht von dir, wenn du ihn nur betreust.</span><span lang="en">Not from you, if you only maintain it.</span></li>
+        <li><span lang="de">Das Archiv oder den read-only Zugang.</span><span lang="en">The archive or the read-only access.</span></li>
+        <li><span lang="de">Eine Mailadresse für die zwei oder drei Fragen, die sich beim Lesen nicht klären lassen. Antwort innerhalb von zwei Werktagen reicht mir.</span><span lang="en">One mail address for the two or three questions reading alone will not answer. An answer within two working days is enough for me.</span></li>
+        <li><b><span lang="de">Eine Entscheidung vorab:</span><span lang="en">One decision up front:</span></b> <span lang="de">Was passiert, wenn ich ein gültiges Credential im Repo finde? Wen rufe ich an, und wie schnell? Frag mich das nicht erst, wenn es passiert ist. Mir ist genau das schon in einem Repository begegnet, mitten in der Git-Historie.</span><span lang="en">what happens if I find a live credential in the repo? Who do I call, and how fast? Do not ask me that once it has already happened. I have run into exactly this in a repository, sitting in the git history.</span></li>
+      </ul>
+    </section>
+
+    <!-- ── kontakt ──────────────────────────────────────────────────── -->
+    <section id="kontakt">
+      <h2><span lang="de">kontakt</span><span lang="en">contact</span></h2>
+      <p>
+        <span lang="de">Zwei Sätze zum Projekt reichen: welcher Stack, wie viele Repositories, und was dir Sorgen macht. Du bekommst innerhalb eines Werktags eine Antwort mit der Fragenliste, und danach den Festpreis. Ohne Termin, ohne Kalenderlink.</span>
+        <span lang="en">Two sentences about the project is enough: which stack, how many repositories, and what worries you. You get a reply within one working day with the question list, and the fixed price after that. No meeting, no calendar link.</span>
+      </p>
+      <p class="pr" style="font-size:clamp(.9rem,3.2vw,1.05rem)"><span class="host">loki@dev:~$</span> <a href="mailto:blog@loki.dev?subject=vibe%20check" style="border-bottom-color:var(--fg-dim)">mail -s "vibe check" blog@loki.dev</a><span class="caret" aria-hidden="true"></span></p>
+      <p class="faint sm">
+        <span lang="de">Torsten Zielke, Software-Architekt und Tech-Lead. Ich lese beruflich fremden Code und schreibe auf, was drin steht.</span>
+        <span lang="en">Torsten Zielke, software architect and tech lead. I read other people's code for a living and write down what is in it.</span>
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <p style="margin:0 0 .4rem">
+      <a href="https://loki.dev/">loki.dev</a> ·
+      <a href="https://github.com/dev-loki" rel="noopener">github</a> ·
+      <a href="https://www.linkedin.com/in/torsten-zielke" rel="noopener">linkedin</a> ·
+      <a href="https://loki.dev/impressum/"><span lang="de">impressum</span><span lang="en">imprint</span></a> ·
+      <a href="https://loki.dev/datenschutz/"><span lang="de">datenschutz</span><span lang="en">privacy</span></a>
+    </p>
+    <p style="margin:0" class="faint">Torsten Zielke · <span lang="de">Software-Architekt</span><span lang="en">Software architect</span> · Adelebsen, DE</p>
+  </footer>
+</div>
+
+<!-- ── example popovers, one per scorecard dimension ─────────────────── -->
+<div class="pop" id="p1" popover>
+  <h4><span lang="de">Beispiel: security-basics</span><span lang="en">Example: security basics</span></h4>
+  <p><span lang="de">Ein Debug-Endpunkt des Frameworks stand auf <code>permitAll</code> und war über den öffentlichen Ingress erreichbar. Ein Aufruf ohne Login rendert Datenbankpasswort, Client-Secret und den Schlüssel für die Feldverschlüsselung.</span><span lang="en">A framework debug endpoint was set to <code>permitAll</code> and reachable through the public ingress. One unauthenticated call renders the database password, the client secret and the field encryption key.</span></p>
+</div>
+<div class="pop" id="p2" popover>
+  <h4><span lang="de">Beispiel: architektur</span><span lang="en">Example: architecture</span></h4>
+  <p><span lang="de">Dasselbe Handler-Framework lag als Kopie in vier Services. Alle vier Kopien hatten unterschiedliche Checksummen, waren also längst auseinandergedriftet. Ein Fix an der Filterlogik muss vier Mal von Hand gemacht werden.</span><span lang="en">The same handler framework existed as a copy in four services. All four copies had different checksums, so they had long drifted apart. A fix to the filter logic has to be applied by hand four times.</span></p>
+</div>
+<div class="pop" id="p3" popover>
+  <h4><span lang="de">Beispiel: performance</span><span lang="en">Example: performance</span></h4>
+  <p><span lang="de">Eine Listenansicht lud pro Zeile den Besitzer einzeln nach. Bei 500 Zeilen sind das 501 Abfragen. Dazu eine Filterspalte ohne Index, die bei jedem Aufruf einen vollen Tabellenscan auslöst.</span><span lang="en">A list view loaded the owner separately for every row. At 500 rows that is 501 queries. Plus a filter column without an index, triggering a full table scan on every call.</span></p>
+</div>
+<div class="pop" id="p4" popover>
+  <h4><span lang="de">Beispiel: code-qualität</span><span lang="en">Example: code quality</span></h4>
+  <p><span lang="de">Eine Klasse mit über 2.000 Zeilen, die Validierung, Persistenz und Rechteprüfung gleichzeitig macht. Daneben 1.100 Lint-Befunde, die ein einziger Formatierungslauf beheben würde, und die niemand ausführt.</span><span lang="en">A class of over 2,000 lines doing validation, persistence and permission checks at once. Alongside it 1,100 lint findings that a single formatting run would fix, which nobody runs.</span></p>
+</div>
+<div class="pop" id="p5" popover>
+  <h4><span lang="de">Beispiel: tests &amp; CI</span><span lang="en">Example: tests &amp; CI</span></h4>
+  <p><span lang="de">Testverhältnis 0.04, also ein Zeile Test auf 25 Zeilen Code. Coverage wird gemessen und nirgends erzwungen. Die statische Analyse war in der Pipeline vorhanden, aber jeder Aufruf war auskommentiert.</span><span lang="en">Test ratio 0.04, one line of test per 25 lines of code. Coverage is measured and enforced nowhere. Static analysis existed in the pipeline, but every invocation was commented out.</span></p>
+</div>
+<div class="pop" id="p6" popover>
+  <h4><span lang="de">Beispiel: abhängigkeiten</span><span lang="en">Example: dependencies</span></h4>
+  <p><span lang="de">Ein gültiges Registry-Token lag im Repository, auffindbar in der Historie. Container-Images werden nirgends gescannt, eine eingebettete Laufzeit ist seit über einem Jahr ohne Sicherheitsupdates.</span><span lang="en">A live registry token sat in the repository, findable in the history. Container images are scanned nowhere, and an embedded runtime has been without security updates for over a year.</span></p>
+</div>
+<div class="pop" id="p7" popover>
+  <h4><span lang="de">Beispiel: dokumentation</span><span lang="en">Example: documentation</span></h4>
+  <p><span lang="de">Der neueste Service hatte Architekturentscheidungen dokumentiert und war in einem Tag zu verstehen. Der wichtigste und größte Service hatte eine README mit Build-Befehl. Genau dort sitzt das Geschäftsmodell.</span><span lang="en">The newest service had its architecture decisions documented and was understandable in a day. The most important and largest service had a README with a build command. That is exactly where the business logic lives.</span></p>
+</div>
+<div class="pop" id="p8" popover>
+  <h4><span lang="de">Beispiel: bus-faktor</span><span lang="en">Example: bus factor</span></h4>
+  <p><span lang="de">45 Prozent des lebenden Codes gehörten Leuten, die seit zwölf Monaten nichts mehr committet haben. Drei Personen verantworten über die Hälfte, und acht von elf Repositories haben genau einen Hauptautor.</span><span lang="en">45 percent of the surviving code was owned by people who had not committed in twelve months. Three people account for over half, and eight of eleven repositories have exactly one majority author.</span></p>
+</div>
+
+<div class="status" role="navigation" aria-label="Sections">
+  <span class="tag" aria-hidden="true">vibe-check</span>
+  <a href="#start">0:start</a>
+  <a href="#checks">1:checks</a>
+  <a href="#scorecard">2:scorecard</a>
+  <a href="#lieferung">3:<span lang="de">lieferung</span><span lang="en">delivery</span></a>
+  <a href="#harness">4:harness</a>
+  <a href="#daten">5:<span lang="de">daten</span><span lang="en">data</span></a>
+  <a href="#preise">6:<span lang="de">preise</span><span lang="en">pricing</span></a>
+  <a href="#kontakt">7:<span lang="de">kontakt</span><span lang="en">contact</span></a>
+  <span class="clock" id="clock" aria-hidden="true"></span>
+</div>
+
+<script>
+(function () {
+  var doc = document.documentElement;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var typed = document.getElementById('typed');
+
+  /* ── theme ─────────────────────────────────────────────────────────── */
+  document.getElementById('theme').addEventListener('click', function () {
+    var next = doc.dataset.theme === 'dark' ? 'light' : 'dark';
+    doc.dataset.theme = next;
+    try { localStorage.setItem('vc-theme', next); } catch (e) {}
+  });
+
+  /* ── language ──────────────────────────────────────────────────────── */
+  var TITLES = {
+    de: 'vibe-check · Code-Audit für KI-generierte Codebases',
+    en: 'vibe-check · Code audit for AI-generated codebases'
+  };
+  function paintLang() {
+    var en = doc.dataset.lang === 'en';
+    doc.lang = en ? 'en' : 'de';
+    document.title = TITLES[en ? 'en' : 'de'];
+    document.querySelector('.l-de').style.opacity = en ? .45 : 1;
+    document.querySelector('.l-en').style.opacity = en ? 1 : .45;
+    typed.textContent = typed.dataset[en ? 'en' : 'de'];
+  }
+  document.getElementById('lang').addEventListener('click', function () {
+    doc.dataset.lang = doc.dataset.lang === 'en' ? 'de' : 'en';
+    try { localStorage.setItem('vc-lang', doc.dataset.lang); } catch (e) {}
+    paintLang();
+  });
+
+  /* ── clock ─────────────────────────────────────────────────────────── */
+  var clock = document.getElementById('clock');
+  function tick() {
+    var d = new Date();
+    clock.textContent = String(d.getHours()).padStart(2, '0') + ':' +
+      String(d.getMinutes()).padStart(2, '0');
+  }
+  tick(); setInterval(tick, 20000);
+
+  /* ── hero: type the command, then stream the scan log ──────────────── */
+  var rows = [].slice.call(document.querySelectorAll('#log .row'));
+  function stream(i) {
+    if (i >= rows.length) return;
+    rows[i].classList.add('in');
+    setTimeout(function () { stream(i + 1); }, 105 + Math.random() * 130);
+  }
+  paintLang();
+  if (reduce) {
+    rows.forEach(function (r) { r.style.opacity = 1; });
+  } else {
+    var full = typed.textContent, i = 0;
+    typed.textContent = '';
+    (function type() {
+      if (i <= full.length) {
+        typed.textContent = full.slice(0, i++);
+        setTimeout(type, 11 + Math.random() * 20);
+      } else {
+        setTimeout(function () { stream(0); }, 220);
+      }
+    })();
+  }
+
+  /* ── scorecard bars fill on first view ─────────────────────────────── */
+  function onView(el, fn) {
+    if (!('IntersectionObserver' in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(); } });
+    }, { threshold: 0.35 });
+    io.observe(el);
+  }
+  onView(document.getElementById('bars'), function () {
+    document.querySelectorAll('#bars .f').forEach(function (f, n) {
+      setTimeout(function () { f.style.width = f.dataset.w + '%'; }, reduce ? 0 : n * 90);
+    });
+  });
+
+  /* ── checklists: tickable, purely for the satisfaction of ticking ───
+     A real checkbox inside a label, so keyboard and screen readers get it
+     for free. Without JS the list stays a plain [ ] list.               */
+  document.querySelectorAll('ul.check li').forEach(function (li) {
+    var label = document.createElement('label');
+    var box = document.createElement('input');
+    box.type = 'checkbox';
+    label.appendChild(box);
+    while (li.firstChild) label.appendChild(li.firstChild);
+    li.appendChild(label);
+  });
+
+  /* ── example popovers: hover to peek, click to pin ─────────────────
+     popover="auto" gives Escape, light-dismiss and one-at-a-time for free,
+     so all this adds is placement and the hover/pin distinction.        */
+  var supported = HTMLElement.prototype.hasOwnProperty('popover');
+  document.querySelectorAll('.bar[data-pop]').forEach(function (bar) {
+    var pop = document.getElementById(bar.dataset.pop);
+    var btn = bar.querySelector('button.ex');
+    if (!pop || !btn) return;
+
+    if (!supported) { pop.removeAttribute('popover'); pop.hidden = true; }
+    var pinned = false;
+
+    function place() {
+      var r = btn.getBoundingClientRect();
+      var w = Math.min(pop.offsetWidth || 380, innerWidth - 16);
+      pop.style.left = Math.max(8, Math.min(r.right - w, innerWidth - w - 8)) + 'px';
+      var below = r.bottom + 8;
+      pop.style.top = (below + pop.offsetHeight > innerHeight - 40
+        ? Math.max(8, r.top - pop.offsetHeight - 8) : below) + 'px';
+    }
+    function show() {
+      if (!supported) { pop.hidden = false; place(); return; }
+      if (!pop.matches(':popover-open')) pop.showPopover();
+      place();
+    }
+    function hide() {
+      if (!supported) { pop.hidden = true; return; }
+      if (pop.matches(':popover-open')) pop.hidePopover();
+    }
+
+    bar.addEventListener('mouseenter', function () { if (!pinned) show(); });
+    bar.addEventListener('mouseleave', function () { if (!pinned) hide(); });
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      pinned = !pinned;
+      if (pinned) show(); else hide();
+      btn.setAttribute('aria-expanded', String(pinned));
+    });
+    btn.addEventListener('focus', show);
+    btn.addEventListener('blur', function () { if (!pinned) hide(); });
+    if (supported) {
+      pop.addEventListener('toggle', function (e) {
+        if (e.newState === 'closed') { pinned = false; btn.setAttribute('aria-expanded', 'false'); }
+      });
+    }
+    addEventListener('resize', function () { if (pinned) place(); }, { passive: true });
+  });
+
+  /* ── statusline tracks the section on screen ───────────────────────── */
+  var links = [].slice.call(document.querySelectorAll('.status a'));
+  var targets = links.map(function (a) { return document.querySelector(a.hash); });
+  function mark() {
+    var best = 0, y = innerHeight * 0.35;
+    targets.forEach(function (t, n) {
+      if (t && t.getBoundingClientRect().top <= y) best = n;
+    });
+    links.forEach(function (a, n) {
+      if (n === best) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  addEventListener('scroll', mark, { passive: true });
+  addEventListener('load', mark);
+  mark();
+})();
+</script>
+</body>
+</html>
