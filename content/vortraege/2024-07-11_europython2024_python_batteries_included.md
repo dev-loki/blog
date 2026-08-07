@@ -11,7 +11,9 @@ abstract_url = "https://ep2024.europython.eu/session/python-unplugged-mining-for
 video_url = "https://www.youtube.com/watch?v=W5ZOFvGmmbo"
 +++
 
-{{ youtube(id="W5ZOFvGmmbo", class="youtube") }}
+<div class="youtube">
+  <iframe src="https://www.youtube.com/embed/W5ZOFvGmmbo" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</div>
 
 **Slides (PDF):** [PDF herunterladen](https://loki.dev/slides/vortraege/ep2024-python-unplugged/europython2024-python-unplugged-slides.pdf)
 

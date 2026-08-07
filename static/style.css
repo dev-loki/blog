@@ -361,3 +361,5 @@ h1 { font-size: clamp(1.25rem, 3vw, 1.75rem); margin: 0 0 1rem; }
 }
 .terminal-line.cmd-echo { color: var(--fg-dim); margin-top: 0.4rem; }
 .terminal-line.error    { opacity: 0.6; }
+
+.youtube iframe { width: 100%; aspect-ratio: 16/9; border: 0; }
