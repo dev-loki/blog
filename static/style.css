@@ -83,7 +83,10 @@ a:hover, a:focus-visible {
   color: var(--inv-fg);
   text-decoration: none;
   outline: none;
-  padding: 0 0.2em;
+  /* two side shadows instead of horizontal padding: same 0.2em of inverted
+     background, but no change to the inline box, so hovering a link inside a
+     paragraph no longer reflows the text around it */
+  box-shadow: 0.2em 0 0 var(--inv-bg), -0.2em 0 0 var(--inv-bg);
 }
 a:focus-visible { outline: 2px solid var(--fg); outline-offset: 1px; }
 
