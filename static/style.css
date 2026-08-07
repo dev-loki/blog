@@ -256,6 +256,18 @@ main { padding-bottom: 3rem; }
   font-size: 0.9em;
 }
 .post-content pre code { background: none; padding: 0; font-size: inherit; }
+.post-content table {
+  border-collapse: collapse;
+  margin: 0 0 1rem;
+  width: 100%;
+}
+.post-content th, .post-content td {
+  border-bottom: 1px solid var(--rule);
+  padding: 0.4rem 1ch 0.4rem 0;
+  text-align: left;
+  vertical-align: top;
+}
+.post-content th { color: var(--fg-dim); font-weight: normal; }
 /* syntax highlight — Giallo class output */
 /* always dark background so Monokai token colors stay readable in light mode */
 .post-content pre.giallo {
