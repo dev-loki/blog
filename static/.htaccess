@@ -37,3 +37,17 @@ AddCharset UTF-8 .txt .md .xml .json .js .css .svg
     Header set Cache-Control "public, max-age=31536000"
   </FilesMatch>
 </IfModule>
+
+# Unlisted pages. These live in static/ and are served like any other file, but
+# nothing links to them and they are not pages, so Zola's sitemap (which only
+# covers content/) never mentions them. This closes the remaining way one shows
+# up in a search result: a crawler that learned the URL from somewhere else, a
+# browser toolbar, or a referrer header.
+#
+# Unlisted is not private. Anyone with the URL can read it. If a file here ever
+# needs to be actually restricted, that is HTTP auth, not this.
+<IfModule mod_headers.c>
+  <FilesMatch "^DATUM-App-idea\.html$">
+    Header set X-Robots-Tag "noindex, nofollow, noarchive"
+  </FilesMatch>
+</IfModule>
