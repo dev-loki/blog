@@ -58,10 +58,11 @@ zola build
 echo "==> Deploying to ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}"
 
 # Mirror public/ into the docroot. --delete prunes stale files (e.g. the
-# nocontent.html placeholder), but .well-known/ is preserved so Let's Encrypt
-# ACME challenges survive. Trailing slash on public/ copies its contents.
+# nocontent.html placeholder). .well-known/ is protected from deletion (not
+# excluded) so Let's Encrypt ACME challenges survive while security.txt from
+# static/.well-known/ still uploads. Trailing slash on public/ copies contents.
 rsync -avz --delete \
-  --exclude='.well-known/' \
+  --filter='P .well-known/***' \
   -e "$SSH_CMD" \
   public/ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
 
@@ -87,5 +88,9 @@ rsync -avz -e "$SSH_CMD" \
 rsync -az -e "$SSH_CMD" \
   static/.htaccess \
   "${DEPLOY_USER}@${DEPLOY_HOST}:${VIBE_PATH}/.htaccess"
+# security.txt is per-host (RFC 9116), so the subdomain gets its own copy.
+rsync -az -e "$SSH_CMD" \
+  static/.well-known/security.txt \
+  "${DEPLOY_USER}@${DEPLOY_HOST}:${VIBE_PATH}/.well-known/"
 
 echo "==> Done. https://loki.dev/ and https://${VIBE_DOMAIN}/"

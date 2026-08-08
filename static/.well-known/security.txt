@@ -1,0 +1,4 @@
+# Vulnerability disclosure contact for loki.dev — https://securitytxt.org/ (RFC 9116)
+Contact: mailto:blog@loki.dev
+Expires: 2027-08-07T00:00:00Z
+Preferred-Languages: en, de
