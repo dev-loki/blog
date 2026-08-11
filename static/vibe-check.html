@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>vibe-check · Code-Audit für KI-generierte Codebases</title>
-<meta name="description" content="Architektur, Code-Qualität, Performance, Code Health und Security-Basics für KI-generierte Codebases. Offline, read-only, mit Fix-Prompts und einem Harness, das die Checks danach dauerhaft weiterfährt.">
+<meta name="description" content="Security-Basics, Architektur, Performance und Code Health für vibe-gecodete Repos. Fixpreis ab 1.200 €, Report plus Fix-Prompts, kein Penetrationstest.">
 <link rel="canonical" href="https://vibe-check.loki.dev/">
 <link rel="icon" href="https://loki.dev/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="https://loki.dev/favicon-32x32.png" sizes="32x32" type="image/png">
 <meta property="og:site_name" content="loki.dev">
 <meta property="og:type" content="website">
-<meta property="og:title" content="vibe-check · Code-Audit für KI-generierte Codebases">
-<meta property="og:description" content="Dein Modell hat es geschrieben. Jemand sollte es lesen.">
+<meta property="og:title" content="vibe-check: dein Agent hat den Code geschrieben, jemand sollte ihn lesen">
+<meta property="og:description" content="Security-Basics, Architektur, Performance und Code Health für vibe-gecodete Repos. Fixpreis ab 1.200 €, Report plus Fix-Prompts, kein Penetrationstest.">
 <meta property="og:image" content="https://loki.dev/loki-mascot.jpg">
 <meta property="og:url" content="https://vibe-check.loki.dev/">
 <meta name="twitter:card" content="summary">
@@ -192,6 +192,25 @@ p { margin: 0 0 1rem; max-width: 68ch; }
 .pane ul { list-style: none; margin: 0; padding: .65rem .75rem; font-size: .84rem; }
 .pane li { color: var(--fg-dim); padding: .12rem 0 .12rem 1.4ch; text-indent: -1.4ch; }
 .pane li::before { content: "· "; color: var(--fg-faint); }
+.pane p { margin: 0; padding: .65rem .75rem; font-size: .84rem; color: var(--fg-dim); max-width: none; }
+
+/* ── details: the terminal-styled disclosure, for content that need not
+   force itself on every reader ── */
+details {
+  border: 1px solid var(--rule); background: var(--bg-soft);
+  margin: 0 0 1.1rem;
+}
+details > summary {
+  cursor: pointer; padding: .6rem .85rem; font-size: .88rem;
+  color: var(--fg-dim); list-style: none;
+}
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: "▸ "; color: var(--fg-faint); }
+details[open] > summary::before { content: "▾ "; }
+details > summary:hover, details > summary:focus-visible { color: var(--fg); }
+details > *:not(summary) { padding-left: .85rem; padding-right: .85rem; }
+details > *:last-child { padding-bottom: .85rem; }
+details ul.check { padding-top: .2rem; }
 .pane .note {
   margin: 0; padding: .5rem .75rem; border-top: 1px dashed var(--rule);
   font-size: .8rem; color: var(--fg-faint); max-width: none;
@@ -327,6 +346,19 @@ footer a:hover { color: var(--fg); }
 .status .clock { margin-left: auto; padding-left: 1rem; color: var(--fg-faint); flex: none; font-variant-numeric: tabular-nums; }
 @media (max-width: 660px) { .status .clock { display: none; } }
 
+/* ── mascot: the loki penguin, tumbling down the right margin as you
+   scroll. Purely decorative, so it is inert on touch and hidden where
+   there is no margin to tumble in or where motion was asked off. ── */
+.mascot {
+  position: fixed; top: 0; right: .9rem; z-index: 15;
+  width: 34px; height: 34px; padding: 4px;
+  color: var(--fg-dim); background: var(--bg-soft);
+  border: 1px solid var(--rule); border-radius: 50%;
+  pointer-events: none;
+}
+.mascot svg { width: 100%; height: 100%; display: block; }
+@media (max-width: 900px), (prefers-reduced-motion: reduce) { .mascot { display: none; } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -336,6 +368,17 @@ footer a:hover { color: var(--fg); }
 </head>
 <body>
 <a class="skip" href="#main"><span lang="de">Zum Inhalt springen</span><span lang="en">Skip to content</span></a>
+
+<div class="mascot" id="mascot" aria-hidden="true">
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <path d="M11.5 11.5 C7.5 11 3.8 8.2 3 3.4 C2.85 2.5 3.7 2.2 4.2 2.9 C6.3 6.2 8.4 7.9 11.6 8.6 C12.7 8.85 12.6 11.3 11.5 11.5 Z"/>
+    <path d="M20.5 11.5 C24.5 11 28.2 8.2 29 3.4 C29.15 2.5 28.3 2.2 27.8 2.9 C25.7 6.2 23.6 7.9 20.4 8.6 C19.3 8.85 19.4 11.3 20.5 11.5 Z"/>
+    <path d="M16 8 C9.9 8 6 12.4 6 18.2 L26 18.2 C26 12.4 22.1 8 16 8 Z"/>
+    <rect x="5.5" y="17.6" width="21" height="3.6" rx="1.7"/>
+    <circle cx="9.5" cy="19.4" r="0.8"/><circle cx="16" cy="19.4" r="0.8"/><circle cx="22.5" cy="19.4" r="0.8"/>
+    <path d="M14.8 20.8 L17.2 20.8 L16.8 24.6 C16.8 25.4 15.2 25.4 15.2 24.6 Z"/>
+  </svg>
+</div>
 
 <div class="term">
 
@@ -371,8 +414,12 @@ footer a:hover { color: var(--fg); }
         <span lang="en">Your model wrote it.<br><span class="dim">Somebody should read it.</span></span>
       </h1>
       <p class="lede">
-        <span lang="de">In vier Tagen weißt du, was in deiner Codebase steckt: Architektur, Code-Qualität, Performance, Code Health und die Security-Basics. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach dauerhaft weiterfährt.</span>
-        <span lang="en">In four days you know what is in your codebase: architecture, code quality, performance, code health and the security basics. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps running the checks afterwards.</span>
+        <span lang="de">Dein Agent hat den Code geschrieben, und er ist schlecht darin, sich selbst zu widersprechen. Ich habe die immer gleichen Muster oft genug gesehen, um schnell zu sagen, was davon wirklich zählt. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach weiterfährt.</span>
+        <span lang="en">Your agent wrote the code, and it is bad at contradicting itself. I have seen the same patterns often enough to tell quickly what actually matters. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps the checks running afterwards.</span>
+      </p>
+      <p class="dim sm">
+        <span lang="de">Das mache ich informell schon länger, für Leute, die gefragt haben. Jetzt gibt es einen Preis dafür.</span>
+        <span lang="en">I have been doing this informally for a while, for people who asked. Now there is a price on it.</span>
       </p>
 
       <div class="box" style="margin-top:1.4rem">
@@ -415,10 +462,6 @@ footer a:hover { color: var(--fg); }
         <span lang="de">Wenn dein Code seit fünf Jahren von einem eingespielten Team gepflegt wird und du eine ISO-27001-Zertifizierung brauchst, bin ich der falsche Ansprechpartner. Schreib es mir trotzdem, dann sage ich dir, wen du stattdessen brauchst.</span>
         <span lang="en">If your code has been maintained by a settled team for five years and you need an ISO 27001 certification, I am the wrong person. Write to me anyway and I will tell you who you actually need.</span>
       </p>
-      <p>
-        <span lang="de">Generierter Code hat eine Eigenart, die handgeschriebener seltener hat: dieselbe Schwachstelle taucht nicht einmal auf, sondern an zehn Stellen gleichzeitig, weil das Modell sie zehnmal nach demselben Muster geschrieben hat. Der Report zeigt dir das Muster, nicht nur die zehn Fundstellen. Das Harness danach ist der Grund, warum es beim nächsten Prompt nicht wieder passiert.</span>
-        <span lang="en">Generated code has a habit handwritten code has less often: the same weak spot does not show up once, it shows up in ten places at once, because the model wrote it ten times from the same pattern. The report shows you the pattern, not just the ten locations. The harness afterwards is why the next prompt does not reproduce it.</span>
-      </p>
     </section>
 
     <!-- ── was ich prüfe ────────────────────────────────────────────── -->
@@ -429,66 +472,27 @@ footer a:hover { color: var(--fg); }
 
         <div class="pane">
           <h3><span lang="de">architektur</span><span lang="en">architecture</span></h3>
-          <ul>
-            <li><span lang="de">Wo liegen die Grenzen, und halten sie</span><span lang="en">Where the boundaries are and whether they hold</span></li>
-            <li><span lang="de">Kopplung zwischen Services und Modulen</span><span lang="en">Coupling between services and modules</span></li>
-            <li><span lang="de">Duplikate, die auseinandergedriftet sind</span><span lang="en">Duplicates that have drifted apart</span></li>
-            <li><span lang="de">Datenmodell und Zuständigkeiten</span><span lang="en">Data model and ownership</span></li>
-            <li><span lang="de">Build- und Deploy-Kette, baut es offline</span><span lang="en">Build and deploy chain, does it build offline</span></li>
-          </ul>
+          <p><span lang="de">Ob die Grenzen zwischen Modulen halten, oder ob Kopien voneinander schon auseinandergedriftet sind.</span><span lang="en">Whether the boundaries between modules hold, or whether copies of each other have already drifted apart.</span></p>
         </div>
 
         <div class="pane">
           <h3><span lang="de">code-qualität</span><span lang="en">code quality</span></h3>
-          <ul>
-            <li><span lang="de">Komplexität und God-Klassen</span><span lang="en">Complexity and god classes</span></li>
-            <li><span lang="de">Lint-Befunde, und wie viele davon automatisch behebbar sind</span><span lang="en">Lint findings, and how many are auto-fixable</span></li>
-            <li><span lang="de">Fehlerbehandlung: wo werden Exceptions geschluckt</span><span lang="en">Error handling: where exceptions get swallowed</span></li>
-            <li><span lang="de">Namensgebung und Lesbarkeit an den heißen Stellen</span><span lang="en">Naming and readability in the hot spots</span></li>
-            <li><span lang="de">Toter Code und Copy-Paste aus dem Modell</span><span lang="en">Dead code and copy-paste from the model</span></li>
-          </ul>
+          <p><span lang="de">Komplexität, God-Klassen, und wie viel davon ein einziger Lint-Lauf beheben würde.</span><span lang="en">Complexity, god classes, and how much of it a single lint run would fix.</span></p>
         </div>
 
         <div class="pane">
           <h3><span lang="de">performance</span><span lang="en">performance</span></h3>
-          <ul>
-            <li><span lang="de">N+1-Abfragen und Queries in Schleifen</span><span lang="en">N+1 queries and queries inside loops</span></li>
-            <li><span lang="de">Fehlende Indizes auf Spalten, die gefiltert werden</span><span lang="en">Missing indexes on columns that get filtered</span></li>
-            <li><span lang="de">Blockierendes IO auf heißen Pfaden</span><span lang="en">Blocking IO on hot paths</span></li>
-            <li><span lang="de">Unbegrenzte Ergebnismengen, fehlende Pagination</span><span lang="en">Unbounded result sets, missing pagination</span></li>
-            <li><span lang="de">Caching: gibt es eins, und greift es</span><span lang="en">Caching: does it exist, and does it hit</span></li>
-            <li><span lang="de">Algorithmische Ausrutscher, die mit den Daten wachsen</span><span lang="en">Algorithmic slips that grow with your data</span></li>
-          </ul>
-          <p class="note">
-            <span lang="de">Ich lese das im Code. Lasttest und Profiling in Produktion sind nicht dabei, ich sage dir aber, an welchen Stellen sich beides lohnt.</span>
-            <span lang="en">I read this in the code. Load testing and production profiling are not included, but I tell you at which points both would pay off.</span>
-          </p>
+          <p><span lang="de">N+1-Abfragen, fehlende Indizes, und Code, der mit deinen Daten langsamer statt schneller wird.</span><span lang="en">N+1 queries, missing indexes, and code that gets slower, not faster, as your data grows.</span></p>
         </div>
 
         <div class="pane">
           <h3><span lang="de">code health</span><span lang="en">code health</span></h3>
-          <ul>
-            <li><span lang="de">Testverhältnis und Coverage, und ob es in CI durchgesetzt wird</span><span lang="en">Test ratio and coverage, and whether CI enforces it</span></li>
-            <li><span lang="de">Abhängigkeiten: was hängt drin, was ist verwundbar, was wird gescannt</span><span lang="en">Dependencies: what is pulled in, what is vulnerable, what gets scanned</span></li>
-            <li><span lang="de">Dokumentation: reicht sie, um jemanden neu anzusetzen</span><span lang="en">Documentation: enough to onboard somebody new</span></li>
-            <li><span lang="de">Bus-Faktor: wie viel Code gehört Leuten, die weg sind</span><span lang="en">Bus factor: how much code is owned by people who left</span></li>
-            <li><span lang="de">CI/CD: welche Gates existieren, welche sind abgeschaltet</span><span lang="en">CI/CD: which gates exist, which are switched off</span></li>
-          </ul>
+          <p><span lang="de">Testverhältnis, Abhängigkeiten mit bekannten Lücken, und ob überhaupt etwas davon in CI durchgesetzt wird.</span><span lang="en">Test ratio, dependencies with known gaps, and whether any of it is enforced in CI at all.</span></p>
         </div>
 
         <div class="pane wide">
           <h3><span lang="de">security-basics</span><span lang="en">security basics</span></h3>
-          <ul>
-            <li><span lang="de">OWASP Top 10, Kategorie für Kategorie durchgegangen</span><span lang="en">OWASP Top 10, walked category by category</span></li>
-            <li><span lang="de">Authentifizierung und Autorisierung: wer darf was, und wo wird es vergessen</span><span lang="en">Authentication and authorisation: who may do what, and where it gets forgotten</span></li>
-            <li><span lang="de">Secrets im Repo und in der Git-Historie</span><span lang="en">Secrets in the repo and in the git history</span></li>
-            <li><span lang="de">Injection, Deserialisierung, Upload-Pfade, TLS</span><span lang="en">Injection, deserialisation, upload paths, TLS</span></li>
-            <li><span lang="de">Konfiguration und Deployment: offene Endpunkte, Defaults, die in Produktion stehen bleiben</span><span lang="en">Configuration and deployment: open endpoints, defaults left in production</span></li>
-          </ul>
-          <p class="note">
-            <span lang="de">Das sind die Basics, und die sitzen in KI-generiertem Code erfahrungsgemäß am schlechtesten. Einen vollständigen Penetrationstest macht jemand anderes, dafür gibt es Spezialisten mit anderem Werkzeug. Mein Teil findet die Probleme, die vorher im Code stehen, und macht den Pentest danach günstiger.</span>
-            <span lang="en">These are the basics, and in AI-generated code they are usually the weakest part. A full penetration test is somebody else's job, there are specialists with different tooling for that. My part finds the problems that sit in the code beforehand, which makes that pentest cheaper.</span>
-          </p>
+          <p><span lang="de">OWASP Top 10, wer welche Rechte hat und wo das vergessen wurde, Secrets im Repo und in der Git-Historie.</span><span lang="en">OWASP Top 10, who has which rights and where that got forgotten, secrets in the repo and in the git history.</span></p>
         </div>
 
       </div>
@@ -502,8 +506,8 @@ footer a:hover { color: var(--fg); }
         <span lang="de">Ich fahre mehrere Werkzeuge parallel, prüfe jeden Treffer von Hand nach und setze daraus ein Bild zusammen.</span>
         <span lang="en">I run several tools in parallel, verify every hit by hand, and assemble one picture out of it.</span>
       </p>
-      <div class="box">
-        <div class="box-h"><span>toolchain</span><span class="n"><span lang="de">read-only, reproduzierbar</span><span lang="en">read-only, reproducible</span></span></div>
+      <details>
+        <summary><span lang="de">Werkzeuge im Detail, read-only und reproduzierbar</span><span lang="en">Tools in detail, read-only and reproducible</span></summary>
         <ul class="check" style="margin:0">
           <li><b><span lang="de">Klassische statische Analyse.</span><span lang="en">Classic static analysis.</span></b> <span lang="de">Linter, Komplexitätsmessung, Dependency- und Container-Scanner, je nach Stack. Etablierte Werkzeuge, deren Aussagen jemand anders nachprüfen kann.</span><span lang="en">Linters, complexity metrics, dependency and container scanners, depending on the stack. Established tools whose output somebody else can check.</span></li>
           <li><b><span lang="de">Git-Archäologie.</span><span lang="en">Git archaeology.</span></b> <span lang="de">Wer hat was geschrieben, was ändert sich ständig, wo liegt Wissen fest. Das steht in keinem Linter-Report.</span><span lang="en">Who wrote what, what churns constantly, where knowledge is stuck. No linter report shows that.</span></li>
@@ -513,7 +517,7 @@ footer a:hover { color: var(--fg); }
           <li><b><span lang="de">Architekturmethodik.</span><span lang="en">Architecture method.</span></b> <span lang="de">Grenzen, Kopplung, Abhängigkeitsrichtung, Datenhoheit. Handwerk, keine Messung.</span><span lang="en">Boundaries, coupling, dependency direction, data ownership. Craft, not measurement.</span></li>
           <li><b><span lang="de">KI-Werkzeuge, optional.</span><span lang="en">AI tooling, optional.</span></b> <span lang="de">Als Beschleuniger beim Lesen großer Codebases, nie als einzige Quelle, und nur mit deiner Freigabe. Jeder Fund landet erst im Report, nachdem ich ihn selbst im Code gesehen habe.</span><span lang="en">As an accelerator for reading large codebases, never as the only source, and only with your sign-off. No finding enters the report before I have seen it in the code myself.</span></li>
         </ul>
-      </div>
+      </details>
       <p>
         <span lang="de">Ein Werkzeug allein liefert Zahlen, und Zahlen sortieren sich nicht selbst. Ein Lint-Befund wird erst wichtig, wenn er auf einem Pfad sitzt, der auch Rechte prüft. Eine langsame Abfrage wird erst dringend, wenn dieselbe Tabelle im nächsten Quartal das Zehnfache an Zeilen hat. Diese Verbindungen herzustellen ist die Arbeit, für die du mich bezahlst. Ein Linter findet Stil. Das hier soll den Satz finden: ein Nutzer kann auf die Daten eines anderen Mandanten zugreifen.</span>
         <span lang="en">One tool on its own produces numbers, and numbers do not sort themselves. A lint finding only matters once it sits on a path that also checks permissions. A slow query only becomes urgent once the same table holds ten times the rows next quarter. Making those connections is the work you are paying me for. A linter finds style. This is built to find the sentence: a user can read another tenant's data.</span>
@@ -683,8 +687,8 @@ and not four copies of it.</span>
       <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">cat harness/README.md</span> <span class="flag">| head -20</span></p>
       <h2><span lang="de">was danach läuft</span><span lang="en">what runs afterwards</span></h2>
       <p>
-        <span lang="de">Ein Audit beschreibt den Stand an einem Tag. Drei Monate später stimmt die Hälfte nicht mehr, weil weiter generiert wurde. Deshalb liefere ich eine Anleitung und die Konfiguration für ein AI-Harness, das die Checks aus diesem Audit regelmäßig selbst fährt.</span>
-        <span lang="en">An audit describes the state on one day. Three months later half of it is wrong again, because generation continued. So I deliver instructions and the configuration for an AI harness that runs the checks from this audit on a schedule, by itself.</span>
+        <span lang="de">Ein Audit beschreibt den Stand an einem Tag. Ein generiertes Repo bekommt dieselbe Schwachstelle danach oft an zehn neuen Stellen, weil der Agent sie zehnmal nach demselben Muster schreibt. Deshalb liefere ich zusätzlich ein Harness, das die Checks aus diesem Audit regelmäßig selbst fährt, damit das nächste Mal nicht wieder bei null anfängt.</span>
+        <span lang="en">An audit describes the state on one day. A generated repo often gets the same weak spot back in ten new places afterwards, because the agent writes it ten times from the same pattern. So I also deliver a harness that runs the checks from this audit on a schedule, by itself, so next time does not start from zero again.</span>
       </p>
       <div class="box">
         <div class="box-h"><span>harness/</span><span class="n"><span lang="de">läuft bei dir, ohne mich</span><span lang="en">runs on your side, without me</span></span></div>
@@ -735,49 +739,61 @@ and not four copies of it.</span>
       </p>
       <div class="callout ok">
         <p><b><span lang="de">Rein offline, rein lesend.</span><span lang="en">Offline only, read only.</span></b>
-          <span lang="de">Ich bekomme ein Archiv oder einen read-only Zugang, sonst nichts. Deine Systeme sehe ich nie von innen, und in deiner Produktion läuft nichts von mir. Im Repo verändere ich keine Zeile, alle Skripte lesen nur.</span>
-          <span lang="en">I get an archive or read-only access, nothing else. I never see your systems from the inside, and nothing of mine runs in your production. I change no line in the repo, every script only reads.</span></p>
+          <span lang="de">Archiv oder read-only Zugang, sonst nichts. Deine Systeme sehe ich nie von innen, im Repo verändere ich keine Zeile.</span>
+          <span lang="en">Archive or read-only access, nothing else. I never see your systems from the inside, and I change no line in the repo.</span></p>
         <p><b><span lang="de">Der Code bleibt auf verschlüsselten Rechnern.</span><span lang="en">The code stays on encrypted machines.</span></b>
           <span lang="de">Vollverschlüsselte Datenträger, kein Sync in eine Cloud, keine Weitergabe an Dritte, keine Subunternehmer.</span>
           <span lang="en">Full-disk encryption, no cloud sync, no sharing with third parties, no subcontractors.</span></p>
         <p><b><span lang="de">Sprachmodelle nur nach deiner Freigabe.</span><span lang="en">Language models only with your sign-off.</span></b>
-          <span lang="de">Ich arbeite mit KI-Werkzeugen. Wenn dabei Teile deines Codes an einen Anbieter gehen, sage ich dir vorher welcher, wir halten es schriftlich fest, und du kannst es ablehnen. Dann läuft die Analyse lokal, mit denselben Skripten und etwas mehr Zeit für das Lesen.</span>
-          <span lang="en">I work with AI tooling. If parts of your code would go to a provider, I tell you which one up front, we put it in writing, and you can say no. Then the analysis runs locally, with the same scripts and a little more reading time.</span></p>
+          <span lang="de">Wenn Code an ein Sprachmodell geht, sage ich vorher welcher Anbieter, du kannst ablehnen, dann läuft alles lokal mit etwas mehr Lesezeit.</span>
+          <span lang="en">If code goes to a language model, I say which provider up front, you can say no, and then everything runs locally with a bit more reading time.</span></p>
         <p><b><span lang="de">Löschung mit Bestätigung.</span><span lang="en">Deletion, confirmed in writing.</span></b>
-          <span lang="de">14 Tage nach der Abnahme lösche ich Arbeitskopien und Rohdaten und schicke dir die Bestätigung. Was ich behalte, sind die Skripte, und die kennen deinen Code nicht.</span>
-          <span lang="en">14 days after sign-off I delete working copies and raw data and send you the confirmation. What I keep are the scripts, and they know nothing about your code.</span></p>
+          <span lang="de">14 Tage nach Abnahme lösche ich Arbeitskopien und Rohdaten und bestätige es dir schriftlich.</span>
+          <span lang="en">14 days after sign-off I delete working copies and raw data and confirm it in writing.</span></p>
         <p><b><span lang="de">NDA und AVV gehören dazu.</span><span lang="en">NDA and a DPA are part of it.</span></b>
-          <span lang="de">NDA selbstverständlich, Auftragsverarbeitungsvertrag auf Wunsch. Wenn im Repo personenbezogene Daten liegen, etwa Dumps oder echte Testdaten, sage ich es dir, und wir klären die Rechtsgrundlage bevor ich anfange.</span>
-          <span lang="en">NDA as a matter of course, a data processing agreement on request. If the repo contains personal data, dumps or real test data for instance, I tell you, and we settle the legal basis before I start.</span></p>
+          <span lang="de">NDA immer, Auftragsverarbeitungsvertrag auf Wunsch, personenbezogene Daten im Repo klären wir vorher.</span>
+          <span lang="en">NDA always, a data processing agreement on request, personal data in the repo we settle beforehand.</span></p>
         <p><b><span lang="de">Keine Namen im Report.</span><span lang="en">No names in the report.</span></b>
-          <span lang="de">Der Bus-Faktor steht ohne Personennamen drin. Eine Auswertung pro Person liefere ich nur, wenn du sie ausdrücklich willst, weil sie mitbestimmungsrelevant sein kann.</span>
-          <span lang="en">Bus factor is reported without personal names. A per-person breakdown only if you explicitly ask for it, because it can trigger works council co-determination.</span></p>
+          <span lang="de">Bus-Faktor ohne Personennamen, eine Auswertung pro Person nur auf ausdrücklichen Wunsch.</span>
+          <span lang="en">Bus factor without personal names, a per-person breakdown only on explicit request.</span></p>
       </div>
       <p class="sm dim">
-        <span lang="de">Der Offline-Ansatz ist eine bewusste Entscheidung. Ein dynamischer Test braucht Freigaben, die du in einer Woche nicht bekommst. Statisch komme ich in vier Tagen an die Funde, die in KI-generiertem Code ohnehin am häufigsten sind.</span>
-        <span lang="en">The offline approach is a deliberate decision. A dynamic test needs sign-offs you will not get inside a week. Statically I reach the findings that dominate AI-generated code in four days.</span>
+        <span lang="de">Der Offline-Ansatz ist eine bewusste Entscheidung. Ein dynamischer Test braucht Freigaben, die du kurzfristig nicht bekommst. Statisch komme ich an dieselben Funde, die in KI-generiertem Code ohnehin am häufigsten sind, nur schneller.</span>
+        <span lang="en">The offline approach is a deliberate decision. A dynamic test needs sign-offs you will not get on short notice. Statically I reach the same findings that dominate AI-generated code, just faster.</span>
       </p>
     </section>
 
-    <!-- ── grenzen ──────────────────────────────────────────────────── -->
-    <section id="grenzen">
+    <!-- ── kleingedrucktes ──────────────────────────────────────────── -->
+    <section id="kleingedrucktes">
       <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">vibe-check --limits</span></p>
-      <h2><span lang="de">wo mein audit aufhört</span><span lang="en">where my audit stops</span></h2>
+      <h2><span lang="de">kleingedrucktes</span><span lang="en">the fine print</span></h2>
       <p>
-        <span lang="de">Ich sage dir das lieber jetzt als in der Rechnung.</span>
-        <span lang="en">I would rather tell you now than in the invoice.</span>
+        <span lang="de">Lieber jetzt lesen als in der Rechnung.</span>
+        <span lang="en">Better to read this now than in the invoice.</span>
       </p>
-      <div class="callout warn">
+
+      <details>
+        <summary><span lang="de">wo mein audit aufhört</span><span lang="en">where my audit stops</span></summary>
         <p><b><span lang="de">Kein Penetrationstest.</span><span lang="en">Not a penetration test.</span></b>
-          <span lang="de">Ich lese Code, ich greife kein laufendes System an. Keine Exploits gegen deine Umgebung, keine Infrastrukturtests. Wenn ein Kunde oder ein Auditor einen Pentest verlangt, brauchst du einen Pentest, und ich sage dir, was er nach meinem Durchgang noch finden sollte.</span>
-          <span lang="en">I read code, I do not attack a running system. No exploits against your environment, no infrastructure testing. If a customer or an auditor demands a pentest, you need a pentest, and I will tell you what it should still find after my pass.</span></p>
+          <span lang="de">Ich lese Code, ich greife kein laufendes System an. Wenn ein Kunde oder ein Auditor einen Pentest verlangt, brauchst du einen Pentest, und ich sage dir, was er nach meinem Durchgang noch finden sollte.</span>
+          <span lang="en">I read code, I do not attack a running system. If a customer or an auditor demands a pentest, you need a pentest, and I will tell you what it should still find after my pass.</span></p>
         <p><b><span lang="de">Kein Lasttest.</span><span lang="en">No load test.</span></b>
           <span lang="de">Performance lese ich im Code. Was deine Datenbank unter echter Last macht, zeigt nur eine Messung in deiner Umgebung.</span>
           <span lang="en">I read performance in the code. What your database does under real load only shows up in a measurement in your environment.</span></p>
         <p><b><span lang="de">Keine Zertifizierung, kein Testat.</span><span lang="en">No certification, no attestation.</span></b>
-          <span lang="de">Du bekommst einen Report von einem Software-Architekten, der beruflich fremden Code liest. Kein Siegel, das du an einen Auditor weitergeben kannst.</span>
-          <span lang="en">You get a report from a software architect who reads other people's code for a living. Not a seal you can hand to an auditor.</span></p>
-      </div>
+          <span lang="de">Du bekommst einen Report von einem Software-Architekten, der beruflich fremden Code liest. Kein Siegel für einen Auditor.</span>
+          <span lang="en">You get a report from a software architect who reads other people's code for a living. Not a seal for an auditor.</span></p>
+      </details>
+
+      <details>
+        <summary><span lang="de">was ich brauche</span><span lang="en">what I need</span></summary>
+        <ul class="check" style="margin:0">
+          <li><b><span lang="de">Eine schriftliche Freigabe von dem, dem der Code gehört.</span><span lang="en">Written authorisation from whoever owns the code.</span></b> <span lang="de">Nicht von dir, wenn du ihn nur betreust.</span><span lang="en">Not from you, if you only maintain it.</span></li>
+          <li><span lang="de">Das Archiv oder den read-only Zugang.</span><span lang="en">The archive or the read-only access.</span></li>
+          <li><span lang="de">Eine Mailadresse für Rückfragen, Antwort innerhalb von zwei Werktagen reicht mir.</span><span lang="en">One mail address for follow-up questions, an answer within two working days is enough for me.</span></li>
+          <li><b><span lang="de">Eine Entscheidung vorab:</span><span lang="en">One decision up front:</span></b> <span lang="de">Was passiert, wenn ich ein gültiges Credential im Repo finde? Mir ist genau das schon einmal begegnet, mitten in der Git-Historie.</span><span lang="en">What happens if I find a live credential in the repo? I have run into exactly this before, sitting in the git history.</span></li>
+        </ul>
+      </details>
     </section>
 
     <!-- ── preise ───────────────────────────────────────────────────── -->
@@ -818,18 +834,6 @@ and not four copies of it.</span>
         <span lang="de">Report, Deep Dives, Fix-Prompts und Harness sind immer dabei, nie als Aufpreis. Das Scoping kostet nichts, und wenn ich aus deinen Antworten sehe, dass sich das Audit für dich nicht lohnt, schreibe ich dir das statt ein Angebot zu schicken.</span>
         <span lang="en">Report, deep dives, fix prompts and harness are always included, never an add-on. Scoping costs nothing, and if your answers tell me the audit is not worth it for you, I write you that instead of sending an offer.</span>
       </p>
-    </section>
-
-    <!-- ── voraussetzungen ──────────────────────────────────────────── -->
-    <section id="voraussetzungen">
-      <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">cat checkliste.txt</span></p>
-      <h2><span lang="de">was ich brauche</span><span lang="en">what I need</span></h2>
-      <ul class="check">
-        <li><b><span lang="de">Eine schriftliche Freigabe von dem, dem der Code gehört.</span><span lang="en">Written authorisation from whoever owns the code.</span></b> <span lang="de">Nicht von dir, wenn du ihn nur betreust.</span><span lang="en">Not from you, if you only maintain it.</span></li>
-        <li><span lang="de">Das Archiv oder den read-only Zugang.</span><span lang="en">The archive or the read-only access.</span></li>
-        <li><span lang="de">Eine Mailadresse für die zwei oder drei Fragen, die sich beim Lesen nicht klären lassen. Antwort innerhalb von zwei Werktagen reicht mir.</span><span lang="en">One mail address for the two or three questions reading alone will not answer. An answer within two working days is enough for me.</span></li>
-        <li><b><span lang="de">Eine Entscheidung vorab:</span><span lang="en">One decision up front:</span></b> <span lang="de">Was passiert, wenn ich ein gültiges Credential im Repo finde? Wen rufe ich an, und wie schnell? Frag mich das nicht erst, wenn es passiert ist. Mir ist genau das schon in einem Repository begegnet, mitten in der Git-Historie.</span><span lang="en">what happens if I find a live credential in the repo? Who do I call, and how fast? Do not ask me that once it has already happened. I have run into exactly this in a repository, sitting in the git history.</span></li>
-      </ul>
     </section>
 
     <!-- ── kontakt ──────────────────────────────────────────────────── -->
@@ -1058,9 +1062,23 @@ and not four copies of it.</span>
       else a.removeAttribute('aria-current');
     });
   }
-  addEventListener('scroll', mark, { passive: true });
-  addEventListener('load', mark);
-  mark();
+  /* ── mascot: tumbles down the right margin as you scroll ───────────── */
+  var mascot = document.getElementById('mascot');
+  function placeMascot() {
+    if (!mascot || reduce) return;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    var frac = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    var travel = innerHeight - 130;
+    mascot.style.top = (56 + frac * travel) + 'px';
+    var wobble = Math.sin(scrollY / 130) * 8;
+    var spin = Math.sin(scrollY / 90) * 18;
+    mascot.style.transform = 'translateX(' + wobble.toFixed(1) + 'px) rotate(' + spin.toFixed(1) + 'deg)';
+  }
+
+  function onScroll() { mark(); placeMascot(); }
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('load', onScroll);
+  onScroll();
 })();
 </script>
 </body>
