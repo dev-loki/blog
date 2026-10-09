@@ -9,6 +9,6 @@ alt = "Comic in drei Bildern. Developer: \"Claude, they are saying the AI is rui
 tags = ["ki", "comic"]
 +++
 
-Das erste Comic der Serie, und gleich ein bisschen meta. Ja, die Strips hier sind mit KI generiert, und ja, genau darüber wird gerade heftig gestritten. Der Roboter hat trotzdem einen Punkt: Der müde Entwickler am Schreibtisch mit dem Witz über technische Schulden war schon lange vor den Bildgeneratoren ein eigenes Genre. Die Situationen kenne ich aus meinem Alltag mit Agenten, gezeichnet hat sie die Maschine.
+Das erste Comic der Serie, und gleich ein bisschen meta. Ja, die Strips hier sind mit KI generiert, und ja, genau darüber wird gerade heftig gestritten. Der Roboter hat trotzdem einen Punkt: Der müde Entwickler am Schreibtisch mit dem Witz über technische Schulden war schon lange vor den Bildgeneratoren ein eigenes Genre.
 
 Ab jetzt würde ich gerne jeden Freitag so ein Comic rausbringen ;).

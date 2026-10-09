@@ -9,6 +9,6 @@ alt = "Three-panel comic. Developer: \"Claude, they are saying the AI is ruining
 tags = ["ki", "comic"]
 +++
 
-The first strip of the series, and right away a bit meta. Yes, the strips here are AI-generated, and yes, that's exactly what people are fighting about right now. The robot still has a point: the tired developer at his desk joking about tech debt was a genre of its own long before image generators. The situations come from my daily life with agents, the machine did the drawing.
+The first strip of the series, and right away a bit meta. Yes, the strips here are AI-generated, and yes, that's exactly what people are fighting about right now. The robot still has a point: the tired developer at his desk joking about tech debt was a genre of its own long before image generators.
 
 From now on I'd like to put out one of these every Friday ;).
