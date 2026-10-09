@@ -1,6 +1,6 @@
 +++
 title = "The Refactoring"
-date = "2026-10-19T07:00:00Z"
+date = "2026-10-23T13:00:00Z"
 description = "Komplexität null, Funktionalität auch."
 draft = true
 [extra]
