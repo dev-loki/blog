@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}comics · loki.dev{% endblock %}
+{% block cmd %}ls -t ~/comics{% endblock %}
+
+{% block content %}
+<h1 class="transcript-cmd">
+  <span class="fg-dim">loki@dev:~$</span>
+  <span class="cmd">ls -t ~/comics</span>
+</h1>
+
+{% if section.pages %}
+<ul class="listing" aria-label="{% if lang == "en" %}All comics{% else %}Alle Comics{% endif %}">
+  {% for page in section.pages %}
+  <li>
+    <span class="date">{{ page.date | date(format="%Y-%m-%d") }}</span>
+    <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="fg-dim">{% if lang == "en" %}No comics yet.{% else %}Noch keine Comics.{% endif %}</p>
+{% endif %}
+
+{% if config.generate_feeds %}
+<p style="margin-top:1.5rem;font-size:0.875rem">
+  <a href="{{ get_url(path='atom.xml') }}">[ rss ]</a>
+</p>
+{% endif %}
+{% endblock %}

@@ -39,11 +39,13 @@
           <a href="/en/" {% if cp == "/en/" %}class="active"{% endif %}>[ ~/ ]</a>
           <a href="/en/vortraege/" {% if cp is starting_with(pat="/en/vortraege") %}class="active"{% endif %}>[ talks ]</a>
           <a href="/en/blog/" {% if cp is starting_with(pat="/en/blog") %}class="active"{% endif %}>[ blog ]</a>
+          <a href="/en/comics/" {% if cp is starting_with(pat="/en/comics") %}class="active"{% endif %}>[ comics ]</a>
           <a href="https://0w.is/" rel="noopener" target="_blank">[ tools ]</a>
         {% else %}
           <a href="/" {% if cp == "/" %}class="active"{% endif %}>[ ~/ ]</a>
           <a href="/vortraege/" {% if cp is starting_with(pat="/vortraege") %}class="active"{% endif %}>[ talks ]</a>
           <a href="/blog/" {% if cp is starting_with(pat="/blog") %}class="active"{% endif %}>[ blog ]</a>
+          <a href="/comics/" {% if cp is starting_with(pat="/comics") %}class="active"{% endif %}>[ comics ]</a>
           <a href="https://0w.is/" rel="noopener" target="_blank">[ tools ]</a>
         {% endif %}
         {% set_global trans_url = "" %}
