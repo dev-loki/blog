@@ -75,7 +75,7 @@ away: ramp-up costs almost nothing, the context lives in `AGENTS.md` (or
 `CLAUDE.md` or `GEMINI.md`) and gets reused per agent.
 The sequence stays, the dependency graph does not care who sits in front of it.
 And coordination comes back as duplicated work: two agents refactoring the same
-helper, each of them plausibly.
+helper, each of them plausible.
 
 Plus a bottleneck Brooks did not have. I am the only one allowed to accept a
 result. Three agents in parallel help me, at ten I am just reading diffs and

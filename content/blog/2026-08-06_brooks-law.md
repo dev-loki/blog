@@ -75,7 +75,7 @@ Die Sequenz bleibt, der Abhängigkeitsgraph interessiert sich nicht dafür, wer
 davor sitzt. Und die Abstimmung kommt als Doppelarbeit zurück: zwei Agenten,
 die denselben Helper refaktorieren, jeder für sich plausibel.
 
-Dazu ein Engpass, den Brooks nicht hatte. Ich bin der einzige, der Ergebnisse
+Dazu ein Engpass, den Brooks nicht hatte. Ich bin der Einzige, der Ergebnisse
 annehmen darf. Drei Agenten parallel bringen mir etwas, bei zehn lese ich nur
 noch Diffs und entscheide immer schlechter. Was mitskaliert, ist der
 deterministische Teil des Reviews: Linter, Typprüfung, Tests, Pre-Commit-Hooks
@@ -88,5 +88,5 @@ Nach 51 Jahren ist damit eine der drei Ursachen weggefallen und eine vierte
 dazugekommen. Für die Runde mit den sechs Wochen und dem Vorschlag von oben
 rechnet sich das genauso wie 1975.
 
-*(Der Großteil der Zahlen und Beispiele sind angepasste und basierend auf alten
-Erfahrungen und habe nichts mit aktuellen Ereignissen zu tun)*
+*(Der Großteil der Zahlen und Beispiele ist angepasst und basiert auf alten
+Erfahrungen und hat nichts mit aktuellen Ereignissen zu tun)*
