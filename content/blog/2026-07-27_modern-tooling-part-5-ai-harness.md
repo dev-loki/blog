@@ -8,7 +8,7 @@ tags = ["tooling", "python", "ki"]
 +++
 
 In [Teil 1](@/blog/2026-07-15_modern-tooling-part-1-uv.md) habe ich von zwei
-Umbrüchen geschrieben: das Python-Ökosystem wird auf Rust-basierte Werkzeuge
+Umbrüchen geschrieben: Das Python-Ökosystem wird auf Rust-basierte Werkzeuge
 umgestellt, und immer mehr Code entsteht durch KI. Die vier Teile davor haben
 den ersten Umbruch abgearbeitet. In diesem Bonus-Teil kommt der zweite dazu,
 denn beide passen besser zusammen, als es zunächst aussieht.
