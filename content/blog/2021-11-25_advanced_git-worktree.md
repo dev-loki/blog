@@ -14,7 +14,7 @@ Eines der geilsten Features von Git. Gleichzeitig eines der am wenigsten benutzt
 
 Ihr seid gerade an eurem `feature/blubb_feature` dran und dann kommt ein MR vom Kollegen,
 wo ihr bitte ganz schnell `hotfix/make_that_users_dont_die_immediately` reviewen sollt,
-damit das super flott live gehen kann. Leider ist der branch zu komplex um alles direkt im
+damit das super flott live gehen kann. Leider ist der Branch zu komplex um alles direkt im
 Gitlab zu machen.
 
 Also wirklich auschecken und deep-dive in den Code...
@@ -22,7 +22,7 @@ Also wirklich auschecken und deep-dive in den Code...
 ### Klassisches Vorgehen
 
 1. `git stash` eurer Änderungen
-2. `git checkout hotfix/...` um den Branch anzugucken und alles durch zu gehen.
+2. `git checkout hotfix/...` um den Branch anzugucken und alles durchzugehen.
 3. Freigabe oder eben nicht
 
 ### Viel besseres Vorgehen
@@ -51,7 +51,7 @@ Super simpel - wirklich :).
 1. `mkdir my_project` (Projektverzeichnis erstellen) und via `cd` dort rein wechseln: `cd my_project`
 2. Repository klonen (Achtung - hier ist die erste Besonderheit) `git clone --bare GIT_URL .bare`.
    - Wir klonen also nur das bare Repository ohne einen Branch auszuchecken
-   - Diese Metadaten speichern wir im Order `.bare` (Durch den `.` am Anfang ist der Ordner unter MacOS/Linux versteckt)
+   - Diese Metadaten speichern wir im Ordner `.bare` (Durch den `.` am Anfang ist der Ordner unter MacOS/Linux versteckt)
 3. Eine Datei `my_project/.git` erstellen und folgende Zeile eintragen:
    ```
    gitdir: ./.bare
