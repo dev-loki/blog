@@ -1,7 +1,7 @@
 +++
 title = "Moderne Werkzeuge Teil 4: Hochperformante Git Hooks mit prek"
 date = "2026-07-20T21:00:00Z"
-description = "prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie unser komplettes Quality Gate vor jedem Commit läuft."
+description = "prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie mein komplettes Quality Gate vor jedem Commit läuft."
 draft = false
 [taxonomies]
 tags = ["tooling", "python", "git"]
