@@ -54,7 +54,7 @@ uv run ruff check --fix .
 uv run ruff format .
 ```
 
-In CI I flip it around: nothing is repaired there, only checked:
+In CI I flip it around and only check:
 
 ```yaml
 - name: Formatting Check (Ruff)
@@ -65,7 +65,7 @@ In CI I flip it around: nothing is repaired there, only checked:
 ```
 
 
-### My configuration: opt-out instead of opt-in
+### My configuration: opt-out
 
 Most projects enable a handful of rule groups and add more over time. My
 template goes the other way: **all** rules on, and every exception has to be
@@ -93,8 +93,7 @@ ignore = [
 ]
 ```
 
-The comment behind each rule is not a nice-to-have but the core of the strategy:
-a year from now nobody remembers why `COM812` is off, unless it says so right
+The comment behind each rule is the core of the strategy: a year from now nobody remembers why `COM812` is off, unless it says so right
 next to it.
 
 
@@ -138,7 +137,7 @@ And within the blocks, alphabetically.
 
 ### In the editor: feedback as you type
 
-The real win comes when `ruff` runs as you type, not only at commit time.
+The biggest win comes when `ruff` already runs as you type.
 
 **VS Code:** The official
 [Ruff extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
@@ -162,8 +161,8 @@ environment instead of the bundled one.
 }
 ```
 
-The `.ruff` suffix on the code actions makes sure it's really `ruff` doing the
-fixing and import sorting, not some other formatter by accident.
+The `.ruff` suffix on the code actions pins the fixing and import sorting to
+`ruff`. Without it, some other formatter can grab the job by accident.
 
 **PyCharm:** From version 2025.3 on, Ruff support is built in. Enable it under
 *Settings → Tools → Ruff*, and *Reformat Code* and *Optimize Imports* will use
@@ -179,7 +178,7 @@ rather than a globally installed one.
 linting so fast that there's no excuse left not to run it everywhere. The
 opt-out strategy with `select = ["ALL"]` is deliberately radical: it costs a bit
 of time to set up, but in return you get a ruleset where every exception is a
-documented decision instead of a historical accident.
+documented decision.
 
 ---
 

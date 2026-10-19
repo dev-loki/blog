@@ -58,8 +58,7 @@ uv run ruff check --fix .
 uv run ruff format .
 ```
 
-In der CI drehe ich den Spieß um, dort wird nichts repariert, sondern nur
-geprüft:
+In der CI drehe ich den Spieß um, dort wird nur geprüft:
 
 ```yaml
 - name: Formatting Check (Ruff)
@@ -70,7 +69,7 @@ geprüft:
 ```
 
 
-### Meine Konfiguration: Opt-out statt Opt-in
+### Meine Konfiguration: Opt-out
 
 Die meisten Projekte aktivieren eine Handvoll Regelgruppen und ergänzen nach
 und nach. Mein Template geht den umgekehrten Weg: **alle** Regeln an, und
@@ -98,8 +97,7 @@ ignore = [
 ]
 ```
 
-Der Kommentar hinter jeder Regel ist kein Nice-to-have, sondern der Kern der
-Strategie: In einem Jahr weiß niemand mehr, warum `COM812` aus ist, außer es
+Der Kommentar hinter jeder Regel ist der Kern der Strategie: In einem Jahr weiß niemand mehr, warum `COM812` aus ist, außer es
 steht daneben.
 
 
@@ -144,8 +142,7 @@ Innerhalb der Blöcke dann alphabetisch.
 
 ### Im Editor: Feedback beim Tippen
 
-Der eigentliche Gewinn kommt, wenn `ruff` schon beim Tippen läuft und nicht erst
-beim Commit.
+Am meisten bringt `ruff`, wenn es schon beim Tippen läuft.
 
 **VS Code:** Die offizielle
 [Ruff-Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
@@ -169,8 +166,9 @@ zu statt auf die mitgelieferte Version.
 }
 ```
 
-Das `.ruff`-Suffix an den Code-Actions sorgt dafür, dass wirklich `ruff` fixt
-und die Imports sortiert und nicht versehentlich ein anderer Formatter.
+Das `.ruff`-Suffix an den Code-Actions legt fest, dass `ruff` fixt und die
+Imports sortiert. Ohne Suffix kann versehentlich ein anderer Formatter zum Zug
+kommen.
 
 **PyCharm:** Ab Version 2025.3 ist die Ruff-Unterstützung eingebaut. Unter
 *Settings → Tools → Ruff* aktivieren, dann greifen *Reformat Code* und *Optimize
@@ -187,7 +185,7 @@ statt auf eine global installierte Version.
 gibt, es nicht überall laufen zu lassen. Die Opt-out-Strategie mit
 `select = ["ALL"]` ist dabei bewusst radikal: Sie kostet beim Aufsetzen etwas
 Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
-dokumentierter Entschluss ist statt ein historischer Zufall.
+dokumentierter Entschluss ist.
 
 ---
 
