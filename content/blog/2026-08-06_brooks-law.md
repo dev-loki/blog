@@ -44,7 +44,7 @@ vier Leute haben sechs, acht Leute haben achtundzwanzig. Jeder davon ist eine
 Gelegenheit für zwei unterschiedliche Annahmen über dieselbe Schnittstelle, und
 die fallen erst in der Integrationswoche auf.
 
-Teuer: Viel von der Arbeit ist sequenziell. Solange das Schema nicht migriert
+Am teuersten ist, dass viel von der Arbeit sequenziell ist. Solange das Schema nicht migriert
 ist, kann niemand den Endpoint darauf umbauen. Ein zweiter Entwickler wartet
 dann genauso wie der erste, nur bezahlt.
 
@@ -68,7 +68,7 @@ sind.
 ## Und mit Agenten?
 
 Seit ich mehrere Claude-Instanzen parallel laufen lasse, wird die Frage wieder
-gestellt, diesmal ohne Personalkosten. Eine der drei Ursachen fällt tatsächlich
+gestellt, diesmal ohne Personalkosten. Eine der drei Ursachen fällt
 weg: Einarbeitung kostet fast nichts, der Kontext steht in `AGENTS.md` (oder
 `CLAUDE.md` oder `GEMINI.md`) und wird pro Agent wiederverwendet. 
 Die Sequenz bleibt, der Abhängigkeitsgraph interessiert sich nicht dafür, wer

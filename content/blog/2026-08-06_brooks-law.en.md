@@ -46,7 +46,7 @@ channels, four people have six, eight people have twenty-eight. Every one of
 them is a chance for two different assumptions about the same interface, and
 those only surface during integration week.
 
-Expensive: much of the work is sequential. Until the schema is migrated, nobody
+Most expensive of all, much of the work is sequential. Until the schema is migrated, nobody
 can rebuild the endpoint on top of it. A second developer then waits exactly as
 long as the first one, only on payroll.
 
@@ -70,7 +70,7 @@ reality.
 ## And with agents?
 
 Since I started running several Claude instances in parallel, the question comes
-up again, this time without payroll. One of the three causes really does fall
+up again, this time without payroll. One of the three causes does fall
 away: ramp-up costs almost nothing, the context lives in `AGENTS.md` (or
 `CLAUDE.md` or `GEMINI.md`) and gets reused per agent.
 The sequence stays, the dependency graph does not care who sits in front of it.
