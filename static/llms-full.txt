@@ -51,7 +51,7 @@ vier Leute haben sechs, acht Leute haben achtundzwanzig. Jeder davon ist eine
 Gelegenheit für zwei unterschiedliche Annahmen über dieselbe Schnittstelle, und
 die fallen erst in der Integrationswoche auf.
 
-Teuer: Viel von der Arbeit ist sequenziell. Solange das Schema nicht migriert
+Am teuersten ist, dass viel von der Arbeit sequenziell ist. Solange das Schema nicht migriert
 ist, kann niemand den Endpoint darauf umbauen. Ein zweiter Entwickler wartet
 dann genauso wie der erste, nur bezahlt.
 
@@ -75,7 +75,7 @@ sind.
 ## Und mit Agenten?
 
 Seit ich mehrere Claude-Instanzen parallel laufen lasse, wird die Frage wieder
-gestellt, diesmal ohne Personalkosten. Eine der drei Ursachen fällt tatsächlich
+gestellt, diesmal ohne Personalkosten. Eine der drei Ursachen fällt
 weg: Einarbeitung kostet fast nichts, der Kontext steht in `AGENTS.md` (oder
 `CLAUDE.md` oder `GEMINI.md`) und wird pro Agent wiederverwendet. 
 Die Sequenz bleibt, der Abhängigkeitsgraph interessiert sich nicht dafür, wer
@@ -119,14 +119,14 @@ vertrauenswürdig(er) macht.
 
 ### Warum ein Agent Leitplanken braucht
 
-Ein KI-Agent schreibt in Sekunden plausibel aussehenden Code. Plausibel heißt
-aber nicht korrekt: Er erfindet APIs, übersieht `None`/`null`-Fälle, ignoriert die
+Ein KI-Agent schreibt in Sekunden plausibel aussehenden Code. Oft ist der
+trotzdem falsch: Der Agent erfindet APIs, übersieht `None`/`null`-Fälle, ignoriert die
 Architekturgrenzen des Projekts oder baut sich eben mal eine neue Abhängigkeit
 ein. Wer das alles per Hand reviewen will, hat den Geschwindigkeitsgewinn sofort
 wieder verloren.
 
-Statt dem Agenten mehr zu vertrauen, gebe ich ihm eine Umgebung, in der Fehler
-sofort und deterministisch auffallen. Genau dafür habe ich die Toolchain ohnehin
+Deshalb gebe ich ihm eine Umgebung, in der Fehler sofort und deterministisch
+auffallen. Genau dafür habe ich die Toolchain ohnehin
 schon aufgebaut (und auch vor KI schon so genutzt).
 
 
@@ -149,12 +149,13 @@ häufiger und schneller durchläuft.
 
 ### Warum Geschwindigkeit zur Grundvoraussetzung wird
 
-In den bisherigen Teilen war Geschwindigkeit "nur" Komfort. Beim Agenten wird
+In den bisherigen Teilen war Geschwindigkeit „nur“ Komfort. Beim Agenten wird
 sie zur Grundvoraussetzung. Ein Check, der 30 Sekunden dauert, killt eine
 Agenten-Schleife genauso wie meine eigene, nur dass der Agent vielleicht
 zwanzigmal pro Minute prüfen will. Erst weil `ruff` und `ty` im
-Millisekundenbereich antworten, kann der Agent eng iterieren, statt nach jedem
-Schritt minutenlang zu warten oder, schlimmer, die Checks ganz zu überspringen.
+Millisekundenbereich antworten, kann der Agent eng iterieren. Bei langsamen
+Checks wartet er nach jedem Schritt minutenlang oder, schlimmer, überspringt
+sie ganz.
 
 
 ### Das Korsett: Regeln, die der Agent nicht umgehen kann
@@ -165,7 +166,7 @@ und die Architekturregeln aus [Teil 4](@/blog/2026-07-20_modern-tooling-part-4-p
 sind für einen Agenten wertvoller als für mich: Sie schreiben die Form des
 Projekts fest. Der Agent darf produktiv sein, aber nur innerhalb dieser Form.
 
-Und es ist nicht verhandelbar: Der Pre-Commit-Hook blockt schlechten Code,
+Verhandeln lässt sich darüber nicht. Der Pre-Commit-Hook blockt schlechten Code,
 bevor er in die Historie kommt, und die CI fängt den Rest (auch das
 `--no-verify` eines übermotivierten Agenten). Der Agent kann noch so überzeugt
 argumentieren, der rote Check bleibt rot.
@@ -173,11 +174,9 @@ argumentieren, der rote Check bleibt rot.
 
 ### Fazit
 
-Dass die beiden Umbrüche aus Teil 1 zeitgleich passieren, ist kein Zufall. Eine
-schnelle, strikte, deterministische Toolchain ist die Voraussetzung dafür, dass
+Die beiden Umbrüche aus Teil 1 hängen zusammen. Eine schnelle, strikte, deterministische Toolchain ist die Voraussetzung dafür, dass
 KI-gestützte Entwicklung nicht in einem Berg plausibler, aber kaputter Diffs
-endet. Die Werkzeuge, die mir die Arbeit erleichtern, sind dieselben, die einen
-Agenten in der Spur halten.
+endet.
 
 ---
 
@@ -210,8 +209,7 @@ gekommen. Das fühlte sich an, als käme die Validierung, die ich aus anderen
 Sprachen kannte, endlich auch in den Scriptsprachen an. JA: Es ist etwas mehr
 Arbeit, und natürlich sind Arrays (PHP) bzw. Listen nicht mehr ganz so flexibel.
 Einfach alles reinschmeißen ist aber ohnehin keine gute Idee. Für mich haben
-Typechecker also sinnvolles Verhalten erzwungen, statt zufällig Regeln
-anzuwenden, die mir das Leben schwer machen.
+Typechecker also sinnvolles Verhalten erzwungen.
 
 Der Hauptgrund für mich ist aber, dass Typechecker in Scriptsprachen einfach
 komplette Kategorien an Fehlern auslöschen. In Kombination mit Lintern sollte
@@ -239,7 +237,7 @@ class ItemRepository(ABC):
 Ein Type Checker stellt sicher, dass jeder Adapter diesen Vertrag exakt
 erfüllt, und dass niemand vergisst, den `None`-Fall von `by_id` zu behandeln.
 
-Das Problem war nie der Nutzen, sondern der Preis: `mypy` wird auf wachsenden
+Der Haken war immer der Preis: `mypy` wird auf wachsenden
 Codebasen spürbar langsam. Und ein Check, der 30 Sekunden dauert, wird lokal
 nicht mehr ausgeführt, er wandert in die CI, und Typfehler fallen erst nach
 dem Push auf. Genau das Feedback-Loop-Problem, das `ruff` fürs Linting gelöst
@@ -273,8 +271,8 @@ verhinderter Commit oder Merge.
 ### Meine Typdisziplin
 
 Wichtig zur Einordnung: Dass jede Funktion, Variable und Klasse vollständig
-typisiert sein muss und `Any` die absolute Ausnahme bleibt, ist keine
-Eigenschaft von `ty`, sondern eine **Projektregel** meines Templates. `ty` ist
+typisiert sein muss und `Any` die absolute Ausnahme bleibt, ist eine
+**Projektregel** meines Templates. `ty` ist
 das Werkzeug, das sie durchsetzbar macht, gemeinsam mit den `ANN`-Regeln von
 `ruff`, [die fehlende Annotationen anmahnen](https://docs.astral.sh/ruff/rules/#flake8-annotations-ann).
 
@@ -297,7 +295,7 @@ den Voll-Check bei jedem Commit leisten. Nice :).
 
 ### Im Editor
 
-`ty` ist nicht nur ein CLI-Tool, sondern bringt einen eigenen Language Server
+`ty` bringt neben dem CLI auch einen eigenen Language Server
 mit: Autocompletion, Hover, Go-to-Definition und Auto-Imports, alles in
 `ty`-Geschwindigkeit.
 
@@ -336,10 +334,9 @@ abwägen: `mypy` ist bei der Regelabdeckung aktuell noch ausgefeilter.
 
 ### Fazit
 
-Der eigentliche Gewinn von `ty` ist nicht die bessere Analyse, sondern ein Type
-Checker, der flott läuft: lokal, bei jedem Commit, ohne dass man warten muss.
-Typdisziplin hält man nur durch, wenn das Feedback schnell kommt, und genau das
-liefert `ty`.
+Der eigentliche Gewinn von `ty` ist ein Type Checker, der flott läuft: lokal,
+bei jedem Commit, ohne dass man warten muss. Typdisziplin hält man nur durch,
+wenn das Feedback schnell kommt.
 
 ---
 
@@ -371,7 +368,7 @@ Stack an Tools von Hand auszuführen.
 
 Jeder Check, der erst in der CI scheitert, ist eine Verzögerung und reißt mich
 aus meinen Tasks raus: schreiben, committen, pushen, fünf Minuten warten, rote
-Pipeline, fixen, "Fix linting"-Commit, nochmal pushen. Ein Pre-Commit-Hook
+Pipeline, fixen, „Fix linting“-Commit, nochmal pushen. Ein Pre-Commit-Hook
 verschiebt genau dieselben Checks an den frühestmöglichen Punkt: Fehler werden
 behoben, *bevor* sie in der Historie landen, und die CI wird vom Fehlerfinder
 zum reinen Sicherheitsnetz.
@@ -391,8 +388,8 @@ aufgebaut werden.
 ### prek
 
 [`prek`](https://github.com/j178/prek) ist eine Reimplementierung des
-pre-commit-Frameworks in Rust, und der entscheidende Punkt ist: **Es liest
-dieselbe `.pre-commit-config.yaml`**. Aber mit smarterem Caching und ohne den
+pre-commit-Frameworks in Rust und liest **dieselbe
+`.pre-commit-config.yaml`**, nur mit smarterem Caching und ohne den
 Virtualenv-Overhead:
 
 
@@ -413,8 +410,8 @@ prek run gitleaks --all-files  # einen einzelnen Hook gezielt
 ### Mein Hook-Setup im Detail
 
 Die `.pre-commit-config.yaml` meines Templates verkettet alles, was ich in
-den letzten drei Teilen aufgebaut habe. Interessant ist dabei die
-Unterscheidung zwischen zwei Hook-Arten:
+den letzten drei Teilen aufgebaut habe. Dabei unterscheide ich
+zwei Hook-Arten:
 
 **Remote-Hooks** kommen aus fremden Repositories: die Basics wie
 YAML/TOML-Validierung, Trailing Whitespace und der Secret-Scanner
@@ -436,9 +433,9 @@ YAML/TOML-Validierung, Trailing Whitespace und der Secret-Scanner
   - id: gitleaks
 ```
 
-**Lokale Hooks** dagegen laufen über `uv run` in meiner Projektumgebung:
-damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
-`uv.lock` gepinnt sind, statt in irgendeiner separaten Hook-Umgebung:
+**Lokale Hooks** dagegen laufen über `uv run` in meiner Projektumgebung.
+Damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
+`uv.lock` gepinnt sind:
 
 ```yaml
 - repo: local
@@ -472,8 +469,8 @@ damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
 
 Dazu kommt noch [import-linter](https://import-linter.readthedocs.io), der
 meine Architektur bewacht: Er schlägt fehl, sobald jemand aus der
-Domain-Schicht heraus Infrastruktur importiert: Architekturregeln als
-ausführbarer Check statt als Wiki-Seite.
+Domain-Schicht heraus Infrastruktur importiert. Damit werden die
+Architekturregeln zu einem ausführbaren Check.
 
 
 ### Ein Commit, das ganze Quality Gate
@@ -492,7 +489,7 @@ git commit --no-verify
 Aber genau dafür (naja, oder für die Fälle, wo jemand `prek install` vergessen
 hat) ist die CI das Sicherheitsnetz: Dort laufen dieselben Checks
 (`ruff format --check`, `ruff check`, `ty check`, `bandit`, `lint-imports`,
-`pytest`) noch einmal, nur eben als letzte Instanz, nicht als erste.
+`pytest`) noch einmal, nur eben als letzte Instanz.
 
 
 ### Fazit der Serie
@@ -573,8 +570,7 @@ uv run ruff check --fix .
 uv run ruff format .
 ```
 
-In der CI drehe ich den Spieß um, dort wird nichts repariert, sondern nur
-geprüft:
+In der CI drehe ich den Spieß um, dort wird nur geprüft:
 
 ```yaml
 - name: Formatting Check (Ruff)
@@ -585,7 +581,7 @@ geprüft:
 ```
 
 
-### Meine Konfiguration: Opt-out statt Opt-in
+### Meine Konfiguration: Opt-out
 
 Die meisten Projekte aktivieren eine Handvoll Regelgruppen und ergänzen nach
 und nach. Mein Template geht den umgekehrten Weg: **alle** Regeln an, und
@@ -613,8 +609,7 @@ ignore = [
 ]
 ```
 
-Der Kommentar hinter jeder Regel ist kein Nice-to-have, sondern der Kern der
-Strategie: In einem Jahr weiß niemand mehr, warum `COM812` aus ist, außer es
+Der Kommentar hinter jeder Regel ist der Kern der Strategie: In einem Jahr weiß niemand mehr, warum `COM812` aus ist, außer es
 steht daneben.
 
 
@@ -659,8 +654,7 @@ Innerhalb der Blöcke dann alphabetisch.
 
 ### Im Editor: Feedback beim Tippen
 
-Der eigentliche Gewinn kommt, wenn `ruff` schon beim Tippen läuft und nicht erst
-beim Commit.
+Am meisten bringt `ruff`, wenn es schon beim Tippen läuft.
 
 **VS Code:** Die offizielle
 [Ruff-Extension](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
@@ -684,8 +678,9 @@ zu statt auf die mitgelieferte Version.
 }
 ```
 
-Das `.ruff`-Suffix an den Code-Actions sorgt dafür, dass wirklich `ruff` fixt
-und die Imports sortiert und nicht versehentlich ein anderer Formatter.
+Das `.ruff`-Suffix an den Code-Actions legt fest, dass `ruff` fixt und die
+Imports sortiert. Ohne Suffix kann versehentlich ein anderer Formatter zum Zug
+kommen.
 
 **PyCharm:** Ab Version 2025.3 ist die Ruff-Unterstützung eingebaut. Unter
 *Settings → Tools → Ruff* aktivieren, dann greifen *Reformat Code* und *Optimize
@@ -702,7 +697,7 @@ statt auf eine global installierte Version.
 gibt, es nicht überall laufen zu lassen. Die Opt-out-Strategie mit
 `select = ["ALL"]` ist dabei bewusst radikal: Sie kostet beim Aufsetzen etwas
 Zeit, liefert dafür aber ein Regelwerk, in dem jede Ausnahme ein
-dokumentierter Entschluss ist statt ein historischer Zufall.
+dokumentierter Entschluss ist.
 
 ---
 
@@ -723,7 +718,7 @@ Tags: tooling, python
 
 Hey und willkommen zu meiner Serie über moderne Python-Werkzeuge: vier Teile
 über die Werkzeuge selbst, dazu ein Bonusteil über KI-Agenten.
-Ich schreibe das gerade, weil das Python-Ökosystem einen echten Umbruch erlebt.
+Ich schreibe das gerade, weil das Python-Ökosystem einen Umbruch erlebt.
 Genau genommen sogar mehrere:
 
 1. Das Python-Ökosystem wird zu großen Teilen durch Rust-basierte Werkzeuge
@@ -735,14 +730,14 @@ Praktischerweise passen diese beiden Umbrüche perfekt zusammen.
 
 Mein Ziel ist also, erst diese neuen Rust-basierten Werkzeuge vorzustellen und
 dann zu zeigen, wie sie in der KI-getriebenen Entwicklung helfen können. Ich
-schaue mir vier+ dieser Werkzeuge an, und zwar nicht abstrakt, sondern anhand
-eines realen FastAPI-Projekt-Templates: `uv`, `ruff`, `ty` und `prek` (+weitere
+schaue mir vier+ dieser Werkzeuge an, und zwar anhand eines realen
+FastAPI-Projekt-Templates: `uv`, `ruff`, `ty` und `prek` (+weitere
 Mini-Tools).
 
 In **Teil 1 (dieser hier)** geht es um das Fundament: **`uv`**.
 
 
-### Das Problem, dass ich sehe: fünf Tools für eine Aufgabe
+### Das Problem, das ich sehe: fünf Tools für eine Aufgabe
 
 Wer bisher ein Python-Projekt sauber aufsetzen wollte, brauchte einen ganzen
 Werkzeugkasten:
@@ -755,15 +750,15 @@ Werkzeugkasten:
 
 Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigene
 Konfigurationstypen), eigene Eigenheiten und eigene Fehlerquellen. Das Ergebnis
-ist: "Works on my machine". Gratis dazu: eine CI-Pipeline, die Minuten mit dem
-Auflösen von Abhängigkeiten verbringt.
+ist: „Works on my machine“. Gratis dazu gibt es eine CI-Pipeline, die Minuten
+mit dem Auflösen von Abhängigkeiten verbringt.
 
 
 ### Die Lösung: uv, ein einzelnes Binary
 
 `uv` ersetzt den kompletten Stack durch ein einziges Rust-Binary. Es ist
 Paket-Installer, Environment-Manager, Dependency-Resolver und
-Python-Versions-Manager in einem. Das Beste: es ist dabei um Größenordnungen schneller.
+Python-Versions-Manager in einem. Und es ist dabei um Größenordnungen schneller.
 
 Installation geht flott:
 
@@ -801,7 +796,7 @@ Datei mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
 bei Bedarf einfach herunter. `pyenv` wird damit überflüssig.
 
 
-### Dependency Groups statt requirements-Wildwuchs
+### Dependency Groups bändigen den requirements-Wildwuchs
 
 Statt `requirements.txt`, `requirements-dev.txt` und `requirements-test.txt`
 definiert mein Template alles in der `pyproject.toml`, mit dem Standard für
@@ -887,8 +882,7 @@ Caching in einem Schritt:
 
 `uv` braucht weniger Konfiguration als der alte Stack und ist trotzdem
 deutlich schneller. Es ist der Grund, warum alle folgenden Teile dieser Serie
-mit `uv run ...` beginnen. Damit werden Python-Entwicklung, CI, CD u. v. m.
-schneller.
+mit `uv run ...` beginnen.
 
 Bonusfeature: [Scripts mit Inline-Dependencies](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies)
 laufen lassen. Perfekt für DevOps und Ähnliches. :)
@@ -912,9 +906,9 @@ Tags: ki, tooling
 
 Sorry für die lange Funkstille! Seit dem letzten Post ist ja doch einiges an Zeit ins Land gegangen. Ich hab hier noch einen ganzen Stapel an Entwürfen rumliegen (`.md.draft`), aber wenn ich mir die so anschaue, müssen die wohl alle erst mal grundlegend überarbeitet werden, die Welt (und vor allem die KI-Welt) dreht sich einfach zu schnell ;).
 
-Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt, noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal - sogar frei von KI geschrieben.
+Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt, noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal, sogar frei von KI geschrieben.
 
-Claude Code direkt als erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht - und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5 wo ähnliches behaupted wurde.
+Claude Code direkt als erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht, und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5 wo ähnliches behaupted wurde.
 
 
 ### Claw Code
@@ -924,7 +918,7 @@ Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), so
 
 ### Die rechtliche Seite: DMCA-Whack-A-Mole
 
-Natürlich findet Anthropic das Ganze weniger witzig. Es gab wohl schon über 8100 Löschanfragen. [Heise hat dazu einen sehr guten Artikel geschrieben](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html), der die rechtlichen Aspekte beleuchtet. Es ist die klassische "Geburtsstunde" eines Tools aus einem Leak heraus, und der verzweifelte Versuch, die Katze wieder in den Sack zu kriegen.
+Natürlich findet Anthropic das Ganze weniger witzig. Es gab wohl schon über 8100 Löschanfragen. [Heise hat dazu einen sehr guten Artikel geschrieben](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html), der die rechtliche Seite aufdröselt. Es ist die klassische "Geburtsstunde" eines Tools aus einem Leak heraus, und der verzweifelte Versuch, die Katze wieder in den Sack zu kriegen.
 
 Ich finde das ziemlich bezeichnend für den current State der KI:
 - Die Tools werden immer mächtiger, aber auch komplexer.
@@ -980,7 +974,7 @@ helloWorldString = "Hello Moon!"; // Fehler! Wir können uns auf den Inhalt verl
 
 Im oberen Beispiel ändert sich der Inhalt der Variable und es wird schwerer vorherzusagen, was drin steckt.
 
-> „Aber was ist mit Zählervariablen? Ich muss doch ständig zählen!"
+> „Aber was ist mit Zählervariablen? Ich muss doch ständig zählen!“
 
 Richtig. Aufgedröselt:
 
@@ -989,7 +983,7 @@ Richtig. Aufgedröselt:
 - veränderliche Variablen **möglichst** vermeiden
 - wenn veränderliche Variablen die Lesbarkeit verbessern oder die einzige sinnvolle Option sind (sehr selten): **dann verwenden**
 
-Mit „selten" meine ich, dass TypeScript/JavaScript uns in vielen Fällen einen Weg bietet, Zählervariablen zu vermeiden:
+Mit „selten“ meine ich, dass TypeScript/JavaScript uns in vielen Fällen einen Weg bietet, Zählervariablen zu vermeiden:
 
 ```typescript
 let uppercaseNames = [];
@@ -1119,7 +1113,7 @@ Tags: tooling, clean-code
 
 ## Stylecheck
 
-Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig: Hauptsache, er ist überall gleich!
+Fangen wir mit dem einfacheren Thema an: Stylechecks. Es geht darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig: Hauptsache, er ist überall gleich!
 
 
 #### Warum?
@@ -1273,7 +1267,7 @@ code-block.js:1:9 lint/complexity/noUselessTernary  FIXABLE  ━━━━━━�
 
 ## Biome im Editor
 
-Für alle genannten Gründe sollten wir Biome überall einsetzen, wo es möglich ist.
+Aus all diesen Gründen sollten wir Biome überall einsetzen, wo es möglich ist.
 
 Für die gängigsten Editoren hier die Extension/Plugin-Links, damit die roten Wellenlinien direkt verschwinden und Auto-Formatierung aktiv ist:
 
@@ -1303,7 +1297,7 @@ Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt we
 Dieser Artikel ist Teil einer Serie, die ich für die Arbeit schreibe, gedacht für Junior-Entwickler und externe Mitarbeiter.
 Wenn der Code generisch genug ist, verwende ich echte Beispiele aus der Praxis, ansonsten erfinde ich etwas ;).
 
-Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist, die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten "Konstanten", aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
+Die Beispiele sind in TypeScript, da es von fast allen Entwicklern lesbar ist, die Konzepte gelten aber natürlich auch in anderen Sprachen. Python hat zum Beispiel keine echten „Konstanten“, aber man kann reines UPPERCASE mit `typing.Final` kombinieren:
 
 ```python
 from typing import Final
@@ -1424,8 +1418,8 @@ project_name/
 ```
 
 Jeder Ordner ist quasi ein eigenes Git Repository. Aber alle teilen sich die
-Git Metadaten. Statt also euren Stand zu verlassen und komplett zu wechseln,
-reicht ein `git worktree add BRANCH_NAME` und ein Ordner, der auf einen zeigt,
+Git Metadaten. Euer aktueller Stand bleibt also unangetastet. Ein
+`git worktree add BRANCH_NAME` reicht und ein Ordner, der auf einen zeigt,
 wird für euch erstellt.
 
 ## Aber wie geht das jetzt?
@@ -1444,7 +1438,7 @@ Super simpel - wirklich :).
 4. Ab jetzt funktioniert worktree perfekt:
    - `git worktree add main` fügt unseren Main-Branch hinzu
    - `git worktree add feature/ABC_new_stuff_to_play feature/ABC_new_stuff_to_play` um Branches mit `/` im Namen auszuchecken oder zu erstellen
-   - Tatsächlich könnt ihr aber auch beliebig im Dateisystem euren Ordner mit dem Branch erstellen. Das Format sieht in etwa so aus:
+   - Ihr könnt aber auch beliebig im Dateisystem euren Ordner mit dem Branch erstellen. Das Format sieht in etwa so aus:
      `git worktree add PATH BRANCHNAME`
 
 ## Weitere hilfreiche Befehle
@@ -1556,9 +1550,9 @@ vergleicht. Dabei werden die vier folgenden Themengebiete abgedeckt:
 Betrieben wird der Sozial-O-Mat von der Diakonie. Jedes der vier Themen wird
 mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben sollen. 
 
-Statt Videos oder Erklärungen wird dann jede These mit einer "Geschichte"
-unterstützt. Also statt Informationen erhalten wir etwas Menschennäher die
-Geschichte einer Person um diese These einzuordnen. Generell finde ich das
+Videos oder Erklärungen gibt es hier keine, dafür wird jede These mit einer
+„Geschichte“ unterstützt. Wir bekommen also, etwas menschennäher, die
+Geschichte einer Person, um diese These einzuordnen. Generell finde ich das
 Konzept zwar interessant, aber es gibt natürlich auch etwas die Richtung vor!
 
 Jede These kann man als Positiv/Neutral/Negativ bewerten oder sie sogar
@@ -1583,7 +1577,7 @@ Partners und kriegt am Ende eine reine Steuer-Wahlempfehlung.
 
 **Link:** [agrarheute.com](https://www.agrarheute.com/agraromat)
 
-Da - wie wir alle Wissen - die Lebensmittel natürlich nur aus dem Supermarkt
+Da, wie wir alle Wissen, die Lebensmittel natürlich nur aus dem Supermarkt
 kommen, betrifft dieser Wahl-O-Mat ausschließlich die Bauern ;). 
 
 Tatsächlich bezieht sich dieser Helfer passend zum Namen ausschließlich auf die
@@ -1653,7 +1647,7 @@ dass, wenn Sie gar nicht antworten, kann denen auch keiner etwas übel nehmen.
 
 Das beste Feature ist aber, direkt die Abgeordneten aus dem eigenen Wahlkreis
 mit ihren Stimmen zu sehen. Dazu gibt mein die eigene PLZ an und bekommt alle
-lokalen Kandidaten vorgeschlagen - inklusive der Übereinstimmungen in den
+lokalen Kandidaten vorgeschlagen, inklusive der Übereinstimmungen in den
 einzelnen Thesen.
 
 Abgeordneten die bisher nicht geantwortet haben, kann man hier direkt eine
@@ -1679,10 +1673,10 @@ Volt](https://www.volksverpetzer.de/schwer-verpetzt/volt-wahl-o-mat/) dafür),
 als auch die Möglichkeit, anschließend mit den diversen Ergebnissen und deren
 Gewichtung herumzuspielen!
 
-Tatsächlich kam zumindest bei mir auch ein anderes Ergebnis raus, als bei den
+Bei mir kam zumindest auch ein anderes Ergebnis raus als bei den
 anderen Wahlhelfern, was zumindest noch einmal mehr in die Breite geht.
 
-Die Fragen sind tatsächlich auch recht vielfältig gestellt und treffen diverse
+Die Fragen sind auch recht vielfältig gestellt und treffen diverse
 Bereiche, wobei natürlich alle Bekannte wie z.Bsp. das Tempolimit fast überall
 auftauchen.
 
@@ -1692,8 +1686,8 @@ aussprechen.
 
 ## Fazit
 
-Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen -
-besser aber direkt alle Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
+Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen
+(besser aber direkt alle) Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
 bekommen, welche Parteien für was genau stehen.
 
 Eines der dicksten Probleme (meiner Meinung nach) unserer Demokratie ist, dass
@@ -1771,9 +1765,9 @@ In diesem ersten Beitrag möchte ich darüber reden, was für Auswirkungen wir
 heute schon in Deutschland spüren und als ein Fernglas für Deutschland in die
 Zukunft auch über das, was wir in der Welt jetzt schon sehen. Das sind alles
 messbare Dinge und die allermeisten wurden wissenschaftlich exakt so
-vorhergesagt. Leider meistens für ein paar Jahre später in der Zukunft. Denn
-eines ist hier leider klar geworden: Fast alle Prognosen waren deutlich [zu
-optimistisch](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html).
+vorhergesagt. Leider meistens für ein paar Jahre später in der Zukunft. Leider
+hat sich dabei gezeigt, dass fast alle Prognosen deutlich [zu
+optimistisch](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html) waren.
 
 
 ## Folgen in Deutschland
@@ -1792,7 +1786,7 @@ stichpunktartig zusammengefasst:
 Seit 1955 ist die Anzahl der Hitzetoten um [120%
 gestiegen](https://www.tagesschau.de/inland/hitzetote-deutschland-103.html).
 Das sind im 4 Jahreszeitraum 2014-2018 ungefähr 12000 gewesen. Ein Großteil dieses Wachstums ist
-in der Zeit zwischen 2004 und 2014 - also dem letzten Zeitabschnitt passiert.
+in der Zeit zwischen 2004 und 2014 (also dem letzten Zeitabschnitt) passiert.
 Um einen Vergleich zu bringen: Das sind [1.5x mehr Tote als im gesamten
 innerdeutschen
 Verkehr](https://de.statista.com/statistik/daten/studie/185/umfrage/todesfaelle-im-strassenverkehr/).
@@ -1823,8 +1817,8 @@ einmal weg lassen werde.
 
 
 ### Wirtschaftlicher Schaden
-Tatsächlich ein echt wichtiges Thema. Nicht weil ich das jetzt persönlich so
-toll finde, sondern weil man ständig liest und hört, wer das alles bezahlen
+Ein echt wichtiges Thema. Wirtschaft ist jetzt nicht mein Lieblingsthema,
+aber man liest und hört ständig, wer das alles bezahlen
 soll bzw. dass die Politik (primär CDU/SPD) versuche, das Klima mit der
 Wirtschaft in Einklang bringen will.
 
@@ -1832,7 +1826,7 @@ Das halte ich für zutiefst unehrlich, da der Politik durch zahlreiche Berater
 aus Wissenschaft **und** Wirtschaft schon lange nahegelegt wird, dass
 Klimaschutz auch Wirtschaftsschutz ist. Das einzige was leiden würde, wären
 kurzfristige Quartalsergebnisse. Auf lange Sicht [ist Klimaschutz
-billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html) - Menschenleben
+billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html), Menschenleben
 und Lebensqualität mal komplett ignoriert.
 
 ### Mal in konkreten Zahlen
@@ -1895,7 +1889,7 @@ CO<sub>2</sub> Filter damit entfernen, sondern rapide abnehmende Biodiversität,
 geschwächt werden.
 
 Eine Fläche von ehemals gut 12 Millionen Hektar hat in den letzten 20 Jahren mal
-eben 300.000 Hektar schon eingebüßt - und da sind die Kohlestrom-Wälder noch
+eben 300.000 Hektar schon eingebüßt, und da sind die Kohlestrom-Wälder noch
 nicht eingerechnet. Ganz konkret [sind nur
 ~21%](https://www.bmel.de/DE/themen/wald/wald-in-deutschland/waldzustandserhebung.html)
 unserer Bäume überhaupt noch gesund.
