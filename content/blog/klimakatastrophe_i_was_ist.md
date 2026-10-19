@@ -39,9 +39,9 @@ In diesem ersten Beitrag möchte ich darüber reden, was für Auswirkungen wir
 heute schon in Deutschland spüren und als ein Fernglas für Deutschland in die
 Zukunft auch über das, was wir in der Welt jetzt schon sehen. Das sind alles
 messbare Dinge und die allermeisten wurden wissenschaftlich exakt so
-vorhergesagt. Leider meistens für ein paar Jahre später in der Zukunft. Denn
-eines ist hier leider klar geworden: Fast alle Prognosen waren deutlich [zu
-optimistisch](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html).
+vorhergesagt. Leider meistens für ein paar Jahre später in der Zukunft. Leider
+hat sich dabei gezeigt, dass fast alle Prognosen deutlich [zu
+optimistisch](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html) waren.
 
 
 ## Folgen in Deutschland
@@ -60,7 +60,7 @@ stichpunktartig zusammengefasst:
 Seit 1955 ist die Anzahl der Hitzetoten um [120%
 gestiegen](https://www.tagesschau.de/inland/hitzetote-deutschland-103.html).
 Das sind im 4 Jahreszeitraum 2014-2018 ungefähr 12000 gewesen. Ein Großteil dieses Wachstums ist
-in der Zeit zwischen 2004 und 2014 - also dem letzten Zeitabschnitt passiert.
+in der Zeit zwischen 2004 und 2014 (also dem letzten Zeitabschnitt) passiert.
 Um einen Vergleich zu bringen: Das sind [1.5x mehr Tote als im gesamten
 innerdeutschen
 Verkehr](https://de.statista.com/statistik/daten/studie/185/umfrage/todesfaelle-im-strassenverkehr/).
@@ -91,8 +91,8 @@ einmal weg lassen werde.
 
 
 ### Wirtschaftlicher Schaden
-Tatsächlich ein echt wichtiges Thema. Nicht weil ich das jetzt persönlich so
-toll finde, sondern weil man ständig liest und hört, wer das alles bezahlen
+Ein echt wichtiges Thema. Wirtschaft ist jetzt nicht mein Lieblingsthema,
+aber man liest und hört ständig, wer das alles bezahlen
 soll bzw. dass die Politik (primär CDU/SPD) versuche, das Klima mit der
 Wirtschaft in Einklang bringen will.
 
@@ -100,7 +100,7 @@ Das halte ich für zutiefst unehrlich, da der Politik durch zahlreiche Berater
 aus Wissenschaft **und** Wirtschaft schon lange nahegelegt wird, dass
 Klimaschutz auch Wirtschaftsschutz ist. Das einzige was leiden würde, wären
 kurzfristige Quartalsergebnisse. Auf lange Sicht [ist Klimaschutz
-billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html) - Menschenleben
+billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html), Menschenleben
 und Lebensqualität mal komplett ignoriert.
 
 ### Mal in konkreten Zahlen
@@ -163,7 +163,7 @@ CO<sub>2</sub> Filter damit entfernen, sondern rapide abnehmende Biodiversität,
 geschwächt werden.
 
 Eine Fläche von ehemals gut 12 Millionen Hektar hat in den letzten 20 Jahren mal
-eben 300.000 Hektar schon eingebüßt - und da sind die Kohlestrom-Wälder noch
+eben 300.000 Hektar schon eingebüßt, und da sind die Kohlestrom-Wälder noch
 nicht eingerechnet. Ganz konkret [sind nur
 ~21%](https://www.bmel.de/DE/themen/wald/wald-in-deutschland/waldzustandserhebung.html)
 unserer Bäume überhaupt noch gesund.

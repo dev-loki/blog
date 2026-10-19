@@ -12,7 +12,7 @@ tags = ["klima", "politik"]
 
 *My aim is to gather as many climate facts as possible in one place and explain why a radical change in politics and how we live together matters so much to me.*
 
-*This whole issue is genuinely complex and extensive, which is why I'm trying to split it into 3 articles*:
+*This whole issue is really complex and extensive, which is why I'm trying to split it into 3 articles*:
 
 - **The Current State (this article)**
 - _What's coming_ (in a timeframe we will definitely still experience, and that forms the core of Ophelia/Aurora's lives)
@@ -24,14 +24,14 @@ The abstract concept of so-called climate change (more accurately: climate catas
 
 But unfortunately that's not the complete picture, and in my opinion it doesn't make the real consequences clear enough.
 
-In this first piece I want to talk about the impacts we're already feeling in Germany today, and also look at what we're seeing around the world right now as a glimpse of Germany's future. These are all measurable things, and the vast majority were scientifically predicted exactly this way. Unfortunately, usually for a few years further in the future. Because one thing has become painfully clear: almost all projections were significantly [too optimistic](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html).
+In this first piece I want to talk about the impacts we're already feeling in Germany today, and also look at what we're seeing around the world right now as a glimpse of Germany's future. These are all measurable things, and the vast majority were scientifically predicted exactly this way. Unfortunately, usually for a few years further in the future. Unfortunately it turned out that almost all projections were significantly [too optimistic](https://www.hna.de/welt/klima-wandel-wetter-gletscher-schmilzt-katastrophale-folgen-hna-zr-90852117.html).
 
 
 ## Impacts in Germany
 
 The closest to home are the consequences in our own country. A brief summary in bullet points:
 - Heat deaths have doubled
-- First lakes have already dried up; others affected by blue-green algae
+- First lakes have already dried up, others affected by blue-green algae
 - Economic damage in the billions
 - Crop failures
 - Water shortages
@@ -55,7 +55,7 @@ To be honest: the climate crisis isn't the only cause of the algae problem. Inte
 
 
 ### Economic Damage
-Actually a crucial topic. Not because I personally find economics particularly exciting, but because you constantly read and hear arguments about who will pay for it all, and because the political mainstream (primarily CDU/SPD) tries to frame climate action as something to be "balanced" with the economy.
+A really important topic. Economics isn't exactly my favourite subject, but you constantly read and hear arguments about who will pay for it all, and the political mainstream (primarily CDU/SPD) tries to frame climate action as something to be "balanced" with the economy.
 
 I find that deeply dishonest, since politics has long been advised by both scientists **and** economists that climate protection IS economic protection. The only thing that would suffer is short-term quarterly results. In the long run [climate action is cheaper](https://www.goethe.de/prj/eco/de/bil/22136915.html), completely ignoring lives and quality of life.
 
@@ -81,9 +81,9 @@ Due to our geographically fortunate position, it will remain a matter of days to
 
 In addition to drinking water shortages, about 1/3 of our forests are currently dying. Drought alone is often enough, and where that doesn't finish them off, "pests" help deal the final blow.
 
-The consequences aren't just "less green" or losing more CO<sub>2</sub> sinks: they include rapidly declining biodiversity, soil damage (such as landslides), and more severe weather phenomena that are no longer blocked or weakened by forests.
+The consequences aren't just "less green" or losing more CO<sub>2</sub> sinks, but also rapidly declining biodiversity, soil damage (such as landslides), and more severe weather phenomena that are no longer blocked or weakened by forests.
 
-An area of originally around 12 million hectares has already lost 300,000 hectares in the last 20 years, and that doesn't even count the coal-power forests. To be specific: only around [21%](https://www.bmel.de/DE/themen/wald/wald-in-deutschland/waldzustandserhebung.html) of our trees are still healthy.
+An area of originally around 12 million hectares has already lost 300,000 hectares in the last 20 years, and that doesn't even count the coal-power forests. Specifically, only around [21%](https://www.bmel.de/DE/themen/wald/wald-in-deutschland/waldzustandserhebung.html) of our trees are still healthy.
 
 
 ### Zoonoses
@@ -91,7 +91,7 @@ COVID-19 was not the first zoonosis and will not be the last. What was once a ma
 
 The **Federal Agency for Civic Education** itself [goes into detail on their pages](https://www.bpb.de/politik/innenpolitik/coronavirus/308483/pandemien-umwelt-und-klima), but as so often the priorities remain shaped by what RWE or the domestic steel and auto industry wants.
 
-While we're still fighting SARS-CoV-2, more pathogens of various kinds are already on their way to us. Not only are our efforts on climate/human protection somewhere between inadequate and failing: as a species we kick ourselves again by primarily [breeding multi-resistant pathogens through our meat and livestock industry](https://www.deutschlandfunkkultur.de/multiresistente-keime-in-der-landwirtschaft-die-naechste.976.de.html?dram:article_id=487266).
+While we're still fighting SARS-CoV-2, more pathogens of various kinds are already on their way to us. Not only are our efforts on climate/human protection somewhere between inadequate and failing, as a species we also kick ourselves again by primarily [breeding multi-resistant pathogens through our meat and livestock industry](https://www.deutschlandfunkkultur.de/multiresistente-keime-in-der-landwirtschaft-die-naechste.976.de.html?dram:article_id=487266).
 
 
 ## Global Impacts
@@ -100,7 +100,7 @@ When we talk about climate change, we often talk about so-called tipping points.
 
 ### Permafrost
 
-One of the tipping points we've already reached is that [permafrost is thawing worldwide](https://www.n-tv.de/wissen/Permafrostboeden-weltweit-erwaermen-sich-article20813171.html). This releases large amounts of methane, which naturally accelerates warming further. Methane is actually the most lastingly damaging element, but thawing permafrost brings many more problems.
+One of the tipping points we've already reached is that [permafrost is thawing worldwide](https://www.n-tv.de/wissen/Permafrostboeden-weltweit-erwaermen-sich-article20813171.html). This releases large amounts of methane, which naturally accelerates warming further. Methane is probably the most lastingly damaging element, but thawing permafrost brings many more problems.
 
 For example, [the online version of GEO magazine](https://www.geo.de/natur/oekologie/23609-rtkl-gefahr-aus-dem-eis-viren-und-bakterien-werden-durch-den-auftauenden) reports on several studies about further bacteria, viruses, and more hidden there.
 Most of it will be harmless, but even harmless 15,000-year-old pathogens can hit our immune systems extremely hard, just as happened during the colonisation of the Americas, when European settlers brought their diseases and wiped out entire tribes, not because the diseases were so dangerous in themselves, but because the immune systems of the Native Americans were entirely unprepared.
@@ -111,9 +111,9 @@ Most of it will be harmless, but even harmless 15,000-year-old pathogens can hit
 The rainforest has been misleadingly called [the green lung of the earth](https://www.regenwald.org/themen/der-regenwald). Unfortunately, this year we reached the point where the rainforest is releasing **more** greenhouse gases than it [absorbs](https://www.frontiersin.org/articles/10.3389/ffgc.2021.618401/full).
 That is devastating, and in this case almost [100% attributable to meat consumption](https://www.faszination-regenwald.de/info-center/zerstoerung/).
 
-To say it clearly: we've reached the point where the rainforest is NO LONGER the green lung. In simple terms, we have to rewrite our textbooks; practically, it means we have permanently destroyed one of the planet's most important ecosystems. And for what: highly processed soya?
+To say it clearly: we've reached the point where the rainforest is NO LONGER the green lung. In simple terms, we have to rewrite our textbooks. Practically, it means we have permanently destroyed one of the planet's most important ecosystems. And for what: highly processed soya?
 
-The irony: people like to point to soya fields and blame vegetarians, while conveniently forgetting that only 6% of global soya ends up in veggie products and the rest is animal feed. The soya from the rainforest doesn't reach German mouths anyway; German products use semi-regional suppliers. And it takes around 12kg of soya to produce 1kg of beef. Pigs and poultry are thankfully considerably more efficient.
+Ironically, people like to point to soya fields and blame vegetarians, while conveniently forgetting that only 6% of global soya ends up in veggie products and the rest is animal feed. The soya from the rainforest doesn't reach German mouths anyway, since German products use semi-regional suppliers. And it takes around 12kg of soya to produce 1kg of beef. Pigs and poultry are thankfully considerably more efficient.
 
 
 ## "But we can't save the world on our own"
@@ -129,4 +129,4 @@ Per capita, Germany is still significantly ahead of China: China is at around 5t
 
 Edit: Finally, here's a wonderful summary by [Quarks](https://www.quarks.de/umwelt/klimawandel/so-steht-es-wirklich-um-unser-klima/) of the first IPCC report. In total there will be 3 reports and 1 summary. Importantly, the reports are already finished, but won't be published until 2022 because governments are allowed to exercise influence first. A summary of the leak from Part 2 (not due until January 2022) was published by [Der Spiegel](https://www.spiegel.de/wissenschaft/mensch/geleakter-teil-des-ipcc-berichts-die-reichsten-zehn-prozent-verursachen-mehr-als-ein-drittel-der-treibhausgase-a-6d2e8438-7f3e-49bc-8967-4e3aeb6be585).
 
-Relevant context: the REASON for this leak is that the scientists [are afraid](https://utopia.de/news/leaks-des-ipcc-berichts-die-reichsten-10-prozent-verursachen-ueber-36-prozent-der-treibhausgase/) that the report will be [watered down by governments](https://www.theguardian.com/environment/2021/aug/12/greenhouse-gas-emissions-must-peak-within-4-years-says-leaked-un-report).
+It may also be relevant that the REASON for this leak is that the scientists [are afraid](https://utopia.de/news/leaks-des-ipcc-berichts-die-reichsten-10-prozent-verursachen-ueber-36-prozent-der-treibhausgase/) that the report will be [watered down by governments](https://www.theguardian.com/environment/2021/aug/12/greenhouse-gas-emissions-must-peak-within-4-years-says-leaked-un-report).
