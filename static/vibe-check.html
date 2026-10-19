@@ -406,8 +406,8 @@ html[data-theme="dark"] .mascot { filter: drop-shadow(0 0 6px rgba(230,230,230,.
         <span lang="en">Your model wrote it.<br><span class="dim">Somebody should read it.</span></span>
       </h1>
       <p class="lede">
-        <span lang="de">Ich habe die immer gleichen Muster oft genug gesehen, um schnell zu sagen, was davon wirklich zählt. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach weiterfährt.</span>
-        <span lang="en">I have seen the same patterns often enough to tell quickly what actually matters. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps the checks running afterwards.</span>
+        <span lang="de">Ich habe die immer gleichen Muster oft genug gesehen, um schnell zu sagen, was davon zählt. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach weiterfährt.</span>
+        <span lang="en">I have seen the same patterns often enough to tell quickly what matters. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps the checks running afterwards.</span>
       </p>
 
       <div class="box" style="margin-top:1.4rem">
@@ -466,12 +466,12 @@ html[data-theme="dark"] .mascot { filter: drop-shadow(0 0 6px rgba(230,230,230,.
 
         <div class="pane">
           <h3><span lang="de">performance</span><span lang="en">performance</span></h3>
-          <p><span lang="de">N+1-Abfragen, fehlende Indizes, und Code, der mit deinen Daten langsamer statt schneller wird.</span><span lang="en">N+1 queries, missing indexes, and code that gets slower, not faster, as your data grows.</span></p>
+          <p><span lang="de">N+1-Abfragen, fehlende Indizes, und Code, der mit wachsenden Daten immer langsamer wird.</span><span lang="en">N+1 queries, missing indexes, and code that keeps getting slower as your data grows.</span></p>
         </div>
 
         <div class="pane">
           <h3><span lang="de">code health</span><span lang="en">code health</span></h3>
-          <p><span lang="de">Testverhältnis, Abhängigkeiten mit bekannten Lücken, und ob überhaupt etwas davon in CI durchgesetzt wird.</span><span lang="en">Test ratio, dependencies with known gaps, and whether any of it is enforced in CI at all.</span></p>
+          <p><span lang="de">Testverhältnis, Abhängigkeiten mit bekannten Lücken, und ob überhaupt etwas davon in CI durchgesetzt wird.</span><span lang="en">Test ratio, dependencies with known vulnerabilities, and whether any of it is enforced in CI at all.</span></p>
         </div>
 
         <div class="pane wide">
@@ -496,15 +496,15 @@ html[data-theme="dark"] .mascot { filter: drop-shadow(0 0 6px rgba(230,230,230,.
           <li><b><span lang="de">Klassische statische Analyse.</span><span lang="en">Classic static analysis.</span></b> <span lang="de">Linter, Komplexitätsmessung, Dependency- und Container-Scanner, je nach Stack. Etablierte Werkzeuge, deren Aussagen jemand anders nachprüfen kann.</span><span lang="en">Linters, complexity metrics, dependency and container scanners, depending on the stack. Established tools whose output somebody else can check.</span></li>
           <li><b><span lang="de">Git-Archäologie.</span><span lang="en">Git archaeology.</span></b> <span lang="de">Wer hat was geschrieben, was ändert sich ständig, wo liegt Wissen fest. Das steht in keinem Linter-Report.</span><span lang="en">Who wrote what, what churns constantly, where knowledge is stuck. No linter report shows that.</span></li>
           <li><b><span lang="de">Handarbeit.</span><span lang="en">Manual reading.</span></b> <span lang="de">Die kritischen Pfade lese ich selbst: Anmeldung, Rechteprüfung, Datenzugriff, Upload, Deployment. Genau dort sind Werkzeuge blind.</span><span lang="en">I read the critical paths myself: login, permission checks, data access, upload, deployment. That is exactly where tools are blind.</span></li>
-          <li><b><span lang="de">Gegenprüfung.</span><span lang="en">Cross-check.</span></b> <span lang="de">Ich lese die kritischen Pfade in zwei unabhängigen Durchgängen. Was sich widerspricht, kläre ich vor dem Report, nicht danach. Ein einzelner Durchgang übersieht am ehesten die Stellen, an denen man selbst am meisten Übung darin hat, wegzuschauen.</span><span lang="en">I read the critical paths in two independent passes. Anything that disagrees gets resolved before the report goes out, not after. A single pass most often misses exactly the spots you have the most practice looking away from.</span></li>
+          <li><b><span lang="de">Zwei Durchgänge.</span><span lang="en">Two passes.</span></b> <span lang="de">Ich lese die kritischen Pfade in zwei unabhängigen Durchgängen. Was sich widerspricht, kläre ich, bevor der Report rausgeht. Ein einzelner Durchgang übersieht am ehesten die Stellen, an denen man selbst am meisten Übung darin hat, wegzuschauen.</span><span lang="en">I read the critical paths in two independent passes. Anything that disagrees gets resolved before the report goes out. A single pass most often misses exactly the spots you have the most practice looking away from.</span></li>
           <li><b><span lang="de">Gegenprobe.</span><span lang="en">Adversarial check.</span></b> <span lang="de">Für Auth, Mandantentrennung, Zahlungen und Uploads reicht mir ein Lint-Fund nicht. Jeder Verdacht muss eine aktive Widerlegung überstehen, bevor er in den Report kommt. Was übrig bleibt, sind Logikfehler, die kein Linter sieht, zum Beispiel zwei Guard-Funktionen, die dieselbe Berechtigung unterschiedlich auslegen.</span><span lang="en">For auth, tenant isolation, payments and uploads a lint finding is not enough for me. Every suspicion has to survive an active attempt to disprove it before it enters the report. What survives are logic bugs no linter sees, two guard functions, say, that interpret the same permission differently.</span></li>
-          <li><b><span lang="de">Architekturmethodik.</span><span lang="en">Architecture method.</span></b> <span lang="de">Grenzen, Kopplung, Abhängigkeitsrichtung, Datenhoheit. Handwerk, keine Messung.</span><span lang="en">Boundaries, coupling, dependency direction, data ownership. Craft, not measurement.</span></li>
+          <li><b><span lang="de">Architekturmethodik.</span><span lang="en">Architecture method.</span></b> <span lang="de">Grenzen, Kopplung, Abhängigkeitsrichtung, Datenhoheit. Das ist Handwerk.</span><span lang="en">Boundaries, coupling, dependency direction, data ownership. That part is craft.</span></li>
           <li><b><span lang="de">KI-Werkzeuge, optional.</span><span lang="en">AI tooling, optional.</span></b> <span lang="de">Als Beschleuniger beim Lesen großer Codebases, nie als einzige Quelle, und nur mit deiner Freigabe. Jeder Fund landet erst im Report, nachdem ich ihn selbst im Code gesehen habe.</span><span lang="en">As an accelerator for reading large codebases, never as the only source, and only with your sign-off. No finding enters the report before I have seen it in the code myself.</span></li>
         </ul>
       </details>
       <p>
-        <span lang="de">Ein Werkzeug allein liefert Zahlen, und Zahlen sortieren sich nicht selbst. Ein Lint-Befund wird erst wichtig, wenn er auf einem Pfad sitzt, der auch Rechte prüft. Eine langsame Abfrage wird erst dringend, wenn dieselbe Tabelle im nächsten Quartal das Zehnfache an Zeilen hat. Diese Verbindungen herzustellen ist die Arbeit, für die du mich bezahlst. Ein Linter findet Stil. Das hier soll den Satz finden: ein Nutzer kann auf die Daten eines anderen Mandanten zugreifen.</span>
-        <span lang="en">One tool on its own produces numbers, and numbers do not sort themselves. A lint finding only matters once it sits on a path that also checks permissions. A slow query only becomes urgent once the same table holds ten times the rows next quarter. Making those connections is the work you are paying me for. A linter finds style. This is built to find the sentence: a user can read another tenant's data.</span>
+        <span lang="de">Ein Werkzeug allein liefert Zahlen, und Zahlen sortieren sich nicht selbst. Ein Lint-Befund wird erst wichtig, wenn er auf einem Pfad sitzt, der auch Rechte prüft. Eine langsame Abfrage wird erst dringend, wenn dieselbe Tabelle im nächsten Quartal das Zehnfache an Zeilen hat. Diese Verbindungen herzustellen ist die Arbeit, für die du mich bezahlst. Am Ende soll ein Satz wie dieser im Report stehen: Ein Nutzer kann auf die Daten eines anderen Mandanten zugreifen.</span>
+        <span lang="en">One tool on its own produces numbers, and numbers do not sort themselves. A lint finding only matters once it sits on a path that also checks permissions. A slow query only becomes urgent once the same table holds ten times the rows next quarter. Making those connections is the work you are paying me for. In the end a sentence like this should be in the report: a user can read another tenant's data.</span>
       </p>
     </section>
 
@@ -611,7 +611,7 @@ html[data-theme="dark"] .mascot { filter: drop-shadow(0 0 6px rgba(230,230,230,.
 
       <div class="callout ok" style="margin-top:1.1rem">
         <p>
-          <b><span lang="de">Der Report ist das Kernstück.</span><span lang="en">The report is the centrepiece.</span></b>
+          <b><span lang="de">Was im Report steht.</span><span lang="en">What the report contains.</span></b>
           <span lang="de">Executive-Zusammenfassung, Scorecard mit Begründung pro Dimension, jeder Fund mit Schwere, Datei und Zeile, und eine nach Aufwand und Wirkung sortierte Empfehlungsliste. Als Markdown und als Word-Dokument, damit du es intern weiterreichen kannst, ohne es neu zu schreiben. Onepager und Report verwenden dieselbe Farbpalette wie diese Seite, damit sich das PDF wie dasselbe Produkt anfühlt.</span>
           <span lang="en">Executive summary, scorecard with a justification per dimension, every finding with severity, file and line, and a recommendation list sorted by effort and impact. As Markdown and as a Word document, so you can pass it on internally without rewriting it. The one-pager and the report use the same colour palette as this page, so the PDF feels like the same product.</span>
         </p>
@@ -729,8 +729,8 @@ and not four copies of it.</span>
           <span lang="de">Vollverschlüsselte Datenträger, kein Sync in eine Cloud, keine Weitergabe an Dritte, keine Subunternehmer.</span>
           <span lang="en">Full-disk encryption, no cloud sync, no sharing with third parties, no subcontractors.</span></p>
         <p><b><span lang="de">Sprachmodelle nur nach deiner Freigabe.</span><span lang="en">Language models only with your sign-off.</span></b>
-          <span lang="de">Wenn Code an ein Sprachmodell geht, sage ich vorher welcher Anbieter, du kannst ablehnen, dann läuft alles lokal mit etwas mehr Lesezeit.</span>
-          <span lang="en">If code goes to a language model, I say which provider up front, you can say no, and then everything runs locally with a bit more reading time.</span></p>
+          <span lang="de">Bevor Code an ein Sprachmodell geht, sage ich dir, welcher Anbieter es ist. Lehnst du ab, läuft alles lokal, und ich brauche etwas mehr Lesezeit.</span>
+          <span lang="en">Before any code goes to a language model, I tell you which provider. If you say no, everything runs locally and I need a bit more reading time.</span></p>
         <p><b><span lang="de">Löschung mit Bestätigung.</span><span lang="en">Deletion, confirmed in writing.</span></b>
           <span lang="de">14 Tage nach Abnahme lösche ich Arbeitskopien und Rohdaten und bestätige es dir schriftlich.</span>
           <span lang="en">14 days after sign-off I delete working copies and raw data and confirm it in writing.</span></p>
@@ -742,8 +742,8 @@ and not four copies of it.</span>
           <span lang="en">Bus factor without personal names, a per-person breakdown only on explicit request.</span></p>
       </div>
       <p class="sm dim">
-        <span lang="de">Der Offline-Ansatz ist eine bewusste Entscheidung. Ein dynamischer Test braucht Freigaben, die du kurzfristig nicht bekommst. Statisch komme ich an dieselben Funde, die in KI-generiertem Code ohnehin am häufigsten sind, nur schneller.</span>
-        <span lang="en">The offline approach is a deliberate decision. A dynamic test needs sign-offs you will not get on short notice. Statically I reach the same findings that dominate AI-generated code, just faster.</span>
+        <span lang="de">Offline arbeite ich, weil ein dynamischer Test Freigaben braucht, die du kurzfristig nicht bekommst. Statisch komme ich an dieselben Funde, die in KI-generiertem Code ohnehin am häufigsten sind, nur schneller.</span>
+        <span lang="en">I work offline because a dynamic test needs sign-offs you will not get on short notice. Statically I reach the same findings that dominate AI-generated code, just faster.</span>
       </p>
     </section>
 
@@ -765,8 +765,8 @@ and not four copies of it.</span>
           <span lang="de">Performance lese ich im Code. Was deine Datenbank unter echter Last macht, zeigt nur eine Messung in deiner Umgebung.</span>
           <span lang="en">I read performance in the code. What your database does under real load only shows up in a measurement in your environment.</span></p>
         <p><b><span lang="de">Keine Zertifizierung, kein Testat.</span><span lang="en">No certification, no attestation.</span></b>
-          <span lang="de">Du bekommst einen Report von einem Software-Architekten, der beruflich fremden Code liest. Kein Siegel für einen Auditor.</span>
-          <span lang="en">You get a report from a software architect who reads other people's code for a living. Not a seal for an auditor.</span></p>
+          <span lang="de">Du bekommst einen Report von einem Software-Architekten, der beruflich fremden Code liest. Ein Siegel, das ein Auditor anerkennt, ist nicht dabei.</span>
+          <span lang="en">You get a report from a software architect who reads other people's code for a living. It carries no seal an auditor would accept.</span></p>
       </details>
 
       <details>
@@ -788,8 +788,8 @@ and not four copies of it.</span>
       <div class="box" style="padding-bottom:.4rem">
         <table>
           <caption>
-            <span lang="de">Fixpreis, gestaffelt nach Größe. Keine Stundenzettel, keine Überraschung auf der Rechnung.</span>
-            <span lang="en">Fixed price, banded by size. No timesheets, no surprise on the invoice.</span>
+            <span lang="de">Fixpreis, gestaffelt nach Größe. Du zahlst, was im Angebot steht, ohne Stundenzettel.</span>
+            <span lang="en">Fixed price, banded by size. You pay what the offer says, no timesheets.</span>
           </caption>
           <thead><tr>
             <th scope="col">SCOPE</th>
@@ -804,19 +804,19 @@ and not four copies of it.</span>
         </table>
       </div>
       <p class="sm dim">
-        <span lang="de">Für <code>--repos=*</code> steht der Zeitrahmen mit im Angebot, nicht nur der Preis. Größere Codebases brauchen mehr Lesezeit, und die steht dann als konkrete Zahl da statt als Schätzung hier auf der Seite.</span>
-        <span lang="en">For <code>--repos=*</code> the offer states the timeframe along with the price, not just the price. Larger codebases need more reading time, and that shows up as a concrete number there instead of a guess on this page.</span>
+        <span lang="de">Für <code>--repos=*</code> stehen im Angebot Preis und Zeitrahmen. Größere Codebases brauchen mehr Lesezeit, und die steht dort als konkrete Zahl.</span>
+        <span lang="en">For <code>--repos=*</code> the offer states both price and timeframe. Larger codebases need more reading time, and the offer puts a concrete number on it.</span>
       </p>
       <div class="callout">
         <p>
           <b><code>--no-ai</code></b>
-          <span lang="de">Wenn dein Code kein Sprachmodell sehen darf, egal welches, dann läuft der ganze Durchgang rein lokal. Die Skripte sind dieselben und die Zahlen kommen identisch heraus, aber ich lese die kritischen Pfade komplett von Hand. Das dauert etwa ein Drittel länger, deshalb der Aufschlag. Das Ergebnis ist dasselbe, es kostet mich nur mehr Zeit.</span>
-          <span lang="en">If no language model may see your code, whichever one, the whole pass runs fully local. The scripts are the same and the numbers come out identical, but I read the critical paths entirely by hand. That takes roughly a third longer, hence the surcharge. The result is the same, it just costs me more time.</span>
+          <span lang="de">Wenn dein Code kein Sprachmodell sehen darf, egal welches, dann läuft der ganze Durchgang rein lokal. Die Skripte sind dieselben und die Zahlen kommen identisch heraus, aber ich lese die kritischen Pfade komplett von Hand. Das dauert etwa ein Drittel länger, deshalb der Aufschlag.</span>
+          <span lang="en">If no language model may see your code, whichever one, the whole pass runs fully local. The scripts are the same and the numbers come out identical, but I read the critical paths entirely by hand. That takes roughly a third longer, hence the surcharge.</span>
         </p>
       </div>
       <p class="dim">
-        <span lang="de">Report, Deep Dives, Fix-Prompts und Harness sind immer dabei, nie als Aufpreis. Das Scoping kostet nichts, und wenn ich aus deinen Antworten sehe, dass sich das Audit für dich nicht lohnt, schreibe ich dir das statt ein Angebot zu schicken.</span>
-        <span lang="en">Report, deep dives, fix prompts and harness are always included, never an add-on. Scoping costs nothing, and if your answers tell me the audit is not worth it for you, I write you that instead of sending an offer.</span>
+        <span lang="de">Report, Deep Dives, Fix-Prompts und Harness sind immer im Preis enthalten. Das Scoping kostet nichts, und wenn ich aus deinen Antworten sehe, dass sich das Audit für dich nicht lohnt, schreibe ich dir das statt ein Angebot zu schicken.</span>
+        <span lang="en">Report, deep dives, fix prompts and harness are always included in the price. Scoping costs nothing, and if your answers tell me the audit is not worth it for you, I write you that instead of sending an offer.</span>
       </p>
     </section>
 
@@ -824,8 +824,8 @@ and not four copies of it.</span>
     <section id="kontakt">
       <h2><span lang="de">kontakt</span><span lang="en">contact</span></h2>
       <p>
-        <span lang="de">Zwei Sätze zum Projekt reichen: welcher Stack, wie viele Repositories, und was dir Sorgen macht. Du bekommst innerhalb eines Werktags eine Antwort mit der Fragenliste, und danach den Festpreis. Ohne Termin, ohne Kalenderlink.</span>
-        <span lang="en">Two sentences about the project is enough: which stack, how many repositories, and what worries you. You get a reply within one working day with the question list, and the fixed price after that. No meeting, no calendar link.</span>
+        <span lang="de">Zwei Sätze zum Projekt reichen: welcher Stack, wie viele Repositories, und was dir Sorgen macht. Du bekommst innerhalb eines Werktags eine Antwort mit der Fragenliste, und danach den Festpreis, ohne Termin und ohne Kalenderlink.</span>
+        <span lang="en">Two sentences about the project is enough: which stack, how many repositories, and what worries you. You get a reply within one working day with the question list, and the fixed price after that, with no meeting and no calendar link.</span>
       </p>
       <p class="pr" style="font-size:clamp(.9rem,3.2vw,1.05rem)"><span class="host">loki@dev:~$</span> <a href="mailto:blog@loki.dev?subject=vibe%20check" style="border-bottom-color:var(--fg-dim)">mail -s "vibe check" blog@loki.dev</a><span class="caret" aria-hidden="true"></span></p>
       <p class="faint sm">
@@ -867,7 +867,7 @@ and not four copies of it.</span>
 </div>
 <div class="pop" id="p5" popover>
   <h4><span lang="de">Beispiel: tests &amp; CI</span><span lang="en">Example: tests &amp; CI</span></h4>
-  <p><span lang="de">Testverhältnis 0.04, also ein Zeile Test auf 25 Zeilen Code. Coverage wird gemessen und nirgends erzwungen. Die statische Analyse war in der Pipeline vorhanden, aber jeder Aufruf war auskommentiert.</span><span lang="en">Test ratio 0.04, one line of test per 25 lines of code. Coverage is measured and enforced nowhere. Static analysis existed in the pipeline, but every invocation was commented out.</span></p>
+  <p><span lang="de">Testverhältnis 0.04, also eine Zeile Test auf 25 Zeilen Code. Coverage wird gemessen und nirgends erzwungen. Die statische Analyse war in der Pipeline vorhanden, aber jeder Aufruf war auskommentiert.</span><span lang="en">Test ratio 0.04, one line of test per 25 lines of code. Coverage is measured and enforced nowhere. Static analysis existed in the pipeline, but every invocation was commented out.</span></p>
 </div>
 <div class="pop" id="p6" popover>
   <h4><span lang="de">Beispiel: abhängigkeiten</span><span lang="en">Example: dependencies</span></h4>
