@@ -34,7 +34,7 @@ jede moderne IDE kann diese Typehints auswerten und damit sinnvolle Vorschläge
 machen. Der Erfolg von FastAPI/pydantic beruht zum Teil genau darauf, dass die
 DX (Developer Experience) so gut ist!
 
-In meinem Template mit hexagonaler Architektur sind Typen sogar tragend: die
+In meinem Template mit hexagonaler Architektur sind Typen sogar tragend: Die
 Ports sind als abstrakte, vollständig typisierte Interfaces definiert:
 
 ```python
@@ -67,7 +67,7 @@ in jeden Pre-Commit-Hook passt:
 uv run ty check
 ```
 
-Ein typischer Fund sieht dann so aus: hier vergisst jemand, dass
+Ein typischer Fund sieht dann so aus: Hier vergisst jemand, dass
 `by_id` auch `None` liefern kann:
 
 ```python
@@ -127,7 +127,7 @@ kann (`uv run ty server`), z. B. für Neovim.
 
 ### Einschränkungen
 
-`ty` ist jung. Mein Template pinnt es auf `ty==0.*`: die Null vor dem Punkt ist
+`ty` ist jung. Mein Template pinnt es auf `ty==0.*`: Die Null vor dem Punkt ist
 im Open-Source-Umfeld nicht immer aussagekräftig. Hier stimmt sie aber durchaus,
 `ty` ist bis Version `0.0.61` offiziell noch eine Beta. Meiner Meinung nach
 (sehr subjektiv!) ist es aber bereits production ready, der Speed-Vorteil ist es
