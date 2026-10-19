@@ -82,7 +82,7 @@ Die Sequenz bleibt, der Abhängigkeitsgraph interessiert sich nicht dafür, wer
 davor sitzt. Und die Abstimmung kommt als Doppelarbeit zurück: zwei Agenten,
 die denselben Helper refaktorieren, jeder für sich plausibel.
 
-Dazu ein Engpass, den Brooks nicht hatte. Ich bin der einzige, der Ergebnisse
+Dazu ein Engpass, den Brooks nicht hatte. Ich bin der Einzige, der Ergebnisse
 annehmen darf. Drei Agenten parallel bringen mir etwas, bei zehn lese ich nur
 noch Diffs und entscheide immer schlechter. Was mitskaliert, ist der
 deterministische Teil des Reviews: Linter, Typprüfung, Tests, Pre-Commit-Hooks
@@ -95,8 +95,8 @@ Nach 51 Jahren ist damit eine der drei Ursachen weggefallen und eine vierte
 dazugekommen. Für die Runde mit den sechs Wochen und dem Vorschlag von oben
 rechnet sich das genauso wie 1975.
 
-*(Der Großteil der Zahlen und Beispiele sind angepasste und basierend auf alten
-Erfahrungen und habe nichts mit aktuellen Ereignissen zu tun)*
+*(Der Großteil der Zahlen und Beispiele ist angepasst und basiert auf alten
+Erfahrungen und hat nichts mit aktuellen Ereignissen zu tun)*
 
 ---
 
@@ -107,7 +107,7 @@ Description: Wie die schnelle, strikte Toolchain aus uv, ruff, ty und prek zum K
 Tags: tooling, python, ki
 
 In [Teil 1](@/blog/2026-07-15_modern-tooling-part-1-uv.md) habe ich von zwei
-Umbrüchen geschrieben: das Python-Ökosystem wird auf Rust-basierte Werkzeuge
+Umbrüchen geschrieben: Das Python-Ökosystem wird auf Rust-basierte Werkzeuge
 umgestellt, und immer mehr Code entsteht durch KI. Die vier Teile davor haben
 den ersten Umbruch abgearbeitet. In diesem Bonus-Teil kommt der zweite dazu,
 denn beide passen besser zusammen, als es zunächst aussieht.
@@ -222,7 +222,7 @@ jede moderne IDE kann diese Typehints auswerten und damit sinnvolle Vorschläge
 machen. Der Erfolg von FastAPI/pydantic beruht zum Teil genau darauf, dass die
 DX (Developer Experience) so gut ist!
 
-In meinem Template mit hexagonaler Architektur sind Typen sogar tragend: die
+In meinem Template mit hexagonaler Architektur sind Typen sogar tragend: Die
 Ports sind als abstrakte, vollständig typisierte Interfaces definiert:
 
 ```python
@@ -255,7 +255,7 @@ in jeden Pre-Commit-Hook passt:
 uv run ty check
 ```
 
-Ein typischer Fund sieht dann so aus: hier vergisst jemand, dass
+Ein typischer Fund sieht dann so aus: Hier vergisst jemand, dass
 `by_id` auch `None` liefern kann:
 
 ```python
@@ -315,7 +315,7 @@ kann (`uv run ty server`), z. B. für Neovim.
 
 ### Einschränkungen
 
-`ty` ist jung. Mein Template pinnt es auf `ty==0.*`: die Null vor dem Punkt ist
+`ty` ist jung. Mein Template pinnt es auf `ty==0.*`: Die Null vor dem Punkt ist
 im Open-Source-Umfeld nicht immer aussagekräftig. Hier stimmt sie aber durchaus,
 `ty` ist bis Version `0.0.61` offiziell noch eine Beta. Meiner Meinung nach
 (sehr subjektiv!) ist es aber bereits production ready, der Speed-Vorteil ist es
@@ -352,7 +352,7 @@ wenn das Feedback schnell kommt.
 ## [Moderne Werkzeuge Teil 4: Hochperformante Git Hooks mit prek](https://loki.dev/blog/modern-tooling-part-4-prek/)
 
 Date: 2026-07-20
-Description: prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie unser komplettes Quality Gate vor jedem Commit läuft.
+Description: prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie mein komplettes Quality Gate vor jedem Commit läuft.
 Tags: tooling, python, git
 
 Im Laufe dieser Serie habe ich meinen Python-Stack mit `uv` ([Teil
@@ -526,7 +526,7 @@ Paketmanagement mit `uv` aufgeräumt habe, will ich mich heute in Teil 2 um
 
 ### Toolchain-Suppe
 
-"Code-Qualität" hieß lange, vier bis fünf Tools hintereinander zu
+„Code-Qualität“ hieß lange, vier bis fünf Tools hintereinander zu
 schalten:
 - Black für das Formatting
 - Isort für die Import-Sortierung
@@ -617,7 +617,7 @@ steht daneben.
 
 Regeln, die im Produktivcode sinnvoll sind, sind in Tests oft Lärm. `assert`
 ist in Tests der Normalfall (im Produktivcode verbietet ihn die
-Bandit-Regel `S101`), und "Magic Numbers" in einem Testfall sind schlicht die
+Bandit-Regel `S101`), und „Magic Numbers“ in einem Testfall sind schlicht die
 Testdaten:
 
 ```toml
@@ -645,7 +645,7 @@ known-local-folder = ["app"]
 
 Kurze Erinnerung: `isort` sorgt dafür, dass die Importblöcke grob in 3
 Kategorien unterteilt sind:
-1. "batteries included" Imports, z. B.: `from math import sqrt`
+1. „batteries included“ Imports, z. B.: `from math import sqrt`
 2. 3rd party Imports: `from fastapi import FastAPI`
 3. Projektimports: `from my_project.domain import ImportantClass`
 
@@ -748,7 +748,7 @@ Werkzeugkasten:
 * `pip-tools`, `pip freeze` (oder `poetry`), um Abhängigkeiten zu locken
 * dazu das `source .venv/bin/activate`-Ritual (gerne auch automatisiert via zsh/bash script)
 
-Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigene
+Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigener
 Konfigurationstypen), eigene Eigenheiten und eigene Fehlerquellen. Das Ergebnis
 ist: „Works on my machine“. Gratis dazu gibt es eine CI-Pipeline, die Minuten
 mit dem Auflösen von Abhängigkeiten verbringt.
@@ -790,9 +790,9 @@ uv run pytest
 Es gibt also kein `activate` mehr. `uv run` sorgt selbst dafür, dass der Befehl
 in der richtigen Umgebung läuft und dass diese Umgebung mit dem Lockfile
 übereinstimmt. Ist sie es nicht, synchronisiert `uv` sie vorher automatisch.
-Via `uv venv` (optional mit `--python 314`) kann man auch getrennt eine `venv`
-Umgebung erstellen. Alternativ kann man im Projekt eine `.python-version`
-Datei mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
+Via `uv venv` (optional mit `--python 314`) kann man auch getrennt eine `venv`-Umgebung
+erstellen. Alternativ kann man im Projekt eine `.python-version`-Datei
+mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
 bei Bedarf einfach herunter. `pyenv` wird damit überflüssig.
 
 
@@ -906,14 +906,14 @@ Tags: ki, tooling
 
 Sorry für die lange Funkstille! Seit dem letzten Post ist ja doch einiges an Zeit ins Land gegangen. Ich hab hier noch einen ganzen Stapel an Entwürfen rumliegen (`.md.draft`), aber wenn ich mir die so anschaue, müssen die wohl alle erst mal grundlegend überarbeitet werden, die Welt (und vor allem die KI-Welt) dreht sich einfach zu schnell ;).
 
-Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt, noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal, sogar frei von KI geschrieben.
+Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt ist noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal, sogar frei von KI geschrieben.
 
-Claude Code direkt als erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht, und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5 wo ähnliches behaupted wurde.
+Claude Code direkt als Erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht, und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5, wo ähnliches behauptet wurde.
 
 
 ### Claw Code
 
-Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), sollte einen Blick auf [Claw Code](https://claw-code.codes/) werfen. Das Projekt hat den geleakten Code quasi "deductiv" aufbereitet und zugänglich gemacht. Es ist ein extrem spannendes Stück Softwarearchitektur, das zeigt, wie Anthropic die Interaktion zwischen LLM und lokaler Shell orchestriert.
+Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), sollte einen Blick auf [Claw Code](https://claw-code.codes/) werfen. Das Projekt hat den geleakten Code quasi "deduktiv" aufbereitet und zugänglich gemacht. Es ist ein extrem spannendes Stück Softwarearchitektur, das zeigt, wie Anthropic die Interaktion zwischen LLM und lokaler Shell orchestriert.
 
 
 ### Die rechtliche Seite: DMCA-Whack-A-Mole
@@ -925,7 +925,7 @@ Ich finde das ziemlich bezeichnend für den current State der KI:
 - Der Code (und die Bugs) entstehen schneller und kriegen immer weniger echte Reviews
 - "Security by Obscurity" funktioniert mit KI noch weniger als vorher
 
-Gerade überlege ich noch, ob ich dazu mal einen tieferen Artikel schreibe, wo ich mich speziell um **KI Guardrails**, also eine Art Sicherheitskorsett für KI kümmere. Ich habe das Gefühl, dass dies vielen noch fehlt obwohl es echt eine schöne tief hängende Frucht ist.
+Gerade überlege ich noch, ob ich dazu mal einen tieferen Artikel schreibe, wo ich mich speziell um **KI Guardrails**, also eine Art Sicherheitskorsett für KI, kümmere. Ich habe das Gefühl, dass dies vielen noch fehlt, obwohl es echt eine schöne tief hängende Frucht ist.
 
 ---
 
@@ -1392,7 +1392,7 @@ Eines der geilsten Features von Git. Gleichzeitig eines der am wenigsten benutzt
 
 Ihr seid gerade an eurem `feature/blubb_feature` dran und dann kommt ein MR vom Kollegen,
 wo ihr bitte ganz schnell `hotfix/make_that_users_dont_die_immediately` reviewen sollt,
-damit das super flott live gehen kann. Leider ist der branch zu komplex um alles direkt im
+damit das super flott live gehen kann. Leider ist der Branch zu komplex um alles direkt im
 Gitlab zu machen.
 
 Also wirklich auschecken und deep-dive in den Code...
@@ -1400,7 +1400,7 @@ Also wirklich auschecken und deep-dive in den Code...
 ### Klassisches Vorgehen
 
 1. `git stash` eurer Änderungen
-2. `git checkout hotfix/...` um den Branch anzugucken und alles durch zu gehen.
+2. `git checkout hotfix/...` um den Branch anzugucken und alles durchzugehen.
 3. Freigabe oder eben nicht
 
 ### Viel besseres Vorgehen
@@ -1429,7 +1429,7 @@ Super simpel - wirklich :).
 1. `mkdir my_project` (Projektverzeichnis erstellen) und via `cd` dort rein wechseln: `cd my_project`
 2. Repository klonen (Achtung - hier ist die erste Besonderheit) `git clone --bare GIT_URL .bare`.
    - Wir klonen also nur das bare Repository ohne einen Branch auszuchecken
-   - Diese Metadaten speichern wir im Order `.bare` (Durch den `.` am Anfang ist der Ordner unter MacOS/Linux versteckt)
+   - Diese Metadaten speichern wir im Ordner `.bare` (Durch den `.` am Anfang ist der Ordner unter MacOS/Linux versteckt)
 3. Eine Datei `my_project/.git` erstellen und folgende Zeile eintragen:
    ```
    gitdir: ./.bare
@@ -1453,19 +1453,19 @@ Super simpel - wirklich :).
 ## [Wahlhelfer zur Bundestagswahl 2021](https://loki.dev/blog/wahlhelfer-btw-2021/)
 
 Date: 2021-08-23
-Description: Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt
+Description: Nachdem der populäre Wahl-O-Mat noch nicht so weit ist, habe ich hier mal die diversen Wahlhelfer gesammelt
 Tags: gesellschaft, politik
 
 Da ich die Kritik am Wahl-O-Mat selber kenne und teile, stelle ich hier die
-Alternative und Ergänzungen einmal vor.
+Alternativen und Ergänzungen einmal vor.
 
 Um vollständig zu sein/bleiben, hier meine persönlichen Kritikpunkte am
 Wahl-O-Maten:
-- Eindimensional -> Es fehlt die Abstufung oder auch eine "so nicht, aber so:"
+- Eindimensional -> Es fehlt die Abstufung oder auch eine „so nicht, aber so:“
   Option
 - Er gibt nur die Antworten der Politik wieder, aber nicht deren Handlung. Da
-  wäre es echt fein, wenn diese beiden Dinge nicht so häufig auseinander
-  driften würden.
+  wäre es echt fein, wenn diese beiden Dinge nicht so häufig
+  auseinanderdriften würden.
 - Es wird nur ein beschränktes politisches Arsenal aus Thesen besprochen.
 
 
@@ -1473,28 +1473,28 @@ All diese Punkte haben auch irgendwie eine Berechtigung, da man natürlich nicht
 beliebig in die Tiefe gehen kann.
 
 Trotzdem finde ich das Konzept des Wahl-O-Maten vom Grunde her super sinnvoll,
-da es Diskussion ermöglicht und ein grobes "Alignment" ermitteln kann. Wenn ich
+da es Diskussion ermöglicht und ein grobes „Alignment“ ermitteln kann. Wenn ich
 z.Bsp.  eine 2% Übereinstimmung mit der AfD/Linken/Whatever habe, dann ist die
 Chance zwar nicht 0, aber doch sehr sehr gering, dass ich eben genau diese
 Partei wählen sollte.
 
 Jetzt gibt es aber nicht nur den Wahl-O-Mat, sondern auch diverse alternative
 Wahlhelfer mit unterschiedlichen Ausrichtungen, die ich hier sammeln und
-vorstellen möchte
+vorstellen möchte.
 
 
 ## DeinWal.de
 
 **Link:** [deinwal.de](http://deinwal.de)
 
-~Noch ist der aktuelle "Wal"helfer nicht online~, aber das Konzept von deinwal.de
+~Noch ist der aktuelle „Wal“helfer nicht online~, aber das Konzept von deinwal.de
 ist mein absoluter Favorit! Er vergleicht nämlich keine Wahlprogramme oder das, was
 Parteien gerade behaupten zu tun, sondern vergangene Abstimmungen und wie sehr
 das mit der eigenen Meinung übereinstimmt.
 
-Auch wenn die BTW21 noch nicht frei geschaltet ist, kann man die alten BTW
-absolvieren und gucken inwiefern die großen (denn nur die sind enthalten)
-Parteien "damals" abgestimmt haben. Tipp: Europawahl 2019 und BTW2017
+Auch wenn die BTW21 noch nicht freigeschaltet ist, kann man die alten BTW
+absolvieren und gucken, inwiefern die großen (denn nur die sind enthalten)
+Parteien „damals“ abgestimmt haben. Tipp: Europawahl 2019 und BTW2017
 durchspielen.
 
 Zu jeder Frage gibt es detaillierte Informationen und Verweise direkt auf die
@@ -1504,11 +1504,11 @@ Jede Abstimmung wird mit Ja/Nein/Enthaltung bewertet und am Ende eingeordnet.
 Eine Gewichtung gibt es nicht.
 
 Auf jeden Fall trotz der fehlenden Kleinparteien eine klare Empfehlung, weil es
-gerade den politischen Interessierten noch einmal enorm viele Zusatzinfos
+gerade den politisch Interessierten noch einmal enorm viele Zusatzinfos
 liefert.
 
 **Edit:** Endlich ist die neueste Version von **deinWal** online.  Das
-Grundkonzept ist geblieben. Auch der hauptnachteil ist leider geblieben: Es sind
+Grundkonzept ist geblieben. Auch der Hauptnachteil ist leider geblieben: Es sind
 nur etablierte Parteien im Boot.
 
 
@@ -1519,7 +1519,7 @@ nur etablierte Parteien im Boot.
 Hier kann man, ähnlich wie es von Tinder bekannt ist, politische Statements
 gut/schlecht finden und am Ende die Übereinstimmung mit den Parteien finden.
 
-Die gute Nachricht: Es treten 35 von 39 Parteien an, sodass man z.Bsp auch
+Die gute Nachricht: Es treten 35 von 39 Parteien an, sodass man z.Bsp. auch
 kleine Parteien wie die [LIEBE](https://liebe-ep.eu) Partei oder die [Partei
 für Kinder, Jugendliche und Familien](https://www.lobbyistenfuerkinder.de)
 findet.
@@ -1544,11 +1544,11 @@ vergleicht. Dabei werden die vier folgenden Themengebiete abgedeckt:
 
 1. Arbeit
 2. Gesundheit
-3. Famlie und Kinder
+3. Familie und Kinder
 4. Migration
 
 Betrieben wird der Sozial-O-Mat von der Diakonie. Jedes der vier Themen wird
-mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben sollen. 
+mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben soll. 
 
 Videos oder Erklärungen gibt es hier keine, dafür wird jede These mit einer
 „Geschichte“ unterstützt. Wir bekommen also, etwas menschennäher, die
@@ -1556,7 +1556,7 @@ Geschichte einer Person, um diese These einzuordnen. Generell finde ich das
 Konzept zwar interessant, aber es gibt natürlich auch etwas die Richtung vor!
 
 Jede These kann man als Positiv/Neutral/Negativ bewerten oder sie sogar
-überspringen um sie aus der Gleichung zu nehmen.
+überspringen, um sie aus der Gleichung zu nehmen.
 
 Gut für einen groben Überblick und für mich eher als Ergänzung gedacht.
 
@@ -1577,7 +1577,7 @@ Partners und kriegt am Ende eine reine Steuer-Wahlempfehlung.
 
 **Link:** [agrarheute.com](https://www.agrarheute.com/agraromat)
 
-Da, wie wir alle Wissen, die Lebensmittel natürlich nur aus dem Supermarkt
+Da, wie wir alle wissen, die Lebensmittel natürlich nur aus dem Supermarkt
 kommen, betrifft dieser Wahl-O-Mat ausschließlich die Bauern ;). 
 
 Tatsächlich bezieht sich dieser Helfer passend zum Namen ausschließlich auf die
@@ -1589,7 +1589,7 @@ Jeder These kann entweder zugestimmt werden, neutral bewertet werden oder
 abgelehnt werden. Besonders wichtige Thesen können doppelt gewichtet werden. 
 
 Für mich interessant als Spielerei und Ergänzung, aber natürlich fehlt das
-Fachwissen, um wirklich Tief in die Agrarpolitik einzusteigen.
+Fachwissen, um wirklich tief in die Agrarpolitik einzusteigen.
 
 
 ## Klima-Wahl-Check
@@ -1601,7 +1601,7 @@ ein](@/blog/klimakatastrophe_i_was_ist.md) und werde definitiv noch deutlich
 mehr eingehen, aber ganz speziell nur auf das Klima bezogen gibt es den
 Klimawahlcheck. 
 
-Ingesamt ist dieser in die 6 Kategorien unterteilt:
+Insgesamt ist dieser in die 6 Kategorien unterteilt:
 
 1. Energie
 2. Mobilität
@@ -1611,7 +1611,7 @@ Ingesamt ist dieser in die 6 Kategorien unterteilt:
 6. Landwirtschaft & Artenvielfalt
 
 Für mich persönlich einer der wichtigsten Helfer überhaupt, da es hier nicht
-nur, wie man gerne naiverweise denken möchte um das Klima geht, sondern
+nur, wie man gerne naiverweise denken möchte, um das Klima geht, sondern
 wirklich direkt alle sozialen, wirtschaftlichen und wissenschaftlichen Themen
 mit abgedeckt werden.
 
@@ -1631,7 +1631,7 @@ hat, gibt es eine Gesamtauswertung.
 
 Wie schon gesagt ist dieser Helfer für mich bisher der wichtigste, da die
 Klimaentscheidungen signifikant in Wirtschaft, Lebensqualität und sogar
-überleben mit einspielen.
+Überleben mit einspielen.
 
 Klare Empfehlung. Natürlich ;).
 
@@ -1643,17 +1643,17 @@ Link: [waehlbar2021.de](https://waehlbar2021.de)
 Deutlich mehr als nur ein 'o-mat bringt **waehlbar2021** sowohl umfangreiche
 Informationen mit, als auch detaillierte Positionen von fast allen Parteien.
 Natürlich fehlt mal wieder die CDU/CSU in den Angaben. Die dachten sich wohl,
-dass, wenn Sie gar nicht antworten, kann denen auch keiner etwas übel nehmen.
+dass, wenn sie gar nicht antworten, kann denen auch keiner etwas übelnehmen.
 
 Das beste Feature ist aber, direkt die Abgeordneten aus dem eigenen Wahlkreis
-mit ihren Stimmen zu sehen. Dazu gibt mein die eigene PLZ an und bekommt alle
+mit ihren Stimmen zu sehen. Dazu gibt man die eigene PLZ an und bekommt alle
 lokalen Kandidaten vorgeschlagen, inklusive der Übereinstimmungen in den
 einzelnen Thesen.
 
-Abgeordneten die bisher nicht geantwortet haben, kann man hier direkt eine
+Abgeordneten, die bisher nicht geantwortet haben, kann man hier direkt eine
 Nachricht mit dem Wunsch nach Transparenz hinterlassen.
 
-Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren
+Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren.
 
 
 ## Wahl-o-Mat
@@ -1661,13 +1661,13 @@ Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren
 Link: [wahl-o-mat.de](https://www.wahl-o-mat.de/bundestagswahl2021/app/main_app.html)
 
 Endlich ist er da. Als wohl bekanntester Wahlhelfer hat der Wahl-O-Mat insgesamt
-39 der antretenden 40 Parteien "interviewed" um zu zahlreichen Fragen Antworten
+39 der antretenden 40 Parteien „interviewed“, um zu zahlreichen Fragen Antworten
 zu finden.
 
 Tatsächlich muss ich zugeben, dass ich den Wahlhelfer dieses Jahr ein klein
 bisschen besser als vorher finde. So gibt es nun zwar immer noch keine
 detaillierten Informationen zu den Fragen bzw. nicht genug Abstufungen, aber
-endlich haben wir die Möglichkeit sowohl direkt **alle** Parteien zu
+endlich haben wir die Möglichkeit, sowohl direkt **alle** Parteien zu
 vergleichen ([vielen Dank
 Volt](https://www.volksverpetzer.de/schwer-verpetzt/volt-wahl-o-mat/) dafür),
 als auch die Möglichkeit, anschließend mit den diversen Ergebnissen und deren
@@ -1677,52 +1677,52 @@ Bei mir kam zumindest auch ein anderes Ergebnis raus als bei den
 anderen Wahlhelfern, was zumindest noch einmal mehr in die Breite geht.
 
 Die Fragen sind auch recht vielfältig gestellt und treffen diverse
-Bereiche, wobei natürlich alle Bekannte wie z.Bsp. das Tempolimit fast überall
+Bereiche, wobei natürlich alle Bekannten wie z.Bsp. das Tempolimit fast überall
 auftauchen.
 
-Ich kann (wie bei den anderen Wahlhelfen auch) auch hier eine klare Empfehlung
+Ich kann (wie bei den anderen Wahlhelfern auch) auch hier eine klare Empfehlung
 aussprechen.
 
 
 ## Fazit
 
 Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen
-(besser aber direkt alle) Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
+(besser aber direkt alle) Wahlhelfer einmal gemacht haben, um ein Gefühl dafür zu
 bekommen, welche Parteien für was genau stehen.
 
 Eines der dicksten Probleme (meiner Meinung nach) unserer Demokratie ist, dass
 die Parteien und Politiker mittlerweile gelernt haben, wie sie reden können,
 ohne verfängliche Aussagen zu treffen. Das verleitet viele Leute dazu, Parteien
 zu wählen, die selbst für die eigenen Interessen absolut ungeeignet sind. Die
-Wahlhelfer selber verändern diesen Fakt natürlich nicht, aber sie helfen dabei
-eine Kompetenz über die Inhalte der Parteien zu bekommen, ohne dass es nötig ist
+Wahlhelfer selber verändern diesen Fakt natürlich nicht, aber sie helfen dabei,
+eine Kompetenz über die Inhalte der Parteien zu bekommen, ohne dass es nötig ist,
 die Wahlprogramme zu lesen.
 
-Meine Empfehlung wäre also die folgende "Formel":
+Meine Empfehlung wäre also die folgende „Formel“:
 - alle Wahlhelfer durchspielen
 
-- Parteien die sich konsequent im letzten Drittel bewegen auszuschließen
+- Parteien, die sich konsequent im letzten Drittel bewegen, auszuschließen
 
 - Anschließend alle Wahlhelfer zu gewichten:
-  - 1/3¹ der Bewertung von **deinWahl**, da es das einzige Tool ist,
-    welches über (womöglich leere) Versprechungen hinaus geht. 
+  - 1/3¹ der Bewertung von **deinWal**, da es das einzige Tool ist,
+    welches über (womöglich leere) Versprechungen hinausgeht. 
     
-    Solltet ihr tatsächlich auch kleine Parteien in betracht ziehen, empfehle
-    ich mit dem Wal zumindest ein Ausschlusskriterium zu bilden: Die zwei
+    Solltet ihr tatsächlich auch kleine Parteien in Betracht ziehen, empfehle
+    ich, mit dem Wal zumindest ein Ausschlusskriterium zu bilden: Die zwei
     schlechtesten Parteien würde ich ausschließen.
 
     ¹ vorausgesetzt, ihr zieht sowieso nur die großen/etablierten Parteien in
     Betracht
 
-  - 1/3 aus den **anderen Helfen** generieren, indem wir jeder empfohlenen Partei
+  - 1/3 aus den **anderen Helfern** generieren, indem wir jeder empfohlenen Partei
   Punkte geben.
 
   - 1/3 dann auch selber aus Artikeln generieren. Dabei ist es wichtig, sich
-  weder von Tagesschau/ZDFHeute&Co noch (und das ist wichtig!) sich von
-  Facebook/Whatsapp-Gruppen/usw beeinflussen zu lassen.
+  weder von Tagesschau/ZDFHeute&Co noch (und das ist wichtig!) von
+  Facebook/Whatsapp-Gruppen/usw. beeinflussen zu lassen.
 
   Nehmt DIE Dinge, die euch wichtig sind (Rente, Steuern, Klima, was auch immer)
-  und befasst auch ausdrücklich auch mit den Gegenpositionen und Argumenten.
+  und befasst euch ausdrücklich auch mit den Gegenpositionen und Argumenten.
   Damit stellen wir sicher, dass wir keine reine Bauchentscheidung für eine der
   wichtigsten Wahlen der letzten Jahrzehnte treffen.
 
@@ -1735,11 +1735,11 @@ Description: Der erste Beitrag von mir zum Thema Klima: Was ist, Was kommt, was 
 Tags: klima, politik
 
 *Zu allererst und am wichtigsten: Ich schreibe diesen Artikel für Familie und
-Freunde mit dem Ziel, dass ich nicht ständig zum "nervigen Klimaaktivsten"
+Freunde mit dem Ziel, dass ich nicht ständig zum „nervigen Klimaaktivisten“
 werden muss.*
 
-*Es geht mir also darum, an einer Stelle möglichst viele Klimafakten zusammen zu
-tragen und zu erklären, warum mir eine radikale Änderung von Politik und
+*Es geht mir also darum, an einer Stelle möglichst viele Klimafakten zusammenzutragen
+und zu erklären, warum mir eine radikale Änderung von Politik und
 Zusammenleben so wichtig ist.*
 
 *Diese gesamte Problematik ist echt komplex und umfangreich, weswegen ich
@@ -1749,7 +1749,7 @@ versuche sie in 3 Artikel zu splitten*:
 - _Was kommt_ (und zwar in einer Zeit, die wir auf jeden Fall noch erleben werden
 und Ophelia/Auroras Kernlebenszeit ausmacht)
 - _Was wir tun müssen_ (Nur der absolute wissenschaftliche/wirtschaftliche Konsens
-  und das Minimum um die Auswirkungen zu minimieren)
+  und das Minimum, um die Auswirkungen zu minimieren)
 
 ---
 
@@ -1758,7 +1758,7 @@ ist ja mittlerweile jedem bewusst und die groben Auswirkungen haben wir alle
 schon einmal gehört: Meeresspiegel steigt, es wird heißer und auch die
 Wahrscheinlichkeit für Extremwetterereignisse steigt.
 
-Aber das ist leider nicht das komplette Problem bzw. macht meiner Meinung die echten
+Aber das ist leider nicht das komplette Problem bzw. macht meiner Meinung nach die echten
 Folgen nicht klar genug.
 
 In diesem ersten Beitrag möchte ich darüber reden, was für Auswirkungen wir
@@ -1798,12 +1798,12 @@ zu genau diesen Toten mit beiträgt.
 
 [In
 Brandenburg](https://www.morgenpost.de/vermischtes/article232506469/klimawandel-brandenburg-see-vertrocknet.html)
-sind bereits jetzt die ersten Seen ausgetrocknet. Wo früher ein See war ist jetzt
-(noch) fruchtbare Wiese. Deutschlandweit sind viele weitere Seen betroffen bzw
+sind bereits jetzt die ersten Seen ausgetrocknet. Wo früher ein See war, ist jetzt
+(noch) fruchtbare Wiese. Deutschlandweit sind viele weitere Seen betroffen bzw.
 werden in den nächsten 20 Jahren austrocknen, nur um dann alle paar Jahre von
 Hochwasser gefüllt zu werden.
 
-Die Seen, die nicht austrocknen sind [bereits
+Die Seen, die nicht austrocknen, sind [bereits
 jetzt](https://www.ingenieur.de/technik/fachbereiche/umwelt/seen-im-klimawandel-forscher-entdecken-problem/)
 zunehmend im Sommer von Cyanobakterien betroffen. Ich erinnere mich noch an
 meine Kindheit und wie wir bei Oppum im Baggersee schwimmen waren. Mittlerweile
@@ -1813,18 +1813,18 @@ gewarnt](https://www.rnd.de/panorama/baden-in-seen-landesweit-zahlreiche-badever
 Um ganz ehrlich zu sein: Für die Bakterienbelastung ist die Klimatransformation
 nicht die einzige Ursache. Aber das Thema der Landwirtschaft ist alleine für
 sich so komplex und umfangreich, dass ich das in meinen Beiträgen hier erst
-einmal weg lassen werde.
+einmal weglassen werde.
 
 
 ### Wirtschaftlicher Schaden
 Ein echt wichtiges Thema. Wirtschaft ist jetzt nicht mein Lieblingsthema,
 aber man liest und hört ständig, wer das alles bezahlen
 soll bzw. dass die Politik (primär CDU/SPD) versuche, das Klima mit der
-Wirtschaft in Einklang bringen will.
+Wirtschaft in Einklang zu bringen.
 
 Das halte ich für zutiefst unehrlich, da der Politik durch zahlreiche Berater
 aus Wissenschaft **und** Wirtschaft schon lange nahegelegt wird, dass
-Klimaschutz auch Wirtschaftsschutz ist. Das einzige was leiden würde, wären
+Klimaschutz auch Wirtschaftsschutz ist. Das Einzige, was leiden würde, wären
 kurzfristige Quartalsergebnisse. Auf lange Sicht [ist Klimaschutz
 billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html), Menschenleben
 und Lebensqualität mal komplett ignoriert.
@@ -1832,14 +1832,14 @@ und Lebensqualität mal komplett ignoriert.
 ### Mal in konkreten Zahlen
 
 Dass wir nicht nur nicht in den Klimaschutz investieren, sondern gerade die CDU
-und insbesonderen Altmaier [aktiv den Klimaschutz
+und insbesondere Altmaier [aktiv den Klimaschutz
 behindern](https://www.tagesschau.de/wirtschaft/offshore-windenergie-ausbau-101.html),
 macht es nicht leichter. So ist aus einer Industrie mit 80k Arbeitsplätzen der
 regenerativen Energien, bei der wir weltweit Vorreiter waren, [praktisch nichts
 mehr
 übrig](https://www.windkraft-journal.de/2013/11/17/80-000-arbeitsplatzverluste-in-der-erneuerbare-energien-branche/45906?doing_wp_cron=1629527795.4246499538421630859375).
-Wenn selbst die [WELT](https://www.welt.de), welche mit Klimathesen glänzt die
-primär vom AFDP nahem "EIKE Institut" abgeschrieben wurden, [das
+Wenn selbst die [WELT](https://www.welt.de), welche mit Klimathesen glänzt, die
+primär vom AFDP-nahen „EIKE Institut“ abgeschrieben wurden, [das
 bemerkt](https://www.welt.de/wirtschaft/article198299117/Windindustrie-In-einem-Jahr-26-000-Arbeitsplaetze-abgebaut.html),
 dann ist wirklich Land unter.
 
@@ -1854,7 +1854,7 @@ geschwächte Pflanzen/Bäume/etc. direkt von der anderen Seite mit Fäule zu
 kämpfen haben.
 
 Bisher wurden diese Umstände durch den Fakt abgefedert, dass wir sowieso schon
-zu viel wegschmeißen bzw importieren konnten. Aber gerade unsere
+zu viel wegschmeißen bzw. importieren konnten. Aber gerade unsere
 Gemüse/Obst-Importländer wie z.Bsp. Spanien oder die Niederlande werden durch
 Hitze (Spanien) oder Überflutungen (Niederlande) noch mehr zu kämpfen haben als
 wir. Die Niederlande sind [bereits
@@ -1880,10 +1880,10 @@ Forschern](https://www.dw.com/de/wasserarmut-wasserknappheit-d%C3%BCrre-in-deuts
 ### Waldsterben
 
 Zusätzlich zur Trinkwasserknappheit sind gerade 1/3 unserer Wälder dabei zu
-sterben. Die Trockenheit alleine reicht häufig aus und wo diese nicht reicht
-helfen "Schädlinge" dabei unseren Wäldern den Rest zu geben.
+sterben. Die Trockenheit alleine reicht häufig aus und wo diese nicht reicht,
+helfen „Schädlinge“ dabei, unseren Wäldern den Rest zu geben.
 
-Die Folgen sind nicht einfach nur "weniger grün" oder, dass wir weitere
+Die Folgen sind nicht einfach nur „weniger grün“ oder dass wir weitere
 CO<sub>2</sub> Filter damit entfernen, sondern rapide abnehmende Biodiversität, Bodenschäden
 (wie z.Bsp. Erdrutsche) und gravierendere Wetterphänomene, die nicht mehr durch Wälder geblockt oder
 geschwächt werden.
@@ -1897,7 +1897,7 @@ unserer Bäume überhaupt noch gesund.
 
 ### Zoonosen
 Corona war nicht die erste Zoonose und wird nicht die letzte gewesen sein. Was
-ohne menschlichen Einfluß eine Sache von Jahrhunderten war, wird häufiger
+ohne menschlichen Einfluss eine Sache von Jahrhunderten war, wird häufiger
 vorkommen. Sowohl meine Generation wird noch mindestens eine weitere Zoonose wie
 Corona mitbekommen und für meine Töchter wird es Fall der Gewohnheit.
 
@@ -1907,8 +1907,8 @@ ein](https://www.bpb.de/politik/innenpolitik/coronavirus/308483/pandemien-umwelt
 aber wie so häufig gilt dann doch eher, was RWE oder die heimische Stahl- und
 Autoindustrie sich wünscht.
 
-Während wir also noch mit SARS-CoV2 kämpfen sind, gibt es schon weitere
-Erreger diverser Art die auf dem Weg zu uns sind. Nicht nur, dass unsere
+Während wir also noch mit SARS-CoV2 kämpfen, gibt es schon weitere
+Erreger diverser Art, die auf dem Weg zu uns sind. Nicht nur, dass unsere
 Bemühungen beim Klima/Menschenschutz zwischen mangelhaft und ungenügend sind,
 treten wir als Menschheit noch einmal nach, indem wir primär durch unsere
 [Fleisch- und Tierindustrie multiresistente Keime
@@ -1917,22 +1917,22 @@ züchten](https://www.deutschlandfunkkultur.de/multiresistente-keime-in-der-land
 
 ## Weltweite Folgen
 
-Wenn wir vom Klimawandel reden, reden wir häufig auch von den s.g. Kipppunkten.
+Wenn wir vom Klimawandel reden, reden wir häufig auch von den sog. Kipppunkten.
 Davon haben wir bisher in etwa 16 identifiziert. Ein Kipppunkt ist eine Stelle,
 ab der ein Prozess in Gang gesetzt wird, den wir **nicht** wieder umkehren
-können. Ab dieser Stelle läuft's halt und zwar in den meisten Fälle mit
+können. Ab dieser Stelle läuft's halt und zwar in den meisten Fällen mit
 selbstverstärkender Wirkung.
 
 ### Permafrost
 
-Einen der Kipppunkte die wir bereits erreicht haben, ist dass Weltweit [der
+Einen der Kipppunkte, die wir bereits erreicht haben, ist, dass weltweit [der
 Permafrost](https://www.n-tv.de/wissen/Permafrostboeden-weltweit-erwaermen-sich-article20813171.html)
 auftaut. Dabei werden große Mengen Methan freigegeben, was die Erwärmung
 natürlich zusätzlich weiter beschleunigt. Methan ist schon am ehesten das, was
 uns nachhaltig schadet, aber auftauender Permafrost hat noch deutlich mehr
 Probleme.
 
-So berichtet zum Beispiel [die online Variante des
+So berichtet zum Beispiel [die Online-Variante des
 Geomagazins](https://www.geo.de/natur/oekologie/23609-rtkl-gefahr-aus-dem-eis-viren-und-bakterien-werden-durch-den-auftauenden)
 von mehreren Studien, die über weitere Bakterien, Viren und mehr berichten, die
 sich dort verstecken.
@@ -1954,7 +1954,7 @@ Treibhausgase austreten, [als er
 absorbiert](https://www.frontiersin.org/articles/10.3389/ffgc.2021.618401/full).
 Das ist extrem bitter und ist in diesem Fall zu fast [100% auf
 Fleischkonsum](https://www.faszination-regenwald.de/info-center/zerstoerung/)
-zurück zu führen.
+zurückzuführen.
 
 Um es noch einmal deutlich zu sagen/schreiben: Wir haben dieses Jahr den Punkt
 erreicht, wo der Regenwald NICHT mehr die grüne Lunge ist. Ganz trivial bedeutet
@@ -1966,34 +1966,34 @@ Ironischerweise wird hier auf die Sojafelder und böse Veggies verwiesen, dass
 vom weltweiten Soja nur 6% in diversen Veggieprodukten landet und der Rest zu
 Tierfutter verarbeitet wird, wird gerne verschwiegen.
 Vom Regenwaldsoja landet auf direktem Wege in deutschen Mägen sowieso praktisch
-nichts, da hierfür die Produkte halbwegs regionale Erzeuger verwendet werden. So
-braucht eine Kuh rund 12kg Soja um ein Kilo Fleisch zu erzeugen.
+nichts, da hierfür die Produkte halbwegs regionaler Erzeuger verwendet werden. So
+braucht eine Kuh rund 12kg Soja, um ein Kilo Fleisch zu erzeugen.
 Schwein/Geflügel ist da zum Glück deutlich genügsamer.
 
 
 ## Aber wir können doch nicht die Welt retten
 
-... wie bewegen wir die anderen dazu mitzuhelfen?
+... wie bewegen wir die anderen dazu, mitzuhelfen?
 
 Müssen wir nicht. Wir müssen hauptsächlich einmal anfangen, nicht mehr zu
 bremsen. In Europa sind wir [DIE](https://www.germanwatch.org/de/15938)
 [Bremse](https://www.sueddeutsche.de/politik/klimawandel-klimaschutz-deutschland-1.4164096)
 [schlechthin](https://www.tagesspiegel.de/politik/vertrauliche-dokumente-deutschland-wird-zum-klima-bremser/24134082.html).
 
-Obwohl wir nur 1% der Weltbevölkerung stellen erzeugen wir rund 2% der
-Klimagase. Da sind in China/Taiwan produzierte Produkte oder Diensleistungen wie
+Obwohl wir nur 1% der Weltbevölkerung stellen, erzeugen wir rund 2% der
+Klimagase. Da sind in China/Taiwan produzierte Produkte oder Dienstleistungen wie
 Server&Co aus dem Ausland, die für den deutschen Markt bestimmt sind und uns
 eigentlich zugerechnet werden *müssten*, noch nicht einberechnet.
 
 Wir sind in Deutschland pro Kopf noch deutlich vor China, welches bei rund 5t
 CO<sub>2</sub> liegt, während wir bei durchschnittlich 11t sind. Doppelt so viel
 wie das schlimme China. Bei über 200 Ländern sind wir momentan mit dem absoluten
-Ausstaß unter den Top10. Wollen wir wirklich, dass fast 200 Länder mit der
-gleichen Argumentation kommen? Würden wir unseren Kindern "aber die andern!" als
+Ausstoß unter den Top10. Wollen wir wirklich, dass fast 200 Länder mit der
+gleichen Argumentation kommen? Würden wir unseren Kindern „aber die andern!“ als
 Argument durchlassen?
 
 
-Edit: Abschließend bleibt hier noch einmal diese Wunderbare Zusammenfassung [von
+Edit: Abschließend bleibt hier noch einmal diese wunderbare Zusammenfassung [von
 Quarks](https://www.quarks.de/umwelt/klimawandel/so-steht-es-wirklich-um-unser-klima/)
 des ersten Teilberichts vom IPCC. Insgesamt wird es 3 Berichte und 1
 Zusammenfassung geben. Wichtig hierbei ist, dass die Berichte schon fertig sind,

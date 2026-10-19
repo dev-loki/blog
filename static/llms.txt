@@ -13,7 +13,7 @@ Source: https://loki.dev  |  Built with Zola.
 - [Brooks' Gesetz, jetzt mit Agenten](https://loki.dev/blog/brooks-law/): Ein Termin wird viel zu spät festgezogen, und von oben kommt der Vorschlag, mehr Leute draufzusetzen. Warum das seit 1975 nicht funktioniert.
 - [Moderne Werkzeuge Teil 5: Die Toolchain als Korsett für KI-Agenten](https://loki.dev/blog/modern-tooling-part-5-ai-harness/): Wie die schnelle, strikte Toolchain aus uv, ruff, ty und prek zum Korsett für KI-Agenten wird: deterministisches Feedback, das produktiven und vertrauenswürdigen Agenten-Code erst möglich macht.
 - [Moderne Werkzeuge Teil 3: Die Zukunft des Type Checkings mit ty](https://loki.dev/blog/modern-tooling-part-3-ty/): Astrals Type Checker ty im Praxiseinsatz: Warum Geschwindigkeit über Typdisziplin entscheidet, und wo der Early-Adopter-Preis liegt.
-- [Moderne Werkzeuge Teil 4: Hochperformante Git Hooks mit prek](https://loki.dev/blog/modern-tooling-part-4-prek/): prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie unser komplettes Quality Gate vor jedem Commit läuft.
+- [Moderne Werkzeuge Teil 4: Hochperformante Git Hooks mit prek](https://loki.dev/blog/modern-tooling-part-4-prek/): prek als Drop-in-Ersatz für pre-commit: dieselbe Config, parallele Ausführung, und wie mein komplettes Quality Gate vor jedem Commit läuft.
 - [Moderne Werkzeuge Teil 2: Einheitliches Linting und Formatting mit ruff](https://loki.dev/blog/modern-tooling-part-2-ruff/): Black, Flake8, Isort und pyupgrade ersetzt durch ein einziges Rust-Binary, inklusive einer Opt-out-Strategie mit select = ["ALL"].
 - [Moderne Werkzeuge Teil 1: Blitzschnelles Package Management mit uv](https://loki.dev/blog/modern-tooling-part-1-uv/): uv ersetzt pip, virtualenv, pyenv und pip-tools durch ein einziges Rust-Binary: vom lokalen Setup über Dependency Groups bis zum Docker-Build.
 - [Claude Code, Claw Code und das Ende der Geheimnisse?](https://loki.dev/blog/claude-code-leak-und-claw-code/): Ein Blick auf den Claude Code Leak, das daraus entstandene Claw Code Projekt und was das über die aktuelle KI-Entwicklung und deren rechtliche Grauzonen aussagt.
@@ -21,7 +21,7 @@ Source: https://loki.dev  |  Built with Zola.
 - [Linter & Stylecheck](https://loki.dev/blog/linter-stylecheck/): Über den Sinn, Arbeit an Werkzeuge auszulagern und damit eine stabilere Codebasis zu erreichen
 - [Magic Numbers](https://loki.dev/blog/magic-numbers/): Magic Numbers sind Zahlen oder String-Literale, die als Konstanten eingesetzt werden, ohne dass ihre Bedeutung auf den ersten Blick erkennbar ist.
 - [Advanced GIT: Git Worktree](https://loki.dev/blog/advanced-git-worktree/): git worktree ist ein super Werkzeug um mit mehreren Branches parallel zu arbeiten
-- [Wahlhelfer zur Bundestagswahl 2021](https://loki.dev/blog/wahlhelfer-btw-2021/): Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt
+- [Wahlhelfer zur Bundestagswahl 2021](https://loki.dev/blog/wahlhelfer-btw-2021/): Nachdem der populäre Wahl-O-Mat noch nicht so weit ist, habe ich hier mal die diversen Wahlhelfer gesammelt
 - [Klimakatastrophe I: Was ist](https://loki.dev/blog/klimakatastrophe-i-was-ist/): Der erste Beitrag von mir zum Thema Klima: Was ist, Was kommt, was sein könnte und was wir dafür machen müssen
 
 ## Talks
