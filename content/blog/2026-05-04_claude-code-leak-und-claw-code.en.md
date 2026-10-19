@@ -22,7 +22,7 @@ Anyone who wants to look at the whole thing in detail (while it's still online) 
 
 ### The legal side: DMCA Whack-A-Mole
 
-Of course Anthropic finds this less amusing. There have apparently been over 8,100 takedown requests already. [Heise published a very good article about it](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html) covering the legal aspects. It's the classic "birth of a tool from a leak", and the desperate attempt to put the cat back in the bag.
+Of course Anthropic finds this less amusing. There have apparently been over 8,100 takedown requests already. [Heise published a very good article about it](https://www.heise.de/news/Claude-Code-Leck-8100-Loeschantraege-und-die-Geburtsstunde-von-Claw-Code-11279601.html) that untangles the legal side. It's the classic "birth of a tool from a leak", and the desperate attempt to put the cat back in the bag.
 
 I find this quite telling about the current state of AI:
 - The tools are becoming more powerful, but also more complex.
