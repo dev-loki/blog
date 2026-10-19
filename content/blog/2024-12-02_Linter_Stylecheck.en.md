@@ -17,18 +17,18 @@ must be the same!
 
 #### Why?
 
-1. **Pattern matching:** Disregard of developer level it makes it easier to recognize patterns if
+1. **Pattern matching:** Regardless of developer level it makes it easier to recognize patterns if
    they all are in the same structure
 2. **Git Diffs:** Having multiple styles might result in a back-and-forth of changes each time
    different styles collide
-3. **Tools:** Having a tool which can format your code and auto apply it's rules may help a lot!
+3. **Tools:** Having a tool which can format your code and auto apply its rules may help a lot!
 
 
 #### Tools
 
 - [prettier](https://prettier.io) is the more commonly known tool for this
 - But I prefer [biome](https://biomejs.dev/formatter) as it is faster and can also take care of **linting**
-    - It's also 97% compatible with pretter (same rules) - the differences [are reasonable](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
+    - It's also 97% compatible with prettier (same rules) - the differences [are reasonable](https://github.com/biomejs/biome/blob/main/crates/biome_js_formatter/report.md)
     - It can format: JavaScript, TypeScript, JSX, TSX, JSON, CSS and GraphQL
 
 
@@ -163,19 +163,19 @@ code-block.js:1:9 lint/complexity/noUselessTernary  FIXABLE  ━━━━━━�
 ```
 
 1. Is trivial, but don't use useless/harmful types
-2. Is using the Cyclomatic Complexity to give upper boundaries of complex code. Is code too complex -> make it simpler. Google for [McCabe Metric](https://en.wikipedia.org/wiki/Cyclomatic_complexity) too find more details.
+2. Is using the Cyclomatic Complexity to give upper boundaries of complex code. Is code too complex -> make it simpler. Google for [McCabe Metric](https://en.wikipedia.org/wiki/Cyclomatic_complexity) to find more details.
    Depending on the language we should try to be <10 (10 possible ways of data routes through a function) 
    and MUST be below 15, as this would be hard to maintain.
 3. Language features: `for .. of ..` is easier to read than `Array.forEach(...)`. Also a performance issue!
 4. obviously almost dead code which doesn't serve any function/purpose
 5. Is a great example of `FIXABLE` lints: This one can be auto corrected!
 
-... Aaaaand a lot more! We should use linters at every stage of our development process. The earlier the better and we WILL be using themsoon in our processes. 
+... Aaaaand a lot more! We should use linters at every stage of our development process. The earlier the better and we WILL be using them soon in our processes. 
 
 
 ## Biome in your editor
 
-For the huge amount of reasons we should use biome whereever possible.
+For the huge amount of reasons we should use biome wherever possible.
 
 For the most common editors here the extension/plugin so that you can benefit directly. Just make sure the red squiggly lines disappear and autoformatting is active
 
