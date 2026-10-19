@@ -11,17 +11,17 @@ tags = ["clean-code"]
 
 Magic numbers are numbers/string literals which are used as const and where the actual use is not directly known.  
 
-This is part of a series I do for work and is intended for juniors developers and external people.
+This is part of a series I do for work and is intended for junior developers and external people.
 When the code is generic enough I use real life examples from work, otherwise I'll just invent something ;).
 
-The examples are in typescript as it is readable by almost all developers, but obviously the concepts are similar in other languages. Python for examples doesn't really have "constants", but you can combine pure UPPERCASE with `typing.Final`:
+The examples are in typescript as it is readable by almost all developers, but obviously the concepts are similar in other languages. Python for example doesn't really have "constants", but you can combine pure UPPERCASE with `typing.Final`:
 
 ```python
 from typing import Final
 
 MAX_KNOWN_POWER_SIZE: Final[int] = 9000
 ```
-This won't catch resetting the variable in runtime, but will complain when run with [ruff](https://astral.sh/ruff) or [mypy](https://www.mypy-lang.org).
+This won't catch resetting the variable at runtime, but will complain when run with [ruff](https://astral.sh/ruff) or [mypy](https://www.mypy-lang.org).
 
 
 ## Examples
@@ -42,7 +42,7 @@ if (error.response.status === HttpStatus.CONFLICT) {
 }
 ``` 
 
-Now even if we don't know all the http status codes by heart, we now we have some kind of conflict error without adding comments/complexity  
+Now even if we don't know all the http status codes by heart, we know we have some kind of conflict error without adding comments/complexity  
 
 
 ### Timeout
