@@ -2,22 +2,22 @@
 title = "Wahlhelfer zur Bundestagswahl 2021"
 date = "2021-08-23"
 updated = "2021-09-05T14:00:00Z"
-description = "Nachdem der populäre Wahl-O-Mat noch nicht soweit ist, habe ich hier mal die diversen Wahlhelfer gesammelt"
+description = "Nachdem der populäre Wahl-O-Mat noch nicht so weit ist, habe ich hier mal die diversen Wahlhelfer gesammelt"
 
 [taxonomies]
 tags = ["gesellschaft", "politik"]
 +++
 
 Da ich die Kritik am Wahl-O-Mat selber kenne und teile, stelle ich hier die
-Alternative und Ergänzungen einmal vor.
+Alternativen und Ergänzungen einmal vor.
 
 Um vollständig zu sein/bleiben, hier meine persönlichen Kritikpunkte am
 Wahl-O-Maten:
-- Eindimensional -> Es fehlt die Abstufung oder auch eine "so nicht, aber so:"
+- Eindimensional -> Es fehlt die Abstufung oder auch eine „so nicht, aber so:“
   Option
 - Er gibt nur die Antworten der Politik wieder, aber nicht deren Handlung. Da
-  wäre es echt fein, wenn diese beiden Dinge nicht so häufig auseinander
-  driften würden.
+  wäre es echt fein, wenn diese beiden Dinge nicht so häufig
+  auseinanderdriften würden.
 - Es wird nur ein beschränktes politisches Arsenal aus Thesen besprochen.
 
 
@@ -25,28 +25,28 @@ All diese Punkte haben auch irgendwie eine Berechtigung, da man natürlich nicht
 beliebig in die Tiefe gehen kann.
 
 Trotzdem finde ich das Konzept des Wahl-O-Maten vom Grunde her super sinnvoll,
-da es Diskussion ermöglicht und ein grobes "Alignment" ermitteln kann. Wenn ich
+da es Diskussion ermöglicht und ein grobes „Alignment“ ermitteln kann. Wenn ich
 z.Bsp.  eine 2% Übereinstimmung mit der AfD/Linken/Whatever habe, dann ist die
 Chance zwar nicht 0, aber doch sehr sehr gering, dass ich eben genau diese
 Partei wählen sollte.
 
 Jetzt gibt es aber nicht nur den Wahl-O-Mat, sondern auch diverse alternative
 Wahlhelfer mit unterschiedlichen Ausrichtungen, die ich hier sammeln und
-vorstellen möchte
+vorstellen möchte.
 
 
 ## DeinWal.de
 
 **Link:** [deinwal.de](http://deinwal.de)
 
-~Noch ist der aktuelle "Wal"helfer nicht online~, aber das Konzept von deinwal.de
+~Noch ist der aktuelle „Wal“helfer nicht online~, aber das Konzept von deinwal.de
 ist mein absoluter Favorit! Er vergleicht nämlich keine Wahlprogramme oder das, was
 Parteien gerade behaupten zu tun, sondern vergangene Abstimmungen und wie sehr
 das mit der eigenen Meinung übereinstimmt.
 
-Auch wenn die BTW21 noch nicht frei geschaltet ist, kann man die alten BTW
-absolvieren und gucken inwiefern die großen (denn nur die sind enthalten)
-Parteien "damals" abgestimmt haben. Tipp: Europawahl 2019 und BTW2017
+Auch wenn die BTW21 noch nicht freigeschaltet ist, kann man die alten BTW
+absolvieren und gucken, inwiefern die großen (denn nur die sind enthalten)
+Parteien „damals“ abgestimmt haben. Tipp: Europawahl 2019 und BTW2017
 durchspielen.
 
 Zu jeder Frage gibt es detaillierte Informationen und Verweise direkt auf die
@@ -56,11 +56,11 @@ Jede Abstimmung wird mit Ja/Nein/Enthaltung bewertet und am Ende eingeordnet.
 Eine Gewichtung gibt es nicht.
 
 Auf jeden Fall trotz der fehlenden Kleinparteien eine klare Empfehlung, weil es
-gerade den politischen Interessierten noch einmal enorm viele Zusatzinfos
+gerade den politisch Interessierten noch einmal enorm viele Zusatzinfos
 liefert.
 
 **Edit:** Endlich ist die neueste Version von **deinWal** online.  Das
-Grundkonzept ist geblieben. Auch der hauptnachteil ist leider geblieben: Es sind
+Grundkonzept ist geblieben. Auch der Hauptnachteil ist leider geblieben: Es sind
 nur etablierte Parteien im Boot.
 
 
@@ -71,7 +71,7 @@ nur etablierte Parteien im Boot.
 Hier kann man, ähnlich wie es von Tinder bekannt ist, politische Statements
 gut/schlecht finden und am Ende die Übereinstimmung mit den Parteien finden.
 
-Die gute Nachricht: Es treten 35 von 39 Parteien an, sodass man z.Bsp auch
+Die gute Nachricht: Es treten 35 von 39 Parteien an, sodass man z.Bsp. auch
 kleine Parteien wie die [LIEBE](https://liebe-ep.eu) Partei oder die [Partei
 für Kinder, Jugendliche und Familien](https://www.lobbyistenfuerkinder.de)
 findet.
@@ -96,11 +96,11 @@ vergleicht. Dabei werden die vier folgenden Themengebiete abgedeckt:
 
 1. Arbeit
 2. Gesundheit
-3. Famlie und Kinder
+3. Familie und Kinder
 4. Migration
 
 Betrieben wird der Sozial-O-Mat von der Diakonie. Jedes der vier Themen wird
-mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben sollen. 
+mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben soll. 
 
 Videos oder Erklärungen gibt es hier keine, dafür wird jede These mit einer
 „Geschichte“ unterstützt. Wir bekommen also, etwas menschennäher, die
@@ -108,7 +108,7 @@ Geschichte einer Person, um diese These einzuordnen. Generell finde ich das
 Konzept zwar interessant, aber es gibt natürlich auch etwas die Richtung vor!
 
 Jede These kann man als Positiv/Neutral/Negativ bewerten oder sie sogar
-überspringen um sie aus der Gleichung zu nehmen.
+überspringen, um sie aus der Gleichung zu nehmen.
 
 Gut für einen groben Überblick und für mich eher als Ergänzung gedacht.
 
@@ -129,7 +129,7 @@ Partners und kriegt am Ende eine reine Steuer-Wahlempfehlung.
 
 **Link:** [agrarheute.com](https://www.agrarheute.com/agraromat)
 
-Da, wie wir alle Wissen, die Lebensmittel natürlich nur aus dem Supermarkt
+Da, wie wir alle wissen, die Lebensmittel natürlich nur aus dem Supermarkt
 kommen, betrifft dieser Wahl-O-Mat ausschließlich die Bauern ;). 
 
 Tatsächlich bezieht sich dieser Helfer passend zum Namen ausschließlich auf die
@@ -141,7 +141,7 @@ Jeder These kann entweder zugestimmt werden, neutral bewertet werden oder
 abgelehnt werden. Besonders wichtige Thesen können doppelt gewichtet werden. 
 
 Für mich interessant als Spielerei und Ergänzung, aber natürlich fehlt das
-Fachwissen, um wirklich Tief in die Agrarpolitik einzusteigen.
+Fachwissen, um wirklich tief in die Agrarpolitik einzusteigen.
 
 
 ## Klima-Wahl-Check
@@ -153,7 +153,7 @@ ein](@/blog/klimakatastrophe_i_was_ist.md) und werde definitiv noch deutlich
 mehr eingehen, aber ganz speziell nur auf das Klima bezogen gibt es den
 Klimawahlcheck. 
 
-Ingesamt ist dieser in die 6 Kategorien unterteilt:
+Insgesamt ist dieser in die 6 Kategorien unterteilt:
 
 1. Energie
 2. Mobilität
@@ -163,7 +163,7 @@ Ingesamt ist dieser in die 6 Kategorien unterteilt:
 6. Landwirtschaft & Artenvielfalt
 
 Für mich persönlich einer der wichtigsten Helfer überhaupt, da es hier nicht
-nur, wie man gerne naiverweise denken möchte um das Klima geht, sondern
+nur, wie man gerne naiverweise denken möchte, um das Klima geht, sondern
 wirklich direkt alle sozialen, wirtschaftlichen und wissenschaftlichen Themen
 mit abgedeckt werden.
 
@@ -183,7 +183,7 @@ hat, gibt es eine Gesamtauswertung.
 
 Wie schon gesagt ist dieser Helfer für mich bisher der wichtigste, da die
 Klimaentscheidungen signifikant in Wirtschaft, Lebensqualität und sogar
-überleben mit einspielen.
+Überleben mit einspielen.
 
 Klare Empfehlung. Natürlich ;).
 
@@ -195,17 +195,17 @@ Link: [waehlbar2021.de](https://waehlbar2021.de)
 Deutlich mehr als nur ein 'o-mat bringt **waehlbar2021** sowohl umfangreiche
 Informationen mit, als auch detaillierte Positionen von fast allen Parteien.
 Natürlich fehlt mal wieder die CDU/CSU in den Angaben. Die dachten sich wohl,
-dass, wenn Sie gar nicht antworten, kann denen auch keiner etwas übel nehmen.
+dass, wenn sie gar nicht antworten, kann denen auch keiner etwas übelnehmen.
 
 Das beste Feature ist aber, direkt die Abgeordneten aus dem eigenen Wahlkreis
-mit ihren Stimmen zu sehen. Dazu gibt mein die eigene PLZ an und bekommt alle
+mit ihren Stimmen zu sehen. Dazu gibt man die eigene PLZ an und bekommt alle
 lokalen Kandidaten vorgeschlagen, inklusive der Übereinstimmungen in den
 einzelnen Thesen.
 
-Abgeordneten die bisher nicht geantwortet haben, kann man hier direkt eine
+Abgeordneten, die bisher nicht geantwortet haben, kann man hier direkt eine
 Nachricht mit dem Wunsch nach Transparenz hinterlassen.
 
-Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren
+Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren.
 
 
 ## Wahl-o-Mat
@@ -213,13 +213,13 @@ Also auch hier natürlich eine klare Empfehlung zum Mitmachen und Informieren
 Link: [wahl-o-mat.de](https://www.wahl-o-mat.de/bundestagswahl2021/app/main_app.html)
 
 Endlich ist er da. Als wohl bekanntester Wahlhelfer hat der Wahl-O-Mat insgesamt
-39 der antretenden 40 Parteien "interviewed" um zu zahlreichen Fragen Antworten
+39 der antretenden 40 Parteien „interviewed“, um zu zahlreichen Fragen Antworten
 zu finden.
 
 Tatsächlich muss ich zugeben, dass ich den Wahlhelfer dieses Jahr ein klein
 bisschen besser als vorher finde. So gibt es nun zwar immer noch keine
 detaillierten Informationen zu den Fragen bzw. nicht genug Abstufungen, aber
-endlich haben wir die Möglichkeit sowohl direkt **alle** Parteien zu
+endlich haben wir die Möglichkeit, sowohl direkt **alle** Parteien zu
 vergleichen ([vielen Dank
 Volt](https://www.volksverpetzer.de/schwer-verpetzt/volt-wahl-o-mat/) dafür),
 als auch die Möglichkeit, anschließend mit den diversen Ergebnissen und deren
@@ -229,52 +229,52 @@ Bei mir kam zumindest auch ein anderes Ergebnis raus als bei den
 anderen Wahlhelfern, was zumindest noch einmal mehr in die Breite geht.
 
 Die Fragen sind auch recht vielfältig gestellt und treffen diverse
-Bereiche, wobei natürlich alle Bekannte wie z.Bsp. das Tempolimit fast überall
+Bereiche, wobei natürlich alle Bekannten wie z.Bsp. das Tempolimit fast überall
 auftauchen.
 
-Ich kann (wie bei den anderen Wahlhelfen auch) auch hier eine klare Empfehlung
+Ich kann (wie bei den anderen Wahlhelfern auch) auch hier eine klare Empfehlung
 aussprechen.
 
 
 ## Fazit
 
 Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen
-(besser aber direkt alle) Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
+(besser aber direkt alle) Wahlhelfer einmal gemacht haben, um ein Gefühl dafür zu
 bekommen, welche Parteien für was genau stehen.
 
 Eines der dicksten Probleme (meiner Meinung nach) unserer Demokratie ist, dass
 die Parteien und Politiker mittlerweile gelernt haben, wie sie reden können,
 ohne verfängliche Aussagen zu treffen. Das verleitet viele Leute dazu, Parteien
 zu wählen, die selbst für die eigenen Interessen absolut ungeeignet sind. Die
-Wahlhelfer selber verändern diesen Fakt natürlich nicht, aber sie helfen dabei
-eine Kompetenz über die Inhalte der Parteien zu bekommen, ohne dass es nötig ist
+Wahlhelfer selber verändern diesen Fakt natürlich nicht, aber sie helfen dabei,
+eine Kompetenz über die Inhalte der Parteien zu bekommen, ohne dass es nötig ist,
 die Wahlprogramme zu lesen.
 
-Meine Empfehlung wäre also die folgende "Formel":
+Meine Empfehlung wäre also die folgende „Formel“:
 - alle Wahlhelfer durchspielen
 
-- Parteien die sich konsequent im letzten Drittel bewegen auszuschließen
+- Parteien, die sich konsequent im letzten Drittel bewegen, auszuschließen
 
 - Anschließend alle Wahlhelfer zu gewichten:
-  - 1/3¹ der Bewertung von **deinWahl**, da es das einzige Tool ist,
-    welches über (womöglich leere) Versprechungen hinaus geht. 
+  - 1/3¹ der Bewertung von **deinWal**, da es das einzige Tool ist,
+    welches über (womöglich leere) Versprechungen hinausgeht. 
     
-    Solltet ihr tatsächlich auch kleine Parteien in betracht ziehen, empfehle
-    ich mit dem Wal zumindest ein Ausschlusskriterium zu bilden: Die zwei
+    Solltet ihr tatsächlich auch kleine Parteien in Betracht ziehen, empfehle
+    ich, mit dem Wal zumindest ein Ausschlusskriterium zu bilden: Die zwei
     schlechtesten Parteien würde ich ausschließen.
 
     ¹ vorausgesetzt, ihr zieht sowieso nur die großen/etablierten Parteien in
     Betracht
 
-  - 1/3 aus den **anderen Helfen** generieren, indem wir jeder empfohlenen Partei
+  - 1/3 aus den **anderen Helfern** generieren, indem wir jeder empfohlenen Partei
   Punkte geben.
 
   - 1/3 dann auch selber aus Artikeln generieren. Dabei ist es wichtig, sich
-  weder von Tagesschau/ZDFHeute&Co noch (und das ist wichtig!) sich von
-  Facebook/Whatsapp-Gruppen/usw beeinflussen zu lassen.
+  weder von Tagesschau/ZDFHeute&Co noch (und das ist wichtig!) von
+  Facebook/Whatsapp-Gruppen/usw. beeinflussen zu lassen.
 
   Nehmt DIE Dinge, die euch wichtig sind (Rente, Steuern, Klima, was auch immer)
-  und befasst auch ausdrücklich auch mit den Gegenpositionen und Argumenten.
+  und befasst euch ausdrücklich auch mit den Gegenpositionen und Argumenten.
   Damit stellen wir sicher, dass wir keine reine Bauchentscheidung für eine der
   wichtigsten Wahlen der letzten Jahrzehnte treffen.
 

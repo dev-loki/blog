@@ -21,7 +21,7 @@ All these points have some merit, since of course you can't go infinitely deep.
 
 Still, I find the basic concept of the Wahl-O-Mat super useful, because it enables discussion and can establish a rough "alignment". If I have 2% overlap with a party, the chance that I should vote for them is very very small.
 
-Now there aren't just the Wahl-O-Mat, but also various alternative voting aids with different angles, which I'd like to collect and present here.
+Now there isn't just the Wahl-O-Mat, but also various alternative voting aids with different angles, which I'd like to collect and present here.
 
 
 ## DeinWal.de
@@ -100,7 +100,7 @@ Interesting as a curiosity and supplement, but I personally lack the expertise t
 
 **Link:** [klimawahlcheck.org](https://klimawahlcheck.org)
 
-I also write about climate [here on the blog](@/blog/klimakatastrophe_i_was_ist.md) and will definitely cover it much more, but specifically climate-focused there's the Klimawahlcheck.
+I also write about climate [here on the blog](@/blog/klimakatastrophe_i_was_ist.en.md) and will definitely cover it much more, but specifically climate-focused there's the Klimawahlcheck.
 
 It's divided into 6 categories:
 
@@ -162,7 +162,7 @@ My recommendation is this "formula":
 - Exclude parties that consistently land in the bottom third
 
 - Then weight all the tools:
-  - 1/3¹ from **deinWahl**, since it's the only tool that goes beyond (possibly empty) promises.
+  - 1/3¹ from **deinWal**, since it's the only tool that goes beyond (possibly empty) promises.
 
     If you're considering smaller parties too, I'd recommend using deinWal at least as an exclusion criterion: I'd rule out the two worst-performing parties.
 
