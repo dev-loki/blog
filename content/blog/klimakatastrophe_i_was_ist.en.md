@@ -61,7 +61,7 @@ I find that deeply dishonest, since politics has long been advised by both scien
 
 ### In Concrete Numbers
 
-The fact that we're not only failing to invest in climate protection but that the CDU and in particular Altmaier [actively obstructed climate action](https://www.tagesschau.de/wirtschaft/offshore-windenergie-ausbau-101.html), makes it no easier. An industry with 80,000 jobs in renewable energy, where Germany was once a global pioneer, has [practically nothing left](https://www.windkraft-journal.de/2013/11/17/80-000-arbeitsplatzverluste-in-der-erneuerbare-energien-branche/45906). When even [Die Welt](https://www.welt.de), a newspaper that has recycled climate misinformation from the AFDP-adjacent "EIKE Institut", [notices](https://www.welt.de/wirtschaft/article198299117/Windindustrie-In-einem-Jahr-26-000-Arbeitsplaetze-abgebaut.html), things are truly dire.
+The fact that we're not only failing to invest in climate protection but that the CDU and in particular Altmaier [actively obstructed climate action](https://www.tagesschau.de/wirtschaft/offshore-windenergie-ausbau-101.html) makes it no easier. An industry with 80,000 jobs in renewable energy, where Germany was once a global pioneer, has [practically nothing left](https://www.windkraft-journal.de/2013/11/17/80-000-arbeitsplatzverluste-in-der-erneuerbare-energien-branche/45906). When even [Die Welt](https://www.welt.de), a newspaper that has recycled climate misinformation from the AFDP-adjacent "EIKE Institut", [notices](https://www.welt.de/wirtschaft/article198299117/Windindustrie-In-einem-Jahr-26-000-Arbeitsplaetze-abgebaut.html), things are truly dire.
 
 
 ### Crop Failures

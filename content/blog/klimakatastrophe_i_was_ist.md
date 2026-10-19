@@ -9,11 +9,11 @@ tags = ["klima", "politik"]
 +++
 
 *Zu allererst und am wichtigsten: Ich schreibe diesen Artikel für Familie und
-Freunde mit dem Ziel, dass ich nicht ständig zum "nervigen Klimaaktivsten"
+Freunde mit dem Ziel, dass ich nicht ständig zum „nervigen Klimaaktivisten“
 werden muss.*
 
-*Es geht mir also darum, an einer Stelle möglichst viele Klimafakten zusammen zu
-tragen und zu erklären, warum mir eine radikale Änderung von Politik und
+*Es geht mir also darum, an einer Stelle möglichst viele Klimafakten zusammenzutragen
+und zu erklären, warum mir eine radikale Änderung von Politik und
 Zusammenleben so wichtig ist.*
 
 *Diese gesamte Problematik ist echt komplex und umfangreich, weswegen ich
@@ -23,7 +23,7 @@ versuche sie in 3 Artikel zu splitten*:
 - _Was kommt_ (und zwar in einer Zeit, die wir auf jeden Fall noch erleben werden
 und Ophelia/Auroras Kernlebenszeit ausmacht)
 - _Was wir tun müssen_ (Nur der absolute wissenschaftliche/wirtschaftliche Konsens
-  und das Minimum um die Auswirkungen zu minimieren)
+  und das Minimum, um die Auswirkungen zu minimieren)
 
 ---
 
@@ -32,7 +32,7 @@ ist ja mittlerweile jedem bewusst und die groben Auswirkungen haben wir alle
 schon einmal gehört: Meeresspiegel steigt, es wird heißer und auch die
 Wahrscheinlichkeit für Extremwetterereignisse steigt.
 
-Aber das ist leider nicht das komplette Problem bzw. macht meiner Meinung die echten
+Aber das ist leider nicht das komplette Problem bzw. macht meiner Meinung nach die echten
 Folgen nicht klar genug.
 
 In diesem ersten Beitrag möchte ich darüber reden, was für Auswirkungen wir
@@ -72,12 +72,12 @@ zu genau diesen Toten mit beiträgt.
 
 [In
 Brandenburg](https://www.morgenpost.de/vermischtes/article232506469/klimawandel-brandenburg-see-vertrocknet.html)
-sind bereits jetzt die ersten Seen ausgetrocknet. Wo früher ein See war ist jetzt
-(noch) fruchtbare Wiese. Deutschlandweit sind viele weitere Seen betroffen bzw
+sind bereits jetzt die ersten Seen ausgetrocknet. Wo früher ein See war, ist jetzt
+(noch) fruchtbare Wiese. Deutschlandweit sind viele weitere Seen betroffen bzw.
 werden in den nächsten 20 Jahren austrocknen, nur um dann alle paar Jahre von
 Hochwasser gefüllt zu werden.
 
-Die Seen, die nicht austrocknen sind [bereits
+Die Seen, die nicht austrocknen, sind [bereits
 jetzt](https://www.ingenieur.de/technik/fachbereiche/umwelt/seen-im-klimawandel-forscher-entdecken-problem/)
 zunehmend im Sommer von Cyanobakterien betroffen. Ich erinnere mich noch an
 meine Kindheit und wie wir bei Oppum im Baggersee schwimmen waren. Mittlerweile
@@ -87,18 +87,18 @@ gewarnt](https://www.rnd.de/panorama/baden-in-seen-landesweit-zahlreiche-badever
 Um ganz ehrlich zu sein: Für die Bakterienbelastung ist die Klimatransformation
 nicht die einzige Ursache. Aber das Thema der Landwirtschaft ist alleine für
 sich so komplex und umfangreich, dass ich das in meinen Beiträgen hier erst
-einmal weg lassen werde.
+einmal weglassen werde.
 
 
 ### Wirtschaftlicher Schaden
 Ein echt wichtiges Thema. Wirtschaft ist jetzt nicht mein Lieblingsthema,
 aber man liest und hört ständig, wer das alles bezahlen
 soll bzw. dass die Politik (primär CDU/SPD) versuche, das Klima mit der
-Wirtschaft in Einklang bringen will.
+Wirtschaft in Einklang zu bringen.
 
 Das halte ich für zutiefst unehrlich, da der Politik durch zahlreiche Berater
 aus Wissenschaft **und** Wirtschaft schon lange nahegelegt wird, dass
-Klimaschutz auch Wirtschaftsschutz ist. Das einzige was leiden würde, wären
+Klimaschutz auch Wirtschaftsschutz ist. Das Einzige, was leiden würde, wären
 kurzfristige Quartalsergebnisse. Auf lange Sicht [ist Klimaschutz
 billiger](https://www.goethe.de/prj/eco/de/bil/22136915.html), Menschenleben
 und Lebensqualität mal komplett ignoriert.
@@ -106,14 +106,14 @@ und Lebensqualität mal komplett ignoriert.
 ### Mal in konkreten Zahlen
 
 Dass wir nicht nur nicht in den Klimaschutz investieren, sondern gerade die CDU
-und insbesonderen Altmaier [aktiv den Klimaschutz
+und insbesondere Altmaier [aktiv den Klimaschutz
 behindern](https://www.tagesschau.de/wirtschaft/offshore-windenergie-ausbau-101.html),
 macht es nicht leichter. So ist aus einer Industrie mit 80k Arbeitsplätzen der
 regenerativen Energien, bei der wir weltweit Vorreiter waren, [praktisch nichts
 mehr
 übrig](https://www.windkraft-journal.de/2013/11/17/80-000-arbeitsplatzverluste-in-der-erneuerbare-energien-branche/45906?doing_wp_cron=1629527795.4246499538421630859375).
-Wenn selbst die [WELT](https://www.welt.de), welche mit Klimathesen glänzt die
-primär vom AFDP nahem "EIKE Institut" abgeschrieben wurden, [das
+Wenn selbst die [WELT](https://www.welt.de), welche mit Klimathesen glänzt, die
+primär vom AFDP-nahen „EIKE Institut“ abgeschrieben wurden, [das
 bemerkt](https://www.welt.de/wirtschaft/article198299117/Windindustrie-In-einem-Jahr-26-000-Arbeitsplaetze-abgebaut.html),
 dann ist wirklich Land unter.
 
@@ -128,7 +128,7 @@ geschwächte Pflanzen/Bäume/etc. direkt von der anderen Seite mit Fäule zu
 kämpfen haben.
 
 Bisher wurden diese Umstände durch den Fakt abgefedert, dass wir sowieso schon
-zu viel wegschmeißen bzw importieren konnten. Aber gerade unsere
+zu viel wegschmeißen bzw. importieren konnten. Aber gerade unsere
 Gemüse/Obst-Importländer wie z.Bsp. Spanien oder die Niederlande werden durch
 Hitze (Spanien) oder Überflutungen (Niederlande) noch mehr zu kämpfen haben als
 wir. Die Niederlande sind [bereits
@@ -154,10 +154,10 @@ Forschern](https://www.dw.com/de/wasserarmut-wasserknappheit-d%C3%BCrre-in-deuts
 ### Waldsterben
 
 Zusätzlich zur Trinkwasserknappheit sind gerade 1/3 unserer Wälder dabei zu
-sterben. Die Trockenheit alleine reicht häufig aus und wo diese nicht reicht
-helfen "Schädlinge" dabei unseren Wäldern den Rest zu geben.
+sterben. Die Trockenheit alleine reicht häufig aus und wo diese nicht reicht,
+helfen „Schädlinge“ dabei, unseren Wäldern den Rest zu geben.
 
-Die Folgen sind nicht einfach nur "weniger grün" oder, dass wir weitere
+Die Folgen sind nicht einfach nur „weniger grün“ oder dass wir weitere
 CO<sub>2</sub> Filter damit entfernen, sondern rapide abnehmende Biodiversität, Bodenschäden
 (wie z.Bsp. Erdrutsche) und gravierendere Wetterphänomene, die nicht mehr durch Wälder geblockt oder
 geschwächt werden.
@@ -171,7 +171,7 @@ unserer Bäume überhaupt noch gesund.
 
 ### Zoonosen
 Corona war nicht die erste Zoonose und wird nicht die letzte gewesen sein. Was
-ohne menschlichen Einfluß eine Sache von Jahrhunderten war, wird häufiger
+ohne menschlichen Einfluss eine Sache von Jahrhunderten war, wird häufiger
 vorkommen. Sowohl meine Generation wird noch mindestens eine weitere Zoonose wie
 Corona mitbekommen und für meine Töchter wird es Fall der Gewohnheit.
 
@@ -181,8 +181,8 @@ ein](https://www.bpb.de/politik/innenpolitik/coronavirus/308483/pandemien-umwelt
 aber wie so häufig gilt dann doch eher, was RWE oder die heimische Stahl- und
 Autoindustrie sich wünscht.
 
-Während wir also noch mit SARS-CoV2 kämpfen sind, gibt es schon weitere
-Erreger diverser Art die auf dem Weg zu uns sind. Nicht nur, dass unsere
+Während wir also noch mit SARS-CoV2 kämpfen, gibt es schon weitere
+Erreger diverser Art, die auf dem Weg zu uns sind. Nicht nur, dass unsere
 Bemühungen beim Klima/Menschenschutz zwischen mangelhaft und ungenügend sind,
 treten wir als Menschheit noch einmal nach, indem wir primär durch unsere
 [Fleisch- und Tierindustrie multiresistente Keime
@@ -191,22 +191,22 @@ züchten](https://www.deutschlandfunkkultur.de/multiresistente-keime-in-der-land
 
 ## Weltweite Folgen
 
-Wenn wir vom Klimawandel reden, reden wir häufig auch von den s.g. Kipppunkten.
+Wenn wir vom Klimawandel reden, reden wir häufig auch von den sog. Kipppunkten.
 Davon haben wir bisher in etwa 16 identifiziert. Ein Kipppunkt ist eine Stelle,
 ab der ein Prozess in Gang gesetzt wird, den wir **nicht** wieder umkehren
-können. Ab dieser Stelle läuft's halt und zwar in den meisten Fälle mit
+können. Ab dieser Stelle läuft's halt und zwar in den meisten Fällen mit
 selbstverstärkender Wirkung.
 
 ### Permafrost
 
-Einen der Kipppunkte die wir bereits erreicht haben, ist dass Weltweit [der
+Einen der Kipppunkte, die wir bereits erreicht haben, ist, dass weltweit [der
 Permafrost](https://www.n-tv.de/wissen/Permafrostboeden-weltweit-erwaermen-sich-article20813171.html)
 auftaut. Dabei werden große Mengen Methan freigegeben, was die Erwärmung
 natürlich zusätzlich weiter beschleunigt. Methan ist schon am ehesten das, was
 uns nachhaltig schadet, aber auftauender Permafrost hat noch deutlich mehr
 Probleme.
 
-So berichtet zum Beispiel [die online Variante des
+So berichtet zum Beispiel [die Online-Variante des
 Geomagazins](https://www.geo.de/natur/oekologie/23609-rtkl-gefahr-aus-dem-eis-viren-und-bakterien-werden-durch-den-auftauenden)
 von mehreren Studien, die über weitere Bakterien, Viren und mehr berichten, die
 sich dort verstecken.
@@ -228,7 +228,7 @@ Treibhausgase austreten, [als er
 absorbiert](https://www.frontiersin.org/articles/10.3389/ffgc.2021.618401/full).
 Das ist extrem bitter und ist in diesem Fall zu fast [100% auf
 Fleischkonsum](https://www.faszination-regenwald.de/info-center/zerstoerung/)
-zurück zu führen.
+zurückzuführen.
 
 Um es noch einmal deutlich zu sagen/schreiben: Wir haben dieses Jahr den Punkt
 erreicht, wo der Regenwald NICHT mehr die grüne Lunge ist. Ganz trivial bedeutet
@@ -240,34 +240,34 @@ Ironischerweise wird hier auf die Sojafelder und böse Veggies verwiesen, dass
 vom weltweiten Soja nur 6% in diversen Veggieprodukten landet und der Rest zu
 Tierfutter verarbeitet wird, wird gerne verschwiegen.
 Vom Regenwaldsoja landet auf direktem Wege in deutschen Mägen sowieso praktisch
-nichts, da hierfür die Produkte halbwegs regionale Erzeuger verwendet werden. So
-braucht eine Kuh rund 12kg Soja um ein Kilo Fleisch zu erzeugen.
+nichts, da hierfür die Produkte halbwegs regionaler Erzeuger verwendet werden. So
+braucht eine Kuh rund 12kg Soja, um ein Kilo Fleisch zu erzeugen.
 Schwein/Geflügel ist da zum Glück deutlich genügsamer.
 
 
 ## Aber wir können doch nicht die Welt retten
 
-... wie bewegen wir die anderen dazu mitzuhelfen?
+... wie bewegen wir die anderen dazu, mitzuhelfen?
 
 Müssen wir nicht. Wir müssen hauptsächlich einmal anfangen, nicht mehr zu
 bremsen. In Europa sind wir [DIE](https://www.germanwatch.org/de/15938)
 [Bremse](https://www.sueddeutsche.de/politik/klimawandel-klimaschutz-deutschland-1.4164096)
 [schlechthin](https://www.tagesspiegel.de/politik/vertrauliche-dokumente-deutschland-wird-zum-klima-bremser/24134082.html).
 
-Obwohl wir nur 1% der Weltbevölkerung stellen erzeugen wir rund 2% der
-Klimagase. Da sind in China/Taiwan produzierte Produkte oder Diensleistungen wie
+Obwohl wir nur 1% der Weltbevölkerung stellen, erzeugen wir rund 2% der
+Klimagase. Da sind in China/Taiwan produzierte Produkte oder Dienstleistungen wie
 Server&Co aus dem Ausland, die für den deutschen Markt bestimmt sind und uns
 eigentlich zugerechnet werden *müssten*, noch nicht einberechnet.
 
 Wir sind in Deutschland pro Kopf noch deutlich vor China, welches bei rund 5t
 CO<sub>2</sub> liegt, während wir bei durchschnittlich 11t sind. Doppelt so viel
 wie das schlimme China. Bei über 200 Ländern sind wir momentan mit dem absoluten
-Ausstaß unter den Top10. Wollen wir wirklich, dass fast 200 Länder mit der
-gleichen Argumentation kommen? Würden wir unseren Kindern "aber die andern!" als
+Ausstoß unter den Top10. Wollen wir wirklich, dass fast 200 Länder mit der
+gleichen Argumentation kommen? Würden wir unseren Kindern „aber die andern!“ als
 Argument durchlassen?
 
 
-Edit: Abschließend bleibt hier noch einmal diese Wunderbare Zusammenfassung [von
+Edit: Abschließend bleibt hier noch einmal diese wunderbare Zusammenfassung [von
 Quarks](https://www.quarks.de/umwelt/klimawandel/so-steht-es-wirklich-um-unser-klima/)
 des ersten Teilberichts vom IPCC. Insgesamt wird es 3 Berichte und 1
 Zusammenfassung geben. Wichtig hierbei ist, dass die Berichte schon fertig sind,
