@@ -10,7 +10,7 @@ tags = ["tooling", "clean-code"]
 
 ## Stylecheck
 
-Fangen wir mit dem einfacheren Thema an: Stylechecks. Im Kern geht es darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig: Hauptsache, er ist überall gleich!
+Fangen wir mit dem einfacheren Thema an: Stylechecks. Es geht darum, den gleichen Stil über die gesamte Anwendung beizubehalten. Welcher Stil das ist, ist dabei gar nicht so wichtig: Hauptsache, er ist überall gleich!
 
 
 #### Warum?
@@ -164,7 +164,7 @@ code-block.js:1:9 lint/complexity/noUselessTernary  FIXABLE  ━━━━━━�
 
 ## Biome im Editor
 
-Für alle genannten Gründe sollten wir Biome überall einsetzen, wo es möglich ist.
+Aus all diesen Gründen sollten wir Biome überall einsetzen, wo es möglich ist.
 
 Für die gängigsten Editoren hier die Extension/Plugin-Links, damit die roten Wellenlinien direkt verschwinden und Auto-Formatierung aktiv ist:
 

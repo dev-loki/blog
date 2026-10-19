@@ -10,7 +10,7 @@ tags = ["tooling", "clean-code"]
 
 ## Stylecheck
 
-Let's start with the simpler issue: Stylechecks. Basically it all boils down to maintaining 
+Let's start with the simpler issue: Stylechecks. It all boils down to maintaining 
 the same style over the full application. It doesn't really matter WHICH style, but it 
 must be the same!
 
@@ -107,7 +107,7 @@ but gives each header of a file the same order. For details about the order you 
 
 ## Linting
 
-This is actually giving us a headstart on customers finding bugs. Each linter obviously has a small
+This is giving us a headstart on customers finding bugs. Each linter obviously has a small
 false positive rate, but the ruleset itself makes sure to exclude some classes of errors before they
 even happen!
 
