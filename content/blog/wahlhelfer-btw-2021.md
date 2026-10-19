@@ -102,9 +102,9 @@ vergleicht. Dabei werden die vier folgenden Themengebiete abgedeckt:
 Betrieben wird der Sozial-O-Mat von der Diakonie. Jedes der vier Themen wird
 mit einer kurzen Einleitung begonnen, die die Relevanz hervorheben sollen. 
 
-Statt Videos oder Erklärungen wird dann jede These mit einer "Geschichte"
-unterstützt. Also statt Informationen erhalten wir etwas Menschennäher die
-Geschichte einer Person um diese These einzuordnen. Generell finde ich das
+Videos oder Erklärungen gibt es hier keine, dafür wird jede These mit einer
+„Geschichte“ unterstützt. Wir bekommen also, etwas menschennäher, die
+Geschichte einer Person, um diese These einzuordnen. Generell finde ich das
 Konzept zwar interessant, aber es gibt natürlich auch etwas die Richtung vor!
 
 Jede These kann man als Positiv/Neutral/Negativ bewerten oder sie sogar
@@ -129,7 +129,7 @@ Partners und kriegt am Ende eine reine Steuer-Wahlempfehlung.
 
 **Link:** [agrarheute.com](https://www.agrarheute.com/agraromat)
 
-Da - wie wir alle Wissen - die Lebensmittel natürlich nur aus dem Supermarkt
+Da, wie wir alle Wissen, die Lebensmittel natürlich nur aus dem Supermarkt
 kommen, betrifft dieser Wahl-O-Mat ausschließlich die Bauern ;). 
 
 Tatsächlich bezieht sich dieser Helfer passend zum Namen ausschließlich auf die
@@ -199,7 +199,7 @@ dass, wenn Sie gar nicht antworten, kann denen auch keiner etwas übel nehmen.
 
 Das beste Feature ist aber, direkt die Abgeordneten aus dem eigenen Wahlkreis
 mit ihren Stimmen zu sehen. Dazu gibt mein die eigene PLZ an und bekommt alle
-lokalen Kandidaten vorgeschlagen - inklusive der Übereinstimmungen in den
+lokalen Kandidaten vorgeschlagen, inklusive der Übereinstimmungen in den
 einzelnen Thesen.
 
 Abgeordneten die bisher nicht geantwortet haben, kann man hier direkt eine
@@ -225,10 +225,10 @@ Volt](https://www.volksverpetzer.de/schwer-verpetzt/volt-wahl-o-mat/) dafür),
 als auch die Möglichkeit, anschließend mit den diversen Ergebnissen und deren
 Gewichtung herumzuspielen!
 
-Tatsächlich kam zumindest bei mir auch ein anderes Ergebnis raus, als bei den
+Bei mir kam zumindest auch ein anderes Ergebnis raus als bei den
 anderen Wahlhelfern, was zumindest noch einmal mehr in die Breite geht.
 
-Die Fragen sind tatsächlich auch recht vielfältig gestellt und treffen diverse
+Die Fragen sind auch recht vielfältig gestellt und treffen diverse
 Bereiche, wobei natürlich alle Bekannte wie z.Bsp. das Tempolimit fast überall
 auftauchen.
 
@@ -238,8 +238,8 @@ aussprechen.
 
 ## Fazit
 
-Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen -
-besser aber direkt alle Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
+Wenn es nach mir geht, sollte jede/r Wähler/in bis zur Wahl mindestens einen
+(besser aber direkt alle) Wahlhelfer einmal gemacht haben, um eine Gefühl dafür zu
 bekommen, welche Parteien für was genau stehen.
 
 Eines der dicksten Probleme (meiner Meinung nach) unserer Demokratie ist, dass
