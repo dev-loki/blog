@@ -38,9 +38,8 @@ hook in its own virtual environment, and runs hooks sequentially. The first
 ### prek
 
 [`prek`](https://github.com/j178/prek) is a reimplementation of the pre-commit
-framework in Rust, and the key point is: **it reads the same
-`.pre-commit-config.yaml`**. But with smarter caching and without the virtualenv
-overhead:
+framework in Rust that reads **the same `.pre-commit-config.yaml`**, just
+with smarter caching and without the virtualenv overhead:
 
 ```bash
 # Installation (a single static binary, no Python needed)
@@ -59,8 +58,8 @@ prek run gitleaks --all-files  # a single hook specifically
 ### My hook setup in detail
 
 The `.pre-commit-config.yaml` of my template chains together everything I built
-in the last three parts. The interesting bit is the distinction between two
-kinds of hooks:
+in the last three parts. I split the hooks into two
+kinds:
 
 **Remote hooks** come from foreign repositories: the basics like YAML/TOML
 validation, trailing whitespace, and the secret scanner
@@ -82,9 +81,8 @@ validation, trailing whitespace, and the secret scanner
   - id: gitleaks
 ```
 
-**Local hooks**, on the other hand, run via `uv run` in my project environment:
-that way ruff, ty and bandit check with exactly the versions pinned in `uv.lock`,
-instead of in some separate hook environment:
+**Local hooks**, on the other hand, run via `uv run` in my project environment.
+That way ruff, ty and bandit check with exactly the versions pinned in `uv.lock`:
 
 ```yaml
 - repo: local
@@ -118,8 +116,8 @@ instead of in some separate hook environment:
 
 On top of that there's [import-linter](https://import-linter.readthedocs.io),
 which guards my architecture: it fails as soon as someone imports infrastructure
-from the domain layer. Architecture rules as an executable check instead of a
-wiki page.
+from the domain layer. That turns the architecture rules into an executable
+check.
 
 
 ### One commit, the whole quality gate
@@ -138,7 +136,7 @@ git commit --no-verify
 But that's exactly what CI is the safety net for (well, that and the cases where
 someone forgot to run `prek install`): there the same checks run again
 (`ruff format --check`, `ruff check`, `ty check`, `bandit`, `lint-imports`,
-`pytest`), just as the last line of defence, not the first.
+`pytest`), just as the last line of defence.
 
 
 ### Series conclusion

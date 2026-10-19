@@ -20,7 +20,7 @@ Stack an Tools von Hand auszuführen.
 
 Jeder Check, der erst in der CI scheitert, ist eine Verzögerung und reißt mich
 aus meinen Tasks raus: schreiben, committen, pushen, fünf Minuten warten, rote
-Pipeline, fixen, "Fix linting"-Commit, nochmal pushen. Ein Pre-Commit-Hook
+Pipeline, fixen, „Fix linting“-Commit, nochmal pushen. Ein Pre-Commit-Hook
 verschiebt genau dieselben Checks an den frühestmöglichen Punkt: Fehler werden
 behoben, *bevor* sie in der Historie landen, und die CI wird vom Fehlerfinder
 zum reinen Sicherheitsnetz.
@@ -40,8 +40,8 @@ aufgebaut werden.
 ### prek
 
 [`prek`](https://github.com/j178/prek) ist eine Reimplementierung des
-pre-commit-Frameworks in Rust, und der entscheidende Punkt ist: **Es liest
-dieselbe `.pre-commit-config.yaml`**. Aber mit smarterem Caching und ohne den
+pre-commit-Frameworks in Rust und liest **dieselbe
+`.pre-commit-config.yaml`**, nur mit smarterem Caching und ohne den
 Virtualenv-Overhead:
 
 
@@ -62,8 +62,8 @@ prek run gitleaks --all-files  # einen einzelnen Hook gezielt
 ### Mein Hook-Setup im Detail
 
 Die `.pre-commit-config.yaml` meines Templates verkettet alles, was ich in
-den letzten drei Teilen aufgebaut habe. Interessant ist dabei die
-Unterscheidung zwischen zwei Hook-Arten:
+den letzten drei Teilen aufgebaut habe. Dabei unterscheide ich
+zwei Hook-Arten:
 
 **Remote-Hooks** kommen aus fremden Repositories: die Basics wie
 YAML/TOML-Validierung, Trailing Whitespace und der Secret-Scanner
@@ -85,9 +85,9 @@ YAML/TOML-Validierung, Trailing Whitespace und der Secret-Scanner
   - id: gitleaks
 ```
 
-**Lokale Hooks** dagegen laufen über `uv run` in meiner Projektumgebung:
-damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
-`uv.lock` gepinnt sind, statt in irgendeiner separaten Hook-Umgebung:
+**Lokale Hooks** dagegen laufen über `uv run` in meiner Projektumgebung.
+Damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
+`uv.lock` gepinnt sind:
 
 ```yaml
 - repo: local
@@ -121,8 +121,8 @@ damit prüfen ruff, ty und bandit exakt in den Versionen, die in der
 
 Dazu kommt noch [import-linter](https://import-linter.readthedocs.io), der
 meine Architektur bewacht: Er schlägt fehl, sobald jemand aus der
-Domain-Schicht heraus Infrastruktur importiert: Architekturregeln als
-ausführbarer Check statt als Wiki-Seite.
+Domain-Schicht heraus Infrastruktur importiert. Damit werden die
+Architekturregeln zu einem ausführbaren Check.
 
 
 ### Ein Commit, das ganze Quality Gate
@@ -141,7 +141,7 @@ git commit --no-verify
 Aber genau dafür (naja, oder für die Fälle, wo jemand `prek install` vergessen
 hat) ist die CI das Sicherheitsnetz: Dort laufen dieselben Checks
 (`ruff format --check`, `ruff check`, `ty check`, `bandit`, `lint-imports`,
-`pytest`) noch einmal, nur eben als letzte Instanz, nicht als erste.
+`pytest`) noch einmal, nur eben als letzte Instanz.
 
 
 ### Fazit der Serie
