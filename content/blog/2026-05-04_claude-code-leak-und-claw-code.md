@@ -10,14 +10,14 @@ tags = ["ki", "tooling"]
 
 Sorry für die lange Funkstille! Seit dem letzten Post ist ja doch einiges an Zeit ins Land gegangen. Ich hab hier noch einen ganzen Stapel an Entwürfen rumliegen (`.md.draft`), aber wenn ich mir die so anschaue, müssen die wohl alle erst mal grundlegend überarbeitet werden, die Welt (und vor allem die KI-Welt) dreht sich einfach zu schnell ;).
 
-Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt, noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal, sogar frei von KI geschrieben.
+Aber jetzt treibt mich gerade genau diese KI rum und mir fehlt eine Stimme, die weder komplett vom Hype überrannt ist noch in ihrem Loch lebt und die aktuelle Entwicklung ignoriert. Daher mache ich das jetzt einfach mal, sogar frei von KI geschrieben.
 
-Claude Code direkt als erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht, und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5 wo ähnliches behaupted wurde.
+Claude Code direkt als Erstes, da es ziemlich deutlich die Beliebtheitsskala bei Entwicklern anführt. Es ist schon faszinierend (und ein bisschen ironisch), dass ausgerechnet ein Tool, das uns beim Programmieren helfen soll, seinen eigenen Quellcode veröffentlicht, und das sogar nachdem Mythic (das Ding, was so gut ist, dass man es vor der Öffentlichkeit verstecken muss) bereits im Einsatz war; oder weil? 🤔 Manche erinnern sich vielleicht noch an GPT5, wo ähnliches behauptet wurde.
 
 
 ### Claw Code
 
-Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), sollte einen Blick auf [Claw Code](https://claw-code.codes/) werfen. Das Projekt hat den geleakten Code quasi "deductiv" aufbereitet und zugänglich gemacht. Es ist ein extrem spannendes Stück Softwarearchitektur, das zeigt, wie Anthropic die Interaktion zwischen LLM und lokaler Shell orchestriert.
+Wer sich das Ganze mal im Detail anschauen will (solange es noch online ist), sollte einen Blick auf [Claw Code](https://claw-code.codes/) werfen. Das Projekt hat den geleakten Code quasi "deduktiv" aufbereitet und zugänglich gemacht. Es ist ein extrem spannendes Stück Softwarearchitektur, das zeigt, wie Anthropic die Interaktion zwischen LLM und lokaler Shell orchestriert.
 
 
 ### Die rechtliche Seite: DMCA-Whack-A-Mole
@@ -29,5 +29,5 @@ Ich finde das ziemlich bezeichnend für den current State der KI:
 - Der Code (und die Bugs) entstehen schneller und kriegen immer weniger echte Reviews
 - "Security by Obscurity" funktioniert mit KI noch weniger als vorher
 
-Gerade überlege ich noch, ob ich dazu mal einen tieferen Artikel schreibe, wo ich mich speziell um **KI Guardrails**, also eine Art Sicherheitskorsett für KI kümmere. Ich habe das Gefühl, dass dies vielen noch fehlt obwohl es echt eine schöne tief hängende Frucht ist.
+Gerade überlege ich noch, ob ich dazu mal einen tieferen Artikel schreibe, wo ich mich speziell um **KI Guardrails**, also eine Art Sicherheitskorsett für KI, kümmere. Ich habe das Gefühl, dass dies vielen noch fehlt, obwohl es echt eine schöne tief hängende Frucht ist.
 
