@@ -116,7 +116,7 @@ it), and "magic numbers" in a test case are simply the test data:
 
 ### Import sorting included
 
-Isort is on board right away as rule group `I`. So the sorting stays
+Isort is on board right away as rule group `I`. So that the sorting stays
 deterministic even in edge cases, I declare explicitly what is third-party and
 what is my own code:
 

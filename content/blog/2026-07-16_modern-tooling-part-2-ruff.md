@@ -14,7 +14,7 @@ Paketmanagement mit `uv` aufgeräumt habe, will ich mich heute in Teil 2 um
 
 ### Toolchain-Suppe
 
-"Code-Qualität" hieß lange, vier bis fünf Tools hintereinander zu
+„Code-Qualität“ hieß lange, vier bis fünf Tools hintereinander zu
 schalten:
 - Black für das Formatting
 - Isort für die Import-Sortierung
@@ -105,7 +105,7 @@ steht daneben.
 
 Regeln, die im Produktivcode sinnvoll sind, sind in Tests oft Lärm. `assert`
 ist in Tests der Normalfall (im Produktivcode verbietet ihn die
-Bandit-Regel `S101`), und "Magic Numbers" in einem Testfall sind schlicht die
+Bandit-Regel `S101`), und „Magic Numbers“ in einem Testfall sind schlicht die
 Testdaten:
 
 ```toml
@@ -133,7 +133,7 @@ known-local-folder = ["app"]
 
 Kurze Erinnerung: `isort` sorgt dafür, dass die Importblöcke grob in 3
 Kategorien unterteilt sind:
-1. "batteries included" Imports, z. B.: `from math import sqrt`
+1. „batteries included“ Imports, z. B.: `from math import sqrt`
 2. 3rd party Imports: `from fastapi import FastAPI`
 3. Projektimports: `from my_project.domain import ImportantClass`
 
