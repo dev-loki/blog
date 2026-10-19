@@ -45,7 +45,7 @@ helloWorldString = "Hello Moon!"; // error! We can rely on the content of the va
 ```
 
 In the top part the stuff inside the variable changes and makes it harder
-to predict whats inside it.
+to predict what's inside it.
 
 > "But what about counter variables? I NEED to count stuff all the time!?"
 
@@ -57,7 +57,7 @@ Correct. Let's break this up a little:
 - if mutable variables improve readability or are the only viable
   way (very seldom): **go for it**
 
-When I say "seldom" I mean, that in many cases Type/Javascript will give us
+When I say "seldom" I mean that in many cases Type/Javascript will give us
 a way to avoid counter variables:
 
 ```typescript
@@ -72,13 +72,13 @@ const uppercaseNames = ["alice", "bob", "charlie"].map((name) =>
 );
 ```
 
-Obviously this example is trivial, but in any way: We KNOW, that `uppercaseNames`
+Obviously this example is trivial, but in any way: We KNOW that `uppercaseNames`
 will contain exactly what it tells us, as soon as it's defined!
 
 ## Why
 
 Immutability doesn't mean all the way and also doesn't mean that mutable stuff is
-inherently bad, but it definetely removes some foodguns, when programming and debugging.
+inherently bad, but it definitely removes some footguns, when programming and debugging.
 
 [Biome](https://biomejs.dev) has a lint `lint/style/useConst` forcing us to use `const`
 when a variable is never reassigned, but I'd go further and replace `let`s as often as
@@ -147,7 +147,7 @@ t.name = "asdf"; // typescript error
 I personally prefer:
 
 1. extracting the process of building a string into a function
-2. having a template in the and where the various bits and pieces fit into
+2. having a template in the end where the various bits and pieces fit into
 
 And then use the result:
 
@@ -187,6 +187,6 @@ I think this is better as it
 
 - reduces the complexity making it more visible how the final text is structured.
 - reduces indentation. Another topic I'd like to cover soon!
-- We extracted the logic into a pure function while having the sideffect function only using this
+- We extracted the logic into a pure function while having the side effect function only using this
 - That again makes the `buildGreeting` function easier to test as we don't rely
   on catching console output
