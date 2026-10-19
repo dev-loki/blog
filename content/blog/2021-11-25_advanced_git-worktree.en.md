@@ -36,7 +36,7 @@ project_name/
    - make_that_users_dont_die_immediately/
 ```
 
-Each folder acts like its own Git repository, but they all share the same Git metadata. Instead of leaving your current state and switching entirely, a `git worktree add BRANCH_NAME` creates a folder pointing to that branch for you.
+Each folder acts like its own Git repository, but they all share the same Git metadata. Your current state stays untouched. A `git worktree add BRANCH_NAME` creates a folder pointing to that branch for you.
 
 ## So how does it work?
 

@@ -40,8 +40,8 @@ project_name/
 ```
 
 Jeder Ordner ist quasi ein eigenes Git Repository. Aber alle teilen sich die
-Git Metadaten. Statt also euren Stand zu verlassen und komplett zu wechseln,
-reicht ein `git worktree add BRANCH_NAME` und ein Ordner, der auf einen zeigt,
+Git Metadaten. Euer aktueller Stand bleibt also unangetastet. Ein
+`git worktree add BRANCH_NAME` reicht und ein Ordner, der auf einen zeigt,
 wird für euch erstellt.
 
 ## Aber wie geht das jetzt?
@@ -60,7 +60,7 @@ Super simpel - wirklich :).
 4. Ab jetzt funktioniert worktree perfekt:
    - `git worktree add main` fügt unseren Main-Branch hinzu
    - `git worktree add feature/ABC_new_stuff_to_play feature/ABC_new_stuff_to_play` um Branches mit `/` im Namen auszuchecken oder zu erstellen
-   - Tatsächlich könnt ihr aber auch beliebig im Dateisystem euren Ordner mit dem Branch erstellen. Das Format sieht in etwa so aus:
+   - Ihr könnt aber auch beliebig im Dateisystem euren Ordner mit dem Branch erstellen. Das Format sieht in etwa so aus:
      `git worktree add PATH BRANCHNAME`
 
 ## Weitere hilfreiche Befehle
