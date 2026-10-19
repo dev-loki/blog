@@ -10,7 +10,7 @@ tags = ["tooling", "python"]
 
 Hey and welcome to my series on modern Python tooling: four parts on the tools
 themselves, plus a bonus part on AI agents. I'm writing it now because the
-Python ecosystem is going through a real upheaval. Several, in fact:
+Python ecosystem is going through an upheaval. Several, in fact:
 
 1. The Python ecosystem is being replaced in large part by Rust-based tools.
    I largely have [Astral](https://astral.sh) to thank for that.
@@ -20,8 +20,8 @@ Python ecosystem is going through a real upheaval. Several, in fact:
 Conveniently, these two shifts fit together perfectly.
 
 So my goal is first to introduce these new Rust-based tools, and then to show
-how they help in AI-driven development. I'll look at four+ of these tools, not
-in the abstract but along a real FastAPI project template: `uv`, `ruff`, `ty`
+how they help in AI-driven development. I'll look at four+ of these tools along
+a real FastAPI project template: `uv`, `ruff`, `ty`
 and `prek` (+more mini tools).
 
 **Part 1 (this one)** is about the foundation: **`uv`**.
@@ -40,15 +40,15 @@ toolbox:
 
 Each of these tools has its own configuration (including its own config
 formats), its own quirks and its own failure modes. The result: "works on my
-machine". Thrown in for free: a CI pipeline that spends minutes resolving
-dependencies.
+machine". Thrown in for free, you get a CI pipeline that spends minutes
+resolving dependencies.
 
 
 ### The solution: uv, a single binary
 
 `uv` replaces the entire stack with a single Rust binary. It's package
 installer, environment manager, dependency resolver and Python version manager
-in one. The best part: it's orders of magnitude faster while doing it.
+in one. And it's orders of magnitude faster while doing it.
 
 Installing it is quick:
 
@@ -85,7 +85,7 @@ content `3.14`. Then `uv` simply downloads the matching interpreter on demand.
 `pyenv` becomes unnecessary.
 
 
-### Dependency groups instead of requirements sprawl
+### Dependency groups tame requirements sprawl
 
 Instead of `requirements.txt`, `requirements-dev.txt` and
 `requirements-test.txt`, my template defines everything in `pyproject.toml`,
@@ -172,7 +172,7 @@ caching in a single step:
 
 `uv` needs less configuration than the old stack and is still noticeably
 faster. It's the reason every following part of this series starts with
-`uv run ...`. It makes Python development, CI, CD and more faster.
+`uv run ...`.
 
 Bonus feature: running [scripts with inline dependencies](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies).
 Perfect for DevOps and the like. :)

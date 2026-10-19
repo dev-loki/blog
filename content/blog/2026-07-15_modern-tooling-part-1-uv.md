@@ -10,7 +10,7 @@ tags = ["tooling", "python"]
 
 Hey und willkommen zu meiner Serie über moderne Python-Werkzeuge: vier Teile
 über die Werkzeuge selbst, dazu ein Bonusteil über KI-Agenten.
-Ich schreibe das gerade, weil das Python-Ökosystem einen echten Umbruch erlebt.
+Ich schreibe das gerade, weil das Python-Ökosystem einen Umbruch erlebt.
 Genau genommen sogar mehrere:
 
 1. Das Python-Ökosystem wird zu großen Teilen durch Rust-basierte Werkzeuge
@@ -22,14 +22,14 @@ Praktischerweise passen diese beiden Umbrüche perfekt zusammen.
 
 Mein Ziel ist also, erst diese neuen Rust-basierten Werkzeuge vorzustellen und
 dann zu zeigen, wie sie in der KI-getriebenen Entwicklung helfen können. Ich
-schaue mir vier+ dieser Werkzeuge an, und zwar nicht abstrakt, sondern anhand
-eines realen FastAPI-Projekt-Templates: `uv`, `ruff`, `ty` und `prek` (+weitere
+schaue mir vier+ dieser Werkzeuge an, und zwar anhand eines realen
+FastAPI-Projekt-Templates: `uv`, `ruff`, `ty` und `prek` (+weitere
 Mini-Tools).
 
 In **Teil 1 (dieser hier)** geht es um das Fundament: **`uv`**.
 
 
-### Das Problem, dass ich sehe: fünf Tools für eine Aufgabe
+### Das Problem, das ich sehe: fünf Tools für eine Aufgabe
 
 Wer bisher ein Python-Projekt sauber aufsetzen wollte, brauchte einen ganzen
 Werkzeugkasten:
@@ -42,15 +42,15 @@ Werkzeugkasten:
 
 Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigene
 Konfigurationstypen), eigene Eigenheiten und eigene Fehlerquellen. Das Ergebnis
-ist: "Works on my machine". Gratis dazu: eine CI-Pipeline, die Minuten mit dem
-Auflösen von Abhängigkeiten verbringt.
+ist: „Works on my machine“. Gratis dazu gibt es eine CI-Pipeline, die Minuten
+mit dem Auflösen von Abhängigkeiten verbringt.
 
 
 ### Die Lösung: uv, ein einzelnes Binary
 
 `uv` ersetzt den kompletten Stack durch ein einziges Rust-Binary. Es ist
 Paket-Installer, Environment-Manager, Dependency-Resolver und
-Python-Versions-Manager in einem. Das Beste: es ist dabei um Größenordnungen schneller.
+Python-Versions-Manager in einem. Und es ist dabei um Größenordnungen schneller.
 
 Installation geht flott:
 
@@ -88,7 +88,7 @@ Datei mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
 bei Bedarf einfach herunter. `pyenv` wird damit überflüssig.
 
 
-### Dependency Groups statt requirements-Wildwuchs
+### Dependency Groups bändigen den requirements-Wildwuchs
 
 Statt `requirements.txt`, `requirements-dev.txt` und `requirements-test.txt`
 definiert mein Template alles in der `pyproject.toml`, mit dem Standard für
@@ -174,8 +174,7 @@ Caching in einem Schritt:
 
 `uv` braucht weniger Konfiguration als der alte Stack und ist trotzdem
 deutlich schneller. Es ist der Grund, warum alle folgenden Teile dieser Serie
-mit `uv run ...` beginnen. Damit werden Python-Entwicklung, CI, CD u. v. m.
-schneller.
+mit `uv run ...` beginnen.
 
 Bonusfeature: [Scripts mit Inline-Dependencies](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies)
 laufen lassen. Perfekt für DevOps und Ähnliches. :)
