@@ -47,7 +47,7 @@ helloWorldString = "Hello Moon!"; // Fehler! Wir können uns auf den Inhalt verl
 
 Im oberen Beispiel ändert sich der Inhalt der Variable und es wird schwerer vorherzusagen, was drin steckt.
 
-> „Aber was ist mit Zählervariablen? Ich muss doch ständig zählen!"
+> „Aber was ist mit Zählervariablen? Ich muss doch ständig zählen!“
 
 Richtig. Aufgedröselt:
 
@@ -56,7 +56,7 @@ Richtig. Aufgedröselt:
 - veränderliche Variablen **möglichst** vermeiden
 - wenn veränderliche Variablen die Lesbarkeit verbessern oder die einzige sinnvolle Option sind (sehr selten): **dann verwenden**
 
-Mit „selten" meine ich, dass TypeScript/JavaScript uns in vielen Fällen einen Weg bietet, Zählervariablen zu vermeiden:
+Mit „selten“ meine ich, dass TypeScript/JavaScript uns in vielen Fällen einen Weg bietet, Zählervariablen zu vermeiden:
 
 ```typescript
 let uppercaseNames = [];

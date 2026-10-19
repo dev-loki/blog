@@ -13,7 +13,7 @@ tags = ["typescript", "clean-code"]
 - Use const over let
 - Make your variables immutable as often as possible
 
-I will teach you about how useful immutability is and how to leverage it in typescript (but similar concepts apply to other languages as well).
+I will teach you about how useful immutability is and how to use it in typescript (but similar concepts apply to other languages as well).
 
 ## What is immutability?
 
