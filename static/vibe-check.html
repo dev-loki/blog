@@ -351,12 +351,11 @@ footer a:hover { color: var(--fg); }
    there is no margin to tumble in or where motion was asked off. ── */
 .mascot {
   position: fixed; top: 0; right: .9rem; z-index: 15;
-  width: 34px; height: 34px; padding: 4px;
-  color: var(--fg-dim); background: var(--bg-soft);
-  border: 1px solid var(--rule); border-radius: 50%;
-  pointer-events: none;
+  width: 42px; pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(0,0,0,.35));
 }
-.mascot svg { width: 100%; height: 100%; display: block; }
+html[data-theme="dark"] .mascot { filter: drop-shadow(0 0 6px rgba(230,230,230,.3)); }
+.mascot img { width: 100%; height: auto; display: block; }
 @media (max-width: 900px), (prefers-reduced-motion: reduce) { .mascot { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -370,14 +369,7 @@ footer a:hover { color: var(--fg); }
 <a class="skip" href="#main"><span lang="de">Zum Inhalt springen</span><span lang="en">Skip to content</span></a>
 
 <div class="mascot" id="mascot" aria-hidden="true">
-  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-    <path d="M11.5 11.5 C7.5 11 3.8 8.2 3 3.4 C2.85 2.5 3.7 2.2 4.2 2.9 C6.3 6.2 8.4 7.9 11.6 8.6 C12.7 8.85 12.6 11.3 11.5 11.5 Z"/>
-    <path d="M20.5 11.5 C24.5 11 28.2 8.2 29 3.4 C29.15 2.5 28.3 2.2 27.8 2.9 C25.7 6.2 23.6 7.9 20.4 8.6 C19.3 8.85 19.4 11.3 20.5 11.5 Z"/>
-    <path d="M16 8 C9.9 8 6 12.4 6 18.2 L26 18.2 C26 12.4 22.1 8 16 8 Z"/>
-    <rect x="5.5" y="17.6" width="21" height="3.6" rx="1.7"/>
-    <circle cx="9.5" cy="19.4" r="0.8"/><circle cx="16" cy="19.4" r="0.8"/><circle cx="22.5" cy="19.4" r="0.8"/>
-    <path d="M14.8 20.8 L17.2 20.8 L16.8 24.6 C16.8 25.4 15.2 25.4 15.2 24.6 Z"/>
-  </svg>
+  <img src="data:image/png;base64,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" alt="" width="96" height="126">
 </div>
 
 <div class="term">
@@ -414,12 +406,8 @@ footer a:hover { color: var(--fg); }
         <span lang="en">Your model wrote it.<br><span class="dim">Somebody should read it.</span></span>
       </h1>
       <p class="lede">
-        <span lang="de">Dein Agent hat den Code geschrieben, und er ist schlecht darin, sich selbst zu widersprechen. Ich habe die immer gleichen Muster oft genug gesehen, um schnell zu sagen, was davon wirklich zählt. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach weiterfährt.</span>
-        <span lang="en">Your agent wrote the code, and it is bad at contradicting itself. I have seen the same patterns often enough to tell quickly what actually matters. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps the checks running afterwards.</span>
-      </p>
-      <p class="dim sm">
-        <span lang="de">Das mache ich informell schon länger, für Leute, die gefragt haben. Jetzt gibt es einen Preis dafür.</span>
-        <span lang="en">I have been doing this informally for a while, for people who asked. Now there is a price on it.</span>
+        <span lang="de">Ich habe die immer gleichen Muster oft genug gesehen, um schnell zu sagen, was davon wirklich zählt. Du bekommst einen Report, <b>Fix-Prompts für jeden Fund</b> und ein Harness, das die Checks danach weiterfährt.</span>
+        <span lang="en">I have seen the same patterns often enough to tell quickly what actually matters. You get a report, <b>fix prompts for every finding</b>, and a harness that keeps the checks running afterwards.</span>
       </p>
 
       <div class="box" style="margin-top:1.4rem">
@@ -427,10 +415,10 @@ footer a:hover { color: var(--fg); }
         <div class="log" id="log">
           <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">read-only snapshot</span><span lang="en">read-only snapshot</span></span><span class="val o">ok</span></div>
           <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">stack erkannt</span><span lang="en">stack detected</span></span><span class="val">python · typescript · docker</span></div>
-          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">architekturgrenzen</span><span lang="en">architecture boundaries</span></span><span class="val w">3 verletzt</span></div>
-          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">performance-pfade</span><span lang="en">performance paths</span></span><span class="val w">6 n+1-queries</span></div>
-          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">security-basics, owasp top 10</span><span lang="en">security basics, owasp top 10</span></span><span class="val c">14 funde</span></div>
-          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">secrets im verlauf</span><span lang="en">secrets in history</span></span><span class="val c">1 gültig</span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">architekturgrenzen</span><span lang="en">architecture boundaries</span></span><span class="val w"><span lang="de">3 verletzt</span><span lang="en">3 violated</span></span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">performance-pfade</span><span lang="en">performance paths</span></span><span class="val w"><span lang="de">6 n+1-queries</span><span lang="en">6 n+1 queries</span></span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">security-basics, owasp top 10</span><span lang="en">security basics, owasp top 10</span></span><span class="val c"><span lang="de">14 funde</span><span lang="en">14 findings</span></span></div>
+          <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">secrets im verlauf</span><span lang="en">secrets in history</span></span><span class="val c"><span lang="de">1 gültig</span><span lang="en">1 valid</span></span></div>
           <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">testverhältnis</span><span lang="en">test ratio</span></span><span class="val w">0.04</span></div>
           <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">report + fix-prompts</span><span lang="en">report + fix prompts</span></span><span class="val o">23</span></div>
           <div class="row"><span class="lbl">»</span><span class="lead"><span lang="de">harness konfiguriert</span><span lang="en">harness configured</span></span><span class="val o">ok</span></div>
@@ -455,12 +443,8 @@ footer a:hover { color: var(--fg); }
       <p class="pr faint"><span class="host">loki@dev:~$</span> <span class="cmd">whoami --target</span></p>
       <h2><span lang="de">für wen</span><span lang="en">who it is for</span></h2>
       <p>
-        <span lang="de">Teams, die mit Claude Code, Cursor, Copilot oder Codex schnell etwas gebaut haben und vor dem Launch wissen wollen, wo es weh tut. Prototypen, die zu Produkten geworden sind. Codebases, in denen seit Monaten niemand mehr systematisch gelesen hat, was das Modell abgeliefert hat.</span>
-        <span lang="en">Teams who built something fast with Claude Code, Cursor, Copilot or Codex and want to know where it hurts before launch. Prototypes that turned into products. Codebases where nobody has systematically read what the model shipped in months.</span>
-      </p>
-      <p class="dim">
-        <span lang="de">Wenn dein Code seit fünf Jahren von einem eingespielten Team gepflegt wird und du eine ISO-27001-Zertifizierung brauchst, bin ich der falsche Ansprechpartner. Schreib es mir trotzdem, dann sage ich dir, wen du stattdessen brauchst.</span>
-        <span lang="en">If your code has been maintained by a settled team for five years and you need an ISO 27001 certification, I am the wrong person. Write to me anyway and I will tell you who you actually need.</span>
+        <span lang="de">Teams, die mit Claude Code, Cursor, Lovable, Copilot oder Codex schnell etwas gebaut haben und vor dem Launch wissen wollen, wo es weh tut. Prototypen, die zu Produkten geworden sind. Codebases, in denen seit Monaten niemand mehr systematisch gelesen hat, was das Modell abgeliefert hat.</span>
+        <span lang="en">Teams who built something fast with Claude Code, Cursor, Lovable, Copilot or Codex and want to know where it hurts before launch. Prototypes that turned into products. Codebases where nobody has systematically read what the model shipped in months.</span>
       </p>
     </section>
 
