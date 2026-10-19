@@ -20,14 +20,14 @@ vertrauenswürdig(er) macht.
 
 ### Warum ein Agent Leitplanken braucht
 
-Ein KI-Agent schreibt in Sekunden plausibel aussehenden Code. Plausibel heißt
-aber nicht korrekt: Er erfindet APIs, übersieht `None`/`null`-Fälle, ignoriert die
+Ein KI-Agent schreibt in Sekunden plausibel aussehenden Code. Oft ist der
+trotzdem falsch: Der Agent erfindet APIs, übersieht `None`/`null`-Fälle, ignoriert die
 Architekturgrenzen des Projekts oder baut sich eben mal eine neue Abhängigkeit
 ein. Wer das alles per Hand reviewen will, hat den Geschwindigkeitsgewinn sofort
 wieder verloren.
 
-Statt dem Agenten mehr zu vertrauen, gebe ich ihm eine Umgebung, in der Fehler
-sofort und deterministisch auffallen. Genau dafür habe ich die Toolchain ohnehin
+Deshalb gebe ich ihm eine Umgebung, in der Fehler sofort und deterministisch
+auffallen. Genau dafür habe ich die Toolchain ohnehin
 schon aufgebaut (und auch vor KI schon so genutzt).
 
 
@@ -50,12 +50,13 @@ häufiger und schneller durchläuft.
 
 ### Warum Geschwindigkeit zur Grundvoraussetzung wird
 
-In den bisherigen Teilen war Geschwindigkeit "nur" Komfort. Beim Agenten wird
+In den bisherigen Teilen war Geschwindigkeit „nur“ Komfort. Beim Agenten wird
 sie zur Grundvoraussetzung. Ein Check, der 30 Sekunden dauert, killt eine
 Agenten-Schleife genauso wie meine eigene, nur dass der Agent vielleicht
 zwanzigmal pro Minute prüfen will. Erst weil `ruff` und `ty` im
-Millisekundenbereich antworten, kann der Agent eng iterieren, statt nach jedem
-Schritt minutenlang zu warten oder, schlimmer, die Checks ganz zu überspringen.
+Millisekundenbereich antworten, kann der Agent eng iterieren. Bei langsamen
+Checks wartet er nach jedem Schritt minutenlang oder, schlimmer, überspringt
+sie ganz.
 
 
 ### Das Korsett: Regeln, die der Agent nicht umgehen kann
@@ -66,7 +67,7 @@ und die Architekturregeln aus [Teil 4](@/blog/2026-07-20_modern-tooling-part-4-p
 sind für einen Agenten wertvoller als für mich: Sie schreiben die Form des
 Projekts fest. Der Agent darf produktiv sein, aber nur innerhalb dieser Form.
 
-Und es ist nicht verhandelbar: Der Pre-Commit-Hook blockt schlechten Code,
+Verhandeln lässt sich darüber nicht. Der Pre-Commit-Hook blockt schlechten Code,
 bevor er in die Historie kommt, und die CI fängt den Rest (auch das
 `--no-verify` eines übermotivierten Agenten). Der Agent kann noch so überzeugt
 argumentieren, der rote Check bleibt rot.
@@ -74,11 +75,9 @@ argumentieren, der rote Check bleibt rot.
 
 ### Fazit
 
-Dass die beiden Umbrüche aus Teil 1 zeitgleich passieren, ist kein Zufall. Eine
-schnelle, strikte, deterministische Toolchain ist die Voraussetzung dafür, dass
+Die beiden Umbrüche aus Teil 1 hängen zusammen. Eine schnelle, strikte, deterministische Toolchain ist die Voraussetzung dafür, dass
 KI-gestützte Entwicklung nicht in einem Berg plausibler, aber kaputter Diffs
-endet. Die Werkzeuge, die mir die Arbeit erleichtern, sind dieselben, die einen
-Agenten in der Spur halten.
+endet.
 
 ---
 

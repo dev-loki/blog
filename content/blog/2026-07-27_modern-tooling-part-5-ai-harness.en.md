@@ -19,12 +19,12 @@ are also the corset that makes an AI agent productive and (more) trustworthy.
 
 ### Why an agent needs guardrails
 
-An AI agent writes plausible-looking code in seconds. Plausible doesn't mean
-correct, though: it invents APIs, misses `None`/`null` cases, ignores the
-project's architecture boundaries, or just pulls in a new dependency. Reviewing
-all of that by hand and the speed gain is gone immediately.
+An AI agent writes plausible-looking code in seconds. Often it's still
+wrong: it invents APIs, misses `None`/`null` cases, ignores the
+project's architecture boundaries, or just pulls in a new dependency. Review all
+of that by hand and the speed gain is gone immediately.
 
-Instead of trusting the agent more, I give it an environment where mistakes show
+So I give it an environment where mistakes show
 up instantly and deterministically. I'd built the toolchain for exactly that
 anyway (and used it this way long before AI).
 
@@ -51,8 +51,8 @@ In the earlier parts, speed was "just" comfort. With an agent it becomes a
 prerequisite. A check that takes 30 seconds kills an agent's loop the same way it
 kills mine, except the agent might want to check twenty times a minute. Only
 because `ruff` and `ty` answer in the millisecond range can the agent iterate
-tightly, instead of waiting minutes after every step or, worse, skipping the
-checks entirely.
+tightly. With slow checks it waits minutes after every step or, worse, skips
+them entirely.
 
 
 ### The corset: rules the agent can't get around
@@ -63,7 +63,7 @@ and the architecture rules from [Part 4](@/blog/2026-07-20_modern-tooling-part-4
 are more valuable for an agent than for me: they fix the shape of the project.
 The agent is free to be productive, but only within that shape.
 
-And it's not negotiable: the pre-commit hook blocks bad code before it reaches
+There's no negotiating with it. The pre-commit hook blocks bad code before it reaches
 the history, and CI catches the rest (including the `--no-verify` of an
 over-eager agent). The agent can argue as convincingly as it likes, the red
 check stays red.
@@ -71,10 +71,8 @@ check stays red.
 
 ### Conclusion
 
-That the two upheavals from Part 1 happen at the same time is no coincidence. A
-fast, strict, deterministic toolchain is the precondition for AI-assisted
-development not ending in a pile of plausible but broken diffs. The tools that
-make my work easier are the same ones that keep an agent on track.
+The two upheavals from Part 1 belong together. A fast, strict, deterministic toolchain is the precondition for AI-assisted
+development not ending in a pile of plausible but broken diffs.
 
 ---
 
