@@ -19,8 +19,7 @@ I really got into type checking back in the PHP days, through phpstan/psalm. It
 felt like the validation I knew from other languages was finally arriving in the
 scripting languages too. YES: it's a bit more work, and of course arrays (PHP)
 or lists aren't quite as flexible anymore. But throwing everything in there was
-never a good idea anyway. So for me type checkers enforced sensible behaviour
-instead of applying random rules that make my life hard.
+never a good idea anyway. So for me type checkers enforced sensible behaviour.
 
 The main reason for me, though, is that type checkers in scripting languages
 simply wipe out entire categories of bugs. Combined with linters, you should
@@ -48,7 +47,7 @@ class ItemRepository(ABC):
 A type checker makes sure every adapter fulfils this contract exactly, and that
 nobody forgets to handle the `None` case of `by_id`.
 
-The problem was never the value, but the price: `mypy` gets noticeably slow on
+The catch was always the price: `mypy` gets noticeably slow on
 growing codebases. And a check that takes 30 seconds stops being run locally, it
 moves into CI, and type errors only surface after the push. Exactly the
 feedback-loop problem that `ruff` solved for linting still existed for type
@@ -81,8 +80,8 @@ prevented commit or merge.
 ### My type discipline
 
 Important for context: the rule that every function, variable and class must be
-fully typed and that `Any` stays the absolute exception is not a property of
-`ty`, but a **project rule** of my template. `ty` is the tool that makes it
+fully typed and that `Any` stays the absolute exception is a **project rule**
+of my template. `ty` is the tool that makes it
 enforceable, together with `ruff`'s
 [`ANN` rules that flag missing annotations](https://docs.astral.sh/ruff/rules/#flake8-annotations-ann).
 
@@ -105,7 +104,7 @@ Nice :).
 
 ### In the editor
 
-`ty` is not just a CLI tool, it ships its own language server: autocompletion,
+`ty` also ships its own language server: autocompletion,
 hover, go-to-definition and auto-imports, all at `ty` speed.
 
 **VS Code:** There's an official
@@ -141,9 +140,9 @@ elaborate `mypy` plugin setups should weigh the switch consciously, though:
 
 ### Conclusion
 
-The real win of `ty` is not the better analysis, but a type checker that runs
-fast: locally, on every commit, without anyone having to wait. Type discipline
-only sticks when the feedback is fast, and that's exactly what `ty` delivers.
+The real win of `ty` is a type checker that runs fast: locally, on every
+commit, without anyone having to wait. Type discipline only sticks when the
+feedback is fast.
 
 ---
 

@@ -21,8 +21,7 @@ gekommen. Das fühlte sich an, als käme die Validierung, die ich aus anderen
 Sprachen kannte, endlich auch in den Scriptsprachen an. JA: Es ist etwas mehr
 Arbeit, und natürlich sind Arrays (PHP) bzw. Listen nicht mehr ganz so flexibel.
 Einfach alles reinschmeißen ist aber ohnehin keine gute Idee. Für mich haben
-Typechecker also sinnvolles Verhalten erzwungen, statt zufällig Regeln
-anzuwenden, die mir das Leben schwer machen.
+Typechecker also sinnvolles Verhalten erzwungen.
 
 Der Hauptgrund für mich ist aber, dass Typechecker in Scriptsprachen einfach
 komplette Kategorien an Fehlern auslöschen. In Kombination mit Lintern sollte
@@ -50,7 +49,7 @@ class ItemRepository(ABC):
 Ein Type Checker stellt sicher, dass jeder Adapter diesen Vertrag exakt
 erfüllt, und dass niemand vergisst, den `None`-Fall von `by_id` zu behandeln.
 
-Das Problem war nie der Nutzen, sondern der Preis: `mypy` wird auf wachsenden
+Der Haken war immer der Preis: `mypy` wird auf wachsenden
 Codebasen spürbar langsam. Und ein Check, der 30 Sekunden dauert, wird lokal
 nicht mehr ausgeführt, er wandert in die CI, und Typfehler fallen erst nach
 dem Push auf. Genau das Feedback-Loop-Problem, das `ruff` fürs Linting gelöst
@@ -84,8 +83,8 @@ verhinderter Commit oder Merge.
 ### Meine Typdisziplin
 
 Wichtig zur Einordnung: Dass jede Funktion, Variable und Klasse vollständig
-typisiert sein muss und `Any` die absolute Ausnahme bleibt, ist keine
-Eigenschaft von `ty`, sondern eine **Projektregel** meines Templates. `ty` ist
+typisiert sein muss und `Any` die absolute Ausnahme bleibt, ist eine
+**Projektregel** meines Templates. `ty` ist
 das Werkzeug, das sie durchsetzbar macht, gemeinsam mit den `ANN`-Regeln von
 `ruff`, [die fehlende Annotationen anmahnen](https://docs.astral.sh/ruff/rules/#flake8-annotations-ann).
 
@@ -108,7 +107,7 @@ den Voll-Check bei jedem Commit leisten. Nice :).
 
 ### Im Editor
 
-`ty` ist nicht nur ein CLI-Tool, sondern bringt einen eigenen Language Server
+`ty` bringt neben dem CLI auch einen eigenen Language Server
 mit: Autocompletion, Hover, Go-to-Definition und Auto-Imports, alles in
 `ty`-Geschwindigkeit.
 
@@ -147,10 +146,9 @@ abwägen: `mypy` ist bei der Regelabdeckung aktuell noch ausgefeilter.
 
 ### Fazit
 
-Der eigentliche Gewinn von `ty` ist nicht die bessere Analyse, sondern ein Type
-Checker, der flott läuft: lokal, bei jedem Commit, ohne dass man warten muss.
-Typdisziplin hält man nur durch, wenn das Feedback schnell kommt, und genau das
-liefert `ty`.
+Der eigentliche Gewinn von `ty` ist ein Type Checker, der flott läuft: lokal,
+bei jedem Commit, ohne dass man warten muss. Typdisziplin hält man nur durch,
+wenn das Feedback schnell kommt.
 
 ---
 
