@@ -40,7 +40,7 @@ Werkzeugkasten:
 * `pip-tools`, `pip freeze` (oder `poetry`), um Abhängigkeiten zu locken
 * dazu das `source .venv/bin/activate`-Ritual (gerne auch automatisiert via zsh/bash script)
 
-Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigene
+Jedes dieser Tools hat eine eigene Konfiguration (inklusive eigener
 Konfigurationstypen), eigene Eigenheiten und eigene Fehlerquellen. Das Ergebnis
 ist: „Works on my machine“. Gratis dazu gibt es eine CI-Pipeline, die Minuten
 mit dem Auflösen von Abhängigkeiten verbringt.
@@ -82,9 +82,9 @@ uv run pytest
 Es gibt also kein `activate` mehr. `uv run` sorgt selbst dafür, dass der Befehl
 in der richtigen Umgebung läuft und dass diese Umgebung mit dem Lockfile
 übereinstimmt. Ist sie es nicht, synchronisiert `uv` sie vorher automatisch.
-Via `uv venv` (optional mit `--python 314`) kann man auch getrennt eine `venv`
-Umgebung erstellen. Alternativ kann man im Projekt eine `.python-version`
-Datei mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
+Via `uv venv` (optional mit `--python 314`) kann man auch getrennt eine `venv`-Umgebung
+erstellen. Alternativ kann man im Projekt eine `.python-version`-Datei
+mit dem Inhalt `3.14` anlegen. Dann lädt `uv` den passenden Interpreter
 bei Bedarf einfach herunter. `pyenv` wird damit überflüssig.
 
 
