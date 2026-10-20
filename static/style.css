@@ -380,3 +380,6 @@ h1 { font-size: clamp(1.25rem, 3vw, 1.75rem); margin: 0 0 1rem; }
 .terminal-line.error    { opacity: 0.6; }
 
 .youtube iframe { width: 100%; aspect-ratio: 16/9; border: 0; }
+
+.post-content img { display: block; max-width: 100%; height: auto; }
+.post-content figure.diagram { margin: 1.5rem 0; max-width: 640px; }
