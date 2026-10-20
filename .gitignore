@@ -8,3 +8,8 @@ public
 # build references it; the history before the removal has it if it is ever
 # needed.
 backup/
+.DS_Store
+
+# Local notes, never published
+topics.md
+vibe-check-INTERNAL-COOKBOOK.md
