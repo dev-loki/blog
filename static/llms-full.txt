@@ -177,7 +177,7 @@ Dazu ein paar Regeln, die ich ziemlich ernst meine:
 - PRs bleiben klein. Google hält etwa 100 Zeilen für vernünftig und 1.000 für
   zu viel. Ich starte mit einer weichen Grenze bei rund 400 Zeilen.
 
-## Das Ticket ist der halbe Review
+## Mist rein, Mist raus
 
 Ein Agent arbeitet nur so gut wie das Ticket, das er bekommt. Bei Menschen war
 das übrigens nie anders. Neu ist, dass die meisten Modelle nicht von selbst

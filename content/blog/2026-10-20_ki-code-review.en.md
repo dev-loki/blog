@@ -164,7 +164,7 @@ Plus a few rules I mean quite seriously:
 - PRs stay small. Google calls about 100 lines reasonable and 1,000 too much.
   I start with a soft limit of around 400 lines.
 
-## The ticket is half the review
+## Garbage in, garbage out
 
 An agent works only as well as the ticket it gets. That was never different
 for humans. What is new is that most models do not notice on their own when
