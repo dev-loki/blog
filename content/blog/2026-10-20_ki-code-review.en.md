@@ -1,6 +1,7 @@
 +++
 title = "Who actually reviews the code the AI writes?"
 date = "2026-10-20T09:00:00Z"
+updated = "2026-10-20T14:00:00Z"
 description = "Agents now write a big chunk of our code. What the 2025 and 2026 studies say about review, knowledge and security, and how I would set up pull requests now."
 [taxonomies]
 tags = ["ki", "clean-code"]
@@ -42,6 +43,19 @@ the gap has only widened since then. The agents write faster, and reading
 still happens at the same speed.
 
 The bottleneck has moved from typing to reading.
+
+I am clearly not alone with this. There is an
+[Ask HN with hundreds of comments](https://news.ycombinator.com/item?id=50151036) right now on how to deal with
+shipping AI-written code you do not understand. It started with a Meta
+engineer whose own code now feels like a black box to them. A senior engineer
+with ten years of experience writes there that nobody can seriously review
+thousands of changed lines a week, and sums up their daily routine like this:
+
+> "I just approve PRs, because I have to."
+
+That is exactly where I do not want to end up. By the way, the top answer in
+the thread is pretty much my station 1 further down: the human does the
+design, the agent only fills in the gaps.
 
 ## Three things that worry me
 

@@ -1,6 +1,7 @@
 +++
 title = "Wer reviewt eigentlich den Code, den die KI schreibt?"
 date = "2026-10-20T09:00:00Z"
+updated = "2026-10-20T14:00:00Z"
 description = "Agenten schreiben inzwischen einen großen Teil unseres Codes. Was die Studien von 2025 und 2026 über Review, Wissen und Sicherheit sagen, und wie ich Pull Requests jetzt aufbauen würde."
 [taxonomies]
 tags = ["ki", "clean-code"]
@@ -41,6 +42,20 @@ allerdings, dass sich die Schere seitdem eher weiter geöffnet hat. Die
 Agenten schreiben schneller, gelesen wird immer noch im selben Tempo.
 
 Der Flaschenhals ist also vom Tippen zum Lesen gewandert.
+
+Dass ich damit nicht allein bin, zeigt gerade ein
+[Ask HN mit Hunderten Kommentaren](https://news.ycombinator.com/item?id=50151036) zur Frage, wie man mit KI-Code
+umgeht, den man selbst nicht versteht. Auslöser war ein Meta-Engineer, dem
+sein eigener Code inzwischen wie eine Blackbox vorkommt. Ein Senior-Entwickler
+mit zehn Jahren Erfahrung schreibt dort, dass bei Tausenden geänderten Zeilen
+pro Woche niemand mehr ernsthaft reviewen kann, und fasst den eigenen Alltag so
+zusammen:
+
+> "I just approve PRs, because I have to."
+
+Genau da will ich nicht landen. Die Antwort ganz oben im Thread ist übrigens
+ziemlich genau meine Station 1 weiter unten: Das Design macht der Mensch, der
+Agent füllt nur die Lücken.
 
 ## Drei Sorgen, die ich habe
 

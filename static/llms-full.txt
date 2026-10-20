@@ -50,6 +50,20 @@ Agenten schreiben schneller, gelesen wird immer noch im selben Tempo.
 
 Der Flaschenhals ist also vom Tippen zum Lesen gewandert.
 
+Dass ich damit nicht allein bin, zeigt gerade ein
+[Ask HN mit Hunderten Kommentaren](https://news.ycombinator.com/item?id=50151036) zur Frage, wie man mit KI-Code
+umgeht, den man selbst nicht versteht. Auslöser war ein Meta-Engineer, dem
+sein eigener Code inzwischen wie eine Blackbox vorkommt. Ein Senior-Entwickler
+mit zehn Jahren Erfahrung schreibt dort, dass bei Tausenden geänderten Zeilen
+pro Woche niemand mehr ernsthaft reviewen kann, und fasst den eigenen Alltag so
+zusammen:
+
+> "I just approve PRs, because I have to."
+
+Genau da will ich nicht landen. Die Antwort ganz oben im Thread ist übrigens
+ziemlich genau meine Station 1 weiter unten: Das Design macht der Mensch, der
+Agent füllt nur die Lücken.
+
 ## Drei Sorgen, die ich habe
 
 **1. Wir verlieren das Verständnis für unseren eigenen Code.** Peter Naur hat
