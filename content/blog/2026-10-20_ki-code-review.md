@@ -2,7 +2,6 @@
 title = "Wer reviewt eigentlich den Code, den die KI schreibt?"
 date = "2026-10-20T09:00:00Z"
 description = "Agenten schreiben inzwischen einen großen Teil unseres Codes. Was die Studien von 2025 und 2026 über Review, Wissen und Sicherheit sagen, und wie ich Pull Requests jetzt aufbauen würde."
-draft = true
 [taxonomies]
 tags = ["ki", "clean-code"]
 +++

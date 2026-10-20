@@ -2,7 +2,6 @@
 title = "Who actually reviews the code the AI writes?"
 date = "2026-10-20T09:00:00Z"
 description = "Agents now write a big chunk of our code. What the 2025 and 2026 studies say about review, knowledge and security, and how I would set up pull requests now."
-draft = true
 [taxonomies]
 tags = ["ki", "clean-code"]
 +++
@@ -185,7 +184,7 @@ And this one matters: decisions go into the ticket or an ADR when they are
 made. Chat logs and agent sessions disappear at some point, and the reasoning
 with them.
 
-## Bottom line
+## Conclusion
 
 One sentence that never counts as an answer in a post-mortem: "The AI wrote
 it." Neither does "Another AI reviewed it." The tools can write as much as they
