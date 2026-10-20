@@ -10,6 +10,7 @@ Source: https://loki.dev  |  Built with Zola.
 
 ## Blog
 
+- [Wer reviewt eigentlich den Code, den die KI schreibt?](https://loki.dev/blog/ki-code-review/): Agenten schreiben inzwischen einen großen Teil unseres Codes. Was die Studien von 2025 und 2026 über Review, Wissen und Sicherheit sagen, und wie ich Pull Requests jetzt aufbauen würde.
 - [Brooks' Gesetz, jetzt mit Agenten](https://loki.dev/blog/brooks-law/): Ein Termin wird viel zu spät festgezogen, und von oben kommt der Vorschlag, mehr Leute draufzusetzen. Warum das seit 1975 nicht funktioniert.
 - [Moderne Werkzeuge Teil 5: Die Toolchain als Korsett für KI-Agenten](https://loki.dev/blog/modern-tooling-part-5-ai-harness/): Wie die schnelle, strikte Toolchain aus uv, ruff, ty und prek zum Korsett für KI-Agenten wird: deterministisches Feedback, das produktiven und vertrauenswürdigen Agenten-Code erst möglich macht.
 - [Moderne Werkzeuge Teil 3: Die Zukunft des Type Checkings mit ty](https://loki.dev/blog/modern-tooling-part-3-ty/): Astrals Type Checker ty im Praxiseinsatz: Warum Geschwindigkeit über Typdisziplin entscheidet, und wo der Early-Adopter-Preis liegt.
