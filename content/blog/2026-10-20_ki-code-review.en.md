@@ -200,12 +200,14 @@ with them.
 
 ## Conclusion
 
-One sentence that never counts as an answer in a post-mortem: "The AI wrote
-it." Neither does "Another AI reviewed it." The tools can write as much as they
-like. A human has to understand it and sign it.
+I can already guarantee that this will not fly in a post-mortem: "The AI
+wrote it". "Another AI reviewed it" will not work either.
 
-I have proposed this approach to my team, and hopefully we will try it over
-the next few weeks. With numbers before and after: review time, PR size,
+For me that means: the tools can write as much as they like. A human has to
+understand it and sign it.
+
+I am in the middle of proposing this approach to my team, and hopefully we
+will try it over the next few weeks. With numbers before and after: review time, PR size,
 defects after merge and whether a second engineer can explain a critical
 change. Once there are results, I will write about them.
 

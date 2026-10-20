@@ -205,15 +205,17 @@ Begründung gleich mit.
 
 ## Fazit
 
-Ein Satz, der in keinem Post-Mortem als Antwort durchgeht: "Das hat die KI
-geschrieben." Genauso wenig "Eine andere KI hat's reviewt." Die Werkzeuge
-dürfen so viel schreiben, wie sie wollen. Verstehen und unterschreiben muss es
-ein Mensch.
+Ich kann schonmal garantieren, dass folgendes in einem Post-Mortem nicht
+klappen wird: "Das hat die KI geschrieben". Genauso wenig wird "Eine andere KI
+hat's reviewt" funktionieren.
 
-Ich habe das Vorgehen meinem Team vorgeschlagen, und wir probieren es
-hoffentlich die nächsten Wochen aus. Mit Zahlen vorher und nachher:
-Review-Zeit, PR-Größe, Fehler nach dem Merge und ob ein zweiter Entwickler
-eine kritische Änderung erklären kann. Wenn es Ergebnisse gibt, schreibe ich
+Das heißt für mich: Die Werkzeuge dürfen so viel schreiben, wie sie wollen.
+Verstehen und unterschreiben muss es ein Mensch.
+
+Ich bin gerade dabei, das Vorgehen meinem Team vorzuschlagen, und wir probieren
+es hoffentlich die nächsten Wochen aus. Mit Zahlen vorher und nachher:
+Review-Zeit, PR-Größe, Fehler nach dem Merge und ob ein zweiter Entwickler eine
+kritische Änderung erklären kann. Wenn es Ergebnisse gibt, schreibe ich
 darüber.
 
 ## Quellen (Auswahl)
