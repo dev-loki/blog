@@ -10,6 +10,8 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0b0b">
 <script>!function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}()</script>
 <style>
   .lede { color: var(--fg-dim); margin: 0 0 1rem; }
@@ -49,6 +51,8 @@
   .text { margin: 0.25rem 0 0; }
   .low { text-decoration: underline dotted var(--fg-dim); text-underline-offset: 0.25em; }
   .pending { color: var(--fg-dim); }
+  .spk { font-weight: bold; cursor: text; border-bottom: 1px dotted var(--fg-dim); }
+  .spk:focus { outline: 2px solid var(--fg); outline-offset: 1px; }
   body.drop main { outline: 1px dashed var(--fg); outline-offset: 0.5rem; }
 </style>
 </head>
@@ -70,7 +74,7 @@
 
     <main id="main">
       <h1>whistle</h1>
-      <p class="lede">Speech-to-text with Cactus Whistle: a 17 MB model running as WebAssembly in a worker. The audio never leaves this tab, and after the first load it works offline too.</p>
+      <p class="lede">Speech-to-text with <a href="https://huggingface.co/Cactus-Compute/whistle" rel="noopener" target="_blank">Cactus Whistle</a>: a 17 MB model running as WebAssembly in a worker. The audio never leaves this tab, and after the first load it works offline too.</p>
       <p id="status" role="status">status: loading model (17 MB)…</p>
 
       <div class="ctl">
@@ -87,10 +91,24 @@
           </select>
         </label>
         <span id="mode" role="group" aria-label="mode">
-          <button class="btn" data-mode="clip" aria-pressed="true">[ clip ]</button>
-          <button class="btn" data-mode="live" aria-pressed="false">[ live ]</button>
+          <button class="btn" data-mode="clip" aria-pressed="false">[ clip ]</button>
+          <button class="btn" data-mode="live" aria-pressed="true">[ live ]</button>
         </span>
         <label><input type="checkbox" id="words" checked> word times</label>
+      </div>
+
+      <div class="ctl">
+        <button class="btn" id="spk" aria-pressed="false" aria-describedby="spkHint">[ speakers: load ~20 MB ]</button>
+        <span id="spkHint" class="hint" style="margin:0">who said what, offline</span>
+        <label id="spkN" hidden>count
+          <select id="nspk">
+            <option value="-1">auto</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
+        </label>
       </div>
 
       <details>
@@ -101,12 +119,14 @@
       <button id="rec" disabled>[ ● rec ]</button>
       <div id="meter"><i></i></div>
       <p id="clock">00:00.0</p>
-      <p class="hint">Space starts and stops. clip transcribes after stop, live while you speak.</p>
+      <p class="hint">Space starts and stops. live transcribes while you speak, clip after stop. [&nbsp;speakers&nbsp;] labels who talks once a recording or file is done; click a name to rename it.</p>
 
       <div class="ctl">
         <label class="btn file">[ open file… ]<input type="file" id="file" accept="audio/*,video/*"></label>
         <span class="hint" style="margin:0">or drop audio anywhere</span>
+        <button class="btn" id="copy">[ copy ]</button>
       </div>
+      <p class="hint">Dropped and opened files are decoded right here in the browser, nothing gets uploaded.</p>
 
       <div id="live" class="entry" hidden>
         <div id="liveMeta" class="meta">live</div>
@@ -121,6 +141,8 @@
         <a href="https://huggingface.co/Cactus-Compute/whistle" rel="noopener" target="_blank">whistle</a> and
         <a href="https://huggingface.co/Cactus-Compute/needle3" rel="noopener" target="_blank">needle</a>
         by Cactus Compute, <a href="vendor/LICENSE">Apache-2.0</a>
+        · speakers: <a href="https://github.com/k2-fsa/sherpa-onnx" rel="noopener" target="_blank">sherpa-onnx</a>,
+        pyannote, 3D-Speaker, <a href="vendor/sherpa/README.md">licenses</a>
         · <a href="/impressum/">impressum</a>
         · <a href="/datenschutz/">datenschutz</a>
       </div>
@@ -137,7 +159,7 @@
   const worker = new Worker('worker.js');
   const jobs = new Map();
   let nextId = 1;
-  let mode = 'clip';
+  let mode = 'live';
 
   function status(text, cls = '') {
     $('status').textContent = `${cls === 'err' ? 'error' : 'status'}: ${text}`;
@@ -153,15 +175,111 @@
     } else if (m.type === 'error') {
       status(m.message, 'err');
     } else if (m.type === 'result') {
-      const job = jobs.get(m.id);
-      jobs.delete(m.id);
-      addEntry(job.label, job.dur, m.out, m.out.words, m.ms);
-      idle();
+      Object.assign(jobs.get(m.id), { out: m.out, ms: m.ms });
+      finish(m.id);
     } else if (m.type === 'stream') {
       onStream(m.out);
     } else if (m.type === 'stream-end') {
       onStreamEnd(m.out);
     }
+  };
+
+  // --- speakers (second worker, loaded on first use) ---------------------------
+  let dia = null;
+  const spkOn = () => $('spk').getAttribute('aria-pressed') === 'true';
+  $('spk').onclick = () => {
+    const on = !spkOn();
+    $('spk').setAttribute('aria-pressed', on);
+    $('spkN').hidden = !on;
+    if (!on || dia) return;
+    $('spk').textContent = '[ speakers ]';
+    status('loading speaker models (~20 MB)…');
+    dia = new Worker('diarize.js');
+    dia.onmessage = ({ data: m }) => {
+      const job = jobs.get(m.id);
+      if (m.type === 'ready') {
+        status(`speakers ready · loaded in ${m.loadMs} ms`);
+      } else if (m.type === 'result') {
+        Object.assign(job, { segs: m.segs, spkMs: m.ms });
+        finish(m.id);
+      } else if (m.type === 'error') {
+        if (job) { job.spk = false; finish(m.id); }
+        status(`speakers: ${m.message}`, 'err');
+      }
+    };
+  };
+
+  // With speakers on, an entry waits for both workers.
+  function finish(id) {
+    const j = jobs.get(id);
+    if (j.out && !(j.spk && !j.segs)) {
+      jobs.delete(id);
+      addEntry(j.label, j.dur, j.out, j.out.words, j.ms, j.segs, j.spkMs);
+    }
+    idle();
+  }
+
+  // Each word goes to the speaker turn nearest its midpoint (0 = inside it); runs become "A: ..." lines.
+  function speakerLines(words, segs) {
+    const gap = (s, t) => Math.max(s.start - t, t - s.end, 0);
+    const names = new Map();
+    const runs = [];
+    for (const w of words) {
+      const t = (w.start + w.end) / 2;
+      const id = segs.reduce((a, b) => (gap(b, t) < gap(a, t) ? b : a)).speaker; // ponytail: O(words x turns), fine for an hour
+      if (!names.has(id)) names.set(id, String.fromCharCode(65 + names.size));
+      if (runs.at(-1)?.id !== id) runs.push({ id, words: [] });
+      runs.at(-1).words.push(w);
+    }
+    return runs.map((r) => {
+      const p = document.createElement('p');
+      p.className = 'text';
+      const name = document.createElement('span');
+      name.className = 'spk';
+      name.contentEditable = 'plaintext-only';
+      name.spellcheck = false;
+      name.dataset.spk = name.textContent = names.get(r.id);
+      name.setAttribute('aria-label', 'speaker name, editable');
+      const s = document.createElement('span');
+      renderWords(s, r.words);
+      p.append(name, ': ', s);
+      return p;
+    });
+  }
+
+  // A rename applies to every turn of that speaker in the same entry; Enter ends it, empty restores the letter.
+  $('results').addEventListener('input', ({ target: t }) => {
+    if (!t.dataset.spk) return;
+    for (const o of t.closest('.entry').querySelectorAll(`[data-spk="${t.dataset.spk}"]`)) if (o !== t) o.textContent = t.textContent;
+  });
+  $('results').addEventListener('keydown', (e) => {
+    if (e.target.dataset.spk && e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+  });
+  $('results').addEventListener('focusout', ({ target: t }) => {
+    if (!t.dataset.spk || t.textContent.trim()) return;
+    t.textContent = t.dataset.spk;
+    t.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+
+  // All entries as plain text, newest first like the list.
+  $('copy').onclick = async () => {
+    const text = [...document.querySelectorAll('#results .entry')]
+      .map((e) => [...e.querySelectorAll('.meta, .text')].map((x) => x.textContent.replace(/\s+/g, ' ').trim()).join('\n'))
+      .join('\n\n');
+    if (!text) return status('nothing to copy yet');
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {
+      // Embedded views can deny the clipboard permission; the old selection copy still works there.
+      const t = document.body.appendChild(document.createElement('textarea'));
+      t.value = text;
+      t.select();
+      const ok = document.execCommand('copy');
+      t.remove();
+      if (!ok) return status(`copy: ${e.message}`, 'err');
+    }
+    $('copy').textContent = '[ copied ]';
+    setTimeout(() => { $('copy').textContent = '[ copy ]'; }, 1500);
   };
 
   function concat(list) {
@@ -171,11 +289,19 @@
     return out;
   }
 
-  function transcribe(pcm, label) {
+  // Registers an entry; with speakers on, the whole recording also goes to the diarization worker.
+  function newJob(pcm, label) {
     const id = nextId++;
-    jobs.set(id, { label, dur: pcm.length / 16000 });
+    const spk = spkOn();
+    jobs.set(id, { label, dur: pcm.length / 16000, spk });
+    if (spk) dia.postMessage({ id, pcm, speakers: +$('nspk').value });
     idle();
-    worker.postMessage({ type: 'transcribe', id, pcm, ...opts(), words: $('words').checked });
+    return id;
+  }
+
+  function transcribe(pcm, label) {
+    const id = newJob(pcm, label);
+    worker.postMessage({ type: 'transcribe', id, pcm, ...opts(), words: $('words').checked || jobs.get(id).spk });
   }
 
   function renderWords(el, words, text) {
@@ -190,7 +316,7 @@
     }
   }
 
-  function addEntry(label, dur, out, words, ms) {
+  function addEntry(label, dur, out, words, ms, segs, spkMs) {
     const entry = document.createElement('div');
     entry.className = 'entry';
     const meta = document.createElement('div');
@@ -202,11 +328,16 @@
       out.language && `lang ${out.language}`,
       out.ttft_ms != null && `TTFT ${Math.round(out.ttft_ms)} ms`,
       out.decode_tps && `${Math.round(out.decode_tps)} tok/s`,
+      segs && `${new Set(segs.map((s) => s.speaker)).size} speakers in ${Math.round(spkMs)} ms`,
     ].filter(Boolean).join(' · ');
-    const p = document.createElement('p');
-    p.className = 'text';
-    renderWords(p, words, out.text || '(empty: silence or noise)');
-    entry.append(meta, p);
+    if (segs?.length && words?.length) {
+      entry.append(meta, ...speakerLines(words, segs));
+    } else {
+      const p = document.createElement('p');
+      p.className = 'text';
+      renderWords(p, words, out.text || '(empty: silence or noise)');
+      entry.append(meta, p);
+    }
     $('results').prepend(entry);
   }
 
@@ -263,7 +394,7 @@
     } else {
       if (r.qLen) worker.postMessage({ type: 'stream', pcm: concat(r.q), ...r.opts });
       worker.postMessage({ type: 'stop' });
-      stopping = { label, dur: pcm.length / 16000 };
+      stopping = newJob(pcm, `${label} (live)`);
     }
   }
 
@@ -291,12 +422,13 @@
 
   function onStreamEnd(out) {
     const r = live;
-    const { label, dur } = stopping;
+    const id = stopping;
     stopping = null;
     r.words.push(...(out.words || []));
     r.text += out.text;
     $('live').hidden = true;
-    addEntry(`${label} (live)`, dur, { text: r.text.trim(), language: out.language }, r.words);
+    Object.assign(jobs.get(id), { out: { text: r.text.trim(), language: out.language, words: r.words } });
+    finish(id);
   }
 
   function meter(s) {
@@ -313,7 +445,7 @@
   const toggle = () => (rec ? stop() : start());
   $('rec').onclick = toggle;
   addEventListener('keydown', (e) => {
-    if (e.code !== 'Space' || e.repeat || $('rec').disabled || /INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)) return;
+    if (e.code !== 'Space' || e.repeat || $('rec').disabled || e.target.isContentEditable || /INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)) return;
     e.preventDefault();
     toggle();
   });
