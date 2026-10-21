@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>whistle · speech-to-text in the browser · loki.dev</title>
+<meta name="description" content="Cactus Whistle, a 17 MB speech-to-text model, running as WebAssembly entirely in your browser. No server, no GPU, the audio stays in the tab.">
+<!-- ponytail: unversioned, so .htaccess caches it for a year; a style.css change reaches returning visitors late -->
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>!function(){var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}()</script>
+<style>
+  .lede { color: var(--fg-dim); margin: 0 0 1rem; }
+  #status { font-size: 0.875rem; margin: 0 0 1rem; }
+  #status.err { font-weight: bold; }
+  .ctl { display: flex; flex-wrap: wrap; gap: 0.5rem 2ch; align-items: center; margin: 0 0 1rem; }
+  select, textarea {
+    font: inherit; color: var(--fg); background: var(--bg);
+    border: 1px solid var(--rule); border-radius: 0; padding: 0.25em 0.5ch;
+  }
+  textarea { display: block; width: 100%; min-height: 5.5em; resize: vertical; margin-top: 0.5rem; }
+  .btn {
+    font: inherit; color: var(--fg); background: none; border: 0; border-radius: 0;
+    min-height: 44px; display: inline-flex; align-items: center; padding: 0 0.25em; cursor: pointer;
+  }
+  .btn:hover, .btn:focus-visible, .btn[aria-pressed="true"] { background: var(--inv-bg); color: var(--inv-fg); outline: none; }
+  .btn:focus-visible { outline: 2px solid var(--fg); }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .file { position: relative; }
+  .file input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .file:focus-within { outline: 2px solid var(--fg); }
+  details { margin: 0 0 1rem; }
+  summary { cursor: pointer; color: var(--fg-dim); padding: 0.6rem 0; }
+  #rec {
+    display: block; width: 100%; min-height: 96px; margin: 0.5rem 0;
+    font: inherit; font-size: 1.25rem; font-weight: bold; letter-spacing: 0.05em;
+    background: var(--inv-bg); color: var(--inv-fg); border: 0; border-radius: 0; cursor: pointer;
+  }
+  #rec:hover, #rec:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+  #rec:disabled { opacity: 0.5; cursor: default; outline: none; }
+  #meter { height: 2px; background: var(--rule); }
+  #meter i { display: block; height: 100%; width: 0; background: var(--fg); }
+  #clock { color: var(--fg-dim); font-size: 0.875rem; font-variant-numeric: tabular-nums; margin: 0.5rem 0 0; }
+  .hint { color: var(--fg-dim); font-size: 0.875rem; margin: 0 0 1.5rem; }
+  .entry { border-top: 1px solid var(--rule); padding: 0.75rem 0; }
+  .meta { color: var(--fg-dim); font-size: 0.875rem; overflow-wrap: anywhere; }
+  .text { margin: 0.25rem 0 0; }
+  .low { text-decoration: underline dotted var(--fg-dim); text-underline-offset: 0.25em; }
+  .pending { color: var(--fg-dim); }
+  body.drop main { outline: 1px dashed var(--fg); outline-offset: 0.5rem; }
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap">
+    <header>
+      <div class="prompt-line">
+        <span class="prompt-prefix"><span class="host">loki@dev</span><span class="fg-dim">:~/lab$</span>  </span>
+        <input id="terminal-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="./whistle --lang de" aria-label="Terminal, type help for commands">
+      </div>
+      <nav aria-label="Main navigation">
+        <a href="/">[ ~/ ]</a>
+        <a href="/blog/">[ blog ]</a>
+        <button id="theme-toggle" title="toggle theme"></button>
+      </nav>
+    </header>
+    <div id="terminal-output" role="log" aria-live="polite" aria-atomic="false"></div>
+
+    <main id="main">
+      <h1>whistle</h1>
+      <p class="lede">Speech-to-text with Cactus Whistle: a 17 MB model running as WebAssembly in a worker. The audio never leaves this tab, and after the first load it works offline too.</p>
+      <p id="status" role="status">status: loading model (17 MB)…</p>
+
+      <div class="ctl">
+        <label>lang
+          <select id="lang">
+            <option value="">auto</option>
+            <option value="de" selected>de</option>
+            <option value="en">en</option>
+            <option value="fr">fr</option>
+            <option value="es">es</option>
+            <option value="it">it</option>
+            <option value="nl">nl</option>
+            <option value="pl">pl</option>
+          </select>
+        </label>
+        <span id="mode" role="group" aria-label="mode">
+          <button class="btn" data-mode="clip" aria-pressed="true">[ clip ]</button>
+          <button class="btn" data-mode="live" aria-pressed="false">[ live ]</button>
+        </span>
+        <label><input type="checkbox" id="words" checked> word times</label>
+      </div>
+
+      <details>
+        <summary>keywords (one per line, biases the decoder)</summary>
+        <textarea id="kw" placeholder="Zola&#10;Uberspace&#10;ruff"></textarea>
+      </details>
+
+      <button id="rec" disabled>[ ● rec ]</button>
+      <div id="meter"><i></i></div>
+      <p id="clock">00:00.0</p>
+      <p class="hint">Space starts and stops. clip transcribes after stop, live while you speak.</p>
+
+      <div class="ctl">
+        <label class="btn file">[ open file… ]<input type="file" id="file" accept="audio/*,video/*"></label>
+        <span class="hint" style="margin:0">or drop audio anywhere</span>
+      </div>
+
+      <div id="live" class="entry" hidden>
+        <div id="liveMeta" class="meta">live</div>
+        <p class="text"><span id="liveText"></span> <span id="livePending" class="pending"></span></p>
+      </div>
+
+      <div id="results"></div>
+    </main>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://huggingface.co/Cactus-Compute/whistle" rel="noopener" target="_blank">whistle</a> and
+        <a href="https://huggingface.co/Cactus-Compute/needle3" rel="noopener" target="_blank">needle</a>
+        by Cactus Compute, <a href="vendor/LICENSE">Apache-2.0</a>
+        · <a href="/impressum/">impressum</a>
+        · <a href="/datenschutz/">datenschutz</a>
+      </div>
+      <div>built with <a href="https://www.getzola.org" rel="noopener" target="_blank">Zola</a></div>
+    </footer>
+  </div>
+
+<script src="/terminal.js" defer></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const REC = '[ ● rec ]';
+  const STOP = '[ ■ stop ]';
+
+  const worker = new Worker('worker.js');
+  const jobs = new Map();
+  let nextId = 1;
+  let mode = 'clip';
+
+  function status(text, cls = '') {
+    $('status').textContent = `${cls === 'err' ? 'error' : 'status'}: ${text}`;
+    $('status').className = cls;
+  }
+  const idle = () => status(jobs.size ? `transcribing ${jobs.size}…` : 'ready');
+  const opts = () => ({ language: $('lang').value, keywords: $('kw').value.trim() });
+
+  worker.onmessage = ({ data: m }) => {
+    if (m.type === 'ready') {
+      $('rec').disabled = false;
+      status(`ready · loaded in ${m.loadMs} ms`);
+    } else if (m.type === 'error') {
+      status(m.message, 'err');
+    } else if (m.type === 'result') {
+      const job = jobs.get(m.id);
+      jobs.delete(m.id);
+      addEntry(job.label, job.dur, m.out, m.out.words, m.ms);
+      idle();
+    } else if (m.type === 'stream') {
+      onStream(m.out);
+    } else if (m.type === 'stream-end') {
+      onStreamEnd(m.out);
+    }
+  };
+
+  function concat(list) {
+    const out = new Float32Array(list.reduce((n, a) => n + a.length, 0));
+    let o = 0;
+    for (const a of list) { out.set(a, o); o += a.length; }
+    return out;
+  }
+
+  function transcribe(pcm, label) {
+    const id = nextId++;
+    jobs.set(id, { label, dur: pcm.length / 16000 });
+    idle();
+    worker.postMessage({ type: 'transcribe', id, pcm, ...opts(), words: $('words').checked });
+  }
+
+  function renderWords(el, words, text) {
+    el.replaceChildren();
+    if (!words?.length) { el.textContent = text || ''; return; }
+    for (const w of words) {
+      const s = document.createElement('span');
+      s.textContent = w.word;
+      s.title = `${w.start.toFixed(2)} to ${w.end.toFixed(2)} s · p ${w.probability.toFixed(2)}`;
+      if (w.probability < 0.6) s.className = 'low';
+      el.append(s, ' ');
+    }
+  }
+
+  function addEntry(label, dur, out, words, ms) {
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    meta.textContent = [
+      `$ ${label}`,
+      `${dur.toFixed(1)} s audio`,
+      ms != null && `${Math.round(ms)} ms · RTF ${(ms / 1000 / dur).toFixed(3)}`,
+      out.language && `lang ${out.language}`,
+      out.ttft_ms != null && `TTFT ${Math.round(out.ttft_ms)} ms`,
+      out.decode_tps && `${Math.round(out.decode_tps)} tok/s`,
+    ].filter(Boolean).join(' · ');
+    const p = document.createElement('p');
+    p.className = 'text';
+    renderWords(p, words, out.text || '(empty: silence or noise)');
+    entry.append(meta, p);
+    $('results').prepend(entry);
+  }
+
+  // --- microphone -------------------------------------------------------------
+  let rec = null; // {ctx, stream, chunks, mode, t0, tick, q, qLen, inflight, words, text, opts}
+
+  async function start() {
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    } catch (e) {
+      status(`microphone: ${e.message}`, 'err');
+      return;
+    }
+    // ponytail: the 16 kHz context resamples the mic for us; Firefox may refuse a mic at another rate
+    const ctx = new AudioContext({ sampleRate: 16000 });
+    // ponytail: ScriptProcessor is deprecated but needs no extra file; AudioWorklet once browsers drop it
+    const node = ctx.createScriptProcessor(4096, 1, 1);
+    rec = { ctx, stream, chunks: [], mode, t0: Date.now(), q: [], qLen: 0, inflight: false, words: [], text: '', opts: opts() };
+    node.onaudioprocess = (e) => {
+      const s = new Float32Array(e.inputBuffer.getChannelData(0));
+      rec.chunks.push(s);
+      meter(s);
+      if (rec.mode === 'live') { rec.q.push(s); rec.qLen += s.length; pump(); }
+    };
+    ctx.createMediaStreamSource(stream).connect(node);
+    node.connect(ctx.destination); // outputs silence; a ScriptProcessor only runs when connected
+    rec.tick = setInterval(clock, 100);
+    $('rec').innerHTML = `${STOP}<span class="caret">_</span>`;
+    for (const b of document.querySelectorAll('#mode button')) b.disabled = true;
+    if (rec.mode === 'live') {
+      $('live').hidden = false;
+      $('liveText').textContent = '';
+      $('livePending').textContent = '';
+      $('liveMeta').textContent = 'live · listening…';
+      live = rec;
+    }
+  }
+
+  function stop() {
+    const r = rec;
+    rec = null;
+    r.stream.getTracks().forEach((t) => t.stop());
+    r.ctx.close();
+    clearInterval(r.tick);
+    $('rec').textContent = REC;
+    $('meter').firstChild.style.width = '0';
+    for (const b of document.querySelectorAll('#mode button')) b.disabled = false;
+    const label = `mic ${new Date().toLocaleTimeString()}`;
+    const pcm = concat(r.chunks);
+    if (!pcm.length) return;
+    if (r.mode === 'clip') {
+      transcribe(pcm, label);
+    } else {
+      if (r.qLen) worker.postMessage({ type: 'stream', pcm: concat(r.q), ...r.opts });
+      worker.postMessage({ type: 'stop' });
+      stopping = { label, dur: pcm.length / 16000 };
+    }
+  }
+
+  // Live: one pass in flight at a time; audio that arrives meanwhile goes into the next feed.
+  let live = null; // the recording whose stream results are arriving
+  let stopping = null;
+  function pump() {
+    if (rec.inflight || rec.qLen < 16000) return;
+    rec.inflight = true;
+    worker.postMessage({ type: 'stream', pcm: concat(rec.q), ...rec.opts });
+    rec.q = [];
+    rec.qLen = 0;
+  }
+
+  function onStream(out) {
+    const r = live;
+    r.words.push(...(out.words || []));
+    r.text += `${out.text} `;
+    renderWords($('liveText'), r.words, r.text);
+    $('livePending').textContent = out.pending;
+    $('liveMeta').textContent = `live · ${out.received.toFixed(1)} s received · pass ${Math.round(out.pass_ms)} ms · lang ${out.language}`;
+    r.inflight = false;
+    if (rec === r) pump();
+  }
+
+  function onStreamEnd(out) {
+    const r = live;
+    const { label, dur } = stopping;
+    stopping = null;
+    r.words.push(...(out.words || []));
+    r.text += out.text;
+    $('live').hidden = true;
+    addEntry(`${label} (live)`, dur, { text: r.text.trim(), language: out.language }, r.words);
+  }
+
+  function meter(s) {
+    let sum = 0;
+    for (const v of s) sum += v * v;
+    $('meter').firstChild.style.width = `${Math.min(100, Math.sqrt(sum / s.length) * 400)}%`;
+  }
+
+  function clock() {
+    const s = (Date.now() - rec.t0) / 1000;
+    $('clock').textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${(s % 60).toFixed(1).padStart(4, '0')}`;
+  }
+
+  const toggle = () => (rec ? stop() : start());
+  $('rec').onclick = toggle;
+  addEventListener('keydown', (e) => {
+    if (e.code !== 'Space' || e.repeat || $('rec').disabled || /INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)) return;
+    e.preventDefault();
+    toggle();
+  });
+  for (const b of document.querySelectorAll('#mode button')) {
+    b.onclick = () => {
+      mode = b.dataset.mode;
+      for (const o of document.querySelectorAll('#mode button')) o.setAttribute('aria-pressed', o === b);
+    };
+  }
+
+  // --- files ------------------------------------------------------------------
+  async function decode16k(blob) {
+    const ac = new AudioContext();
+    const buf = await ac.decodeAudioData(await blob.arrayBuffer());
+    ac.close();
+    // A mono 16 kHz offline render downmixes and resamples in one go.
+    const off = new OfflineAudioContext(1, Math.ceil(buf.duration * 16000), 16000);
+    const src = off.createBufferSource();
+    src.buffer = buf;
+    src.connect(off.destination);
+    src.start();
+    return (await off.startRendering()).getChannelData(0);
+  }
+
+  async function transcribeFile(blob, name) {
+    status(`decoding ${name}…`);
+    try {
+      transcribe(await decode16k(blob), name);
+    } catch (e) {
+      status(`${name}: ${e.message}`, 'err');
+    }
+  }
+
+  $('file').onchange = (e) => {
+    for (const f of e.target.files) transcribeFile(f, f.name);
+    e.target.value = '';
+  };
+  addEventListener('dragover', (e) => { e.preventDefault(); document.body.classList.add('drop'); });
+  addEventListener('dragleave', () => document.body.classList.remove('drop'));
+  addEventListener('drop', (e) => {
+    e.preventDefault();
+    document.body.classList.remove('drop');
+    for (const f of e.dataTransfer.files) transcribeFile(f, f.name);
+  });
+
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+</script>
+</body>
+</html>
