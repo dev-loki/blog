@@ -67,8 +67,7 @@
       <nav aria-label="Main navigation">
         <a href="/">[ ~/ ]</a>
         <a href="/blog/">[ blog ]</a>
-        <a href="/blog/whistle-im-browser/" hreflang="de">[ artikel ]</a>
-        <a href="/en/blog/whistle-im-browser/" hreflang="en">[ article ]</a>
+        <a id="post" href="/blog/whistle-im-browser/" hreflang="de">[ artikel ]</a>
         <button id="theme-toggle" title="toggle theme"></button>
       </nav>
     </header>
@@ -158,6 +157,9 @@
   const $ = (id) => document.getElementById(id);
   const REC = '[ ● rec ]';
   const STOP = '[ ■ stop ]';
+
+  // One article link: German for a German browser, English for everyone else (as on vibe-check).
+  if (!/^de\b/i.test(navigator.language || '')) Object.assign($('post'), { href: '/en/blog/whistle-im-browser/', hreflang: 'en', textContent: '[ article ]' });
 
   const worker = new Worker('worker.js');
   const jobs = new Map();
