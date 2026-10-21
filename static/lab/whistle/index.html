@@ -194,6 +194,7 @@
   const spkOn = () => $('spk').getAttribute('aria-pressed') === 'true';
   $('spk').onclick = () => {
     const on = !spkOn();
+    try { localStorage.setItem('whistle-speakers', on ? '1' : ''); } catch {}
     $('spk').setAttribute('aria-pressed', on);
     $('spkN').hidden = !on;
     if (!on || dia) return;
@@ -213,6 +214,8 @@
       }
     };
   };
+  // Turned on once, it stays on; after a reload the models come from the browser cache (or the service worker cache offline).
+  try { if (localStorage.getItem('whistle-speakers')) $('spk').click(); } catch {}
 
   // With speakers on, an entry waits for both workers.
   function finish(id) {
