@@ -18,6 +18,8 @@ Bei 17 MB lag die Frage nahe: Geht das auch im Browser, ohne Server und ohne
 dass das Audio den Tab verlässt? Es geht. Der PoC hat einen Abend gedauert und
 liegt hier: [loki.dev/lab/whistle](/lab/whistle/).
 
+![Comic in drei Bildern. Entwickler: "You're 17 MB, no server, no GPU, and the audio never leaves this tab?" Kleiner Roboter: "Works in airplane mode too!" Entwickler ins Mikrofon: "I build my blog with Zola and deploy it to Uberspace." Auf dem Bildschirm: "I build my block with solar and deploy it to outer space." Roboter: "Done in half a second!" Entwickler: "...Close enough for 17 MB."](/blog/whistle-im-browser-comic.jpeg)
+
 ## Was Whistle ist
 
 Whistle läuft auf derselben Engine wie
