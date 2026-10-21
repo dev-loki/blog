@@ -63,6 +63,7 @@ echo "==> Deploying to ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}"
 # static/.well-known/ still uploads. Trailing slash on public/ copies contents.
 rsync -avz --delete \
   --filter='P .well-known/***' \
+  --exclude='.DS_Store' \
   -e "$SSH_CMD" \
   public/ "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/"
 
