@@ -127,8 +127,9 @@
         <label class="btn file">[ open file… ]<input type="file" id="file" accept="audio/*,video/*"></label>
         <span class="hint" style="margin:0">or drop audio anywhere</span>
         <button class="btn" id="copy">[ copy ]</button>
+        <button class="btn" id="clear">[ clear history ]</button>
       </div>
-      <p class="hint">Dropped and opened files are decoded right here in the browser, nothing gets uploaded.</p>
+      <p class="hint">Dropped and opened files are decoded right here in the browser, nothing gets uploaded. Transcripts stay in this browser until you clear them.</p>
 
       <div id="live" class="entry" hidden>
         <div id="liveMeta" class="meta">live</div>
@@ -253,6 +254,7 @@
   $('results').addEventListener('input', ({ target: t }) => {
     if (!t.dataset.spk) return;
     for (const o of t.closest('.entry').querySelectorAll(`[data-spk="${t.dataset.spk}"]`)) if (o !== t) o.textContent = t.textContent;
+    save();
   });
   $('results').addEventListener('keydown', (e) => {
     if (e.target.dataset.spk && e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
@@ -262,6 +264,22 @@
     t.textContent = t.dataset.spk;
     t.dispatchEvent(new Event('input', { bubbles: true }));
   });
+
+  // --- history: the list survives a reload, in this browser only --------------
+  const HISTORY = 'whistle-history';
+  // ponytail: stores the rendered list as HTML, so renamed speakers come back for free; capped at 50 entries
+  function save() {
+    const list = $('results');
+    while (list.children.length > 50) list.lastElementChild.remove();
+    try { localStorage.setItem(HISTORY, list.innerHTML); } catch (e) { status(`history not saved: ${e.message}`, 'err'); }
+  }
+  try { $('results').innerHTML = localStorage.getItem(HISTORY) || ''; } catch {}
+  $('clear').onclick = () => {
+    const n = $('results').children.length;
+    if (!n || !confirm(`Delete all ${n} transcripts from this browser?`)) return;
+    $('results').replaceChildren();
+    try { localStorage.removeItem(HISTORY); } catch {}
+  };
 
   // All entries as plain text, newest first like the list.
   $('copy').onclick = async () => {
@@ -341,6 +359,7 @@
       entry.append(meta, p);
     }
     $('results').prepend(entry);
+    save();
   }
 
   // --- microphone -------------------------------------------------------------
@@ -388,7 +407,7 @@
     $('rec').textContent = REC;
     $('meter').firstChild.style.width = '0';
     for (const b of document.querySelectorAll('#mode button')) b.disabled = false;
-    const label = `mic ${new Date().toLocaleTimeString()}`;
+    const label = `mic ${new Date().toLocaleString()}`;
     const pcm = concat(r.chunks);
     if (!pcm.length) return;
     if (r.mode === 'clip') {
