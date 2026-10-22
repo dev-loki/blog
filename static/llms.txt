@@ -10,6 +10,7 @@ Source: https://loki.dev  |  Built with Zola.
 
 ## Blog
 
+- [Brauchen Agenten ein neues Git-Branching-Modell?](https://loki.dev/blog/git-branching-fuer-agenten/): OneFlow ist seit Jahren mein Branching-Modell der Wahl. Jetzt arbeiten mehrere Agenten parallel im selben Repo. Was davon noch trägt, was sich ändert, und was am meisten bringt für den wenigsten Aufwand.
 - [Spracherkennung in 17 MB, komplett im Browser](https://loki.dev/blog/whistle-im-browser/): Cactus Compute hat mit Whistle ein Spracherkennungsmodell veröffentlicht, das in eine 17-MB-Datei passt und ohne GPU läuft. Ich habe es als WebAssembly in den Browser gepackt und mit Parakeet, Nemotron, Whisper und Moonshine verglichen.
 - [Wer reviewt eigentlich den Code, den die KI schreibt?](https://loki.dev/blog/ki-code-review/): Agenten schreiben inzwischen einen großen Teil unseres Codes. Was die Studien von 2025 und 2026 über Review, Wissen und Sicherheit sagen, und wie ich Pull Requests jetzt aufbauen würde.
 - [Brooks' Gesetz, jetzt mit Agenten](https://loki.dev/blog/brooks-law/): Ein Termin wird viel zu spät festgezogen, und von oben kommt der Vorschlag, mehr Leute draufzusetzen. Warum das seit 1975 nicht funktioniert.
