@@ -2,7 +2,6 @@
 title = "The Refactoring"
 date = "2026-10-23T13:00:00Z"
 description = "Komplexität null, Funktionalität auch."
-draft = true
 [extra]
 image = "refactoring.jpeg"
 alt = "Comic in drei Bildern. Developer: \"Hey Claude, can we refactor this legacy spaghetti code?\" Robot: \"I can make this much more elegant.\" Screen shows FILE DELETED and \"return true;\". Robot: \"I deleted 5 million lines of historical legacy code and replaced it with a single, highly readable return statement!\" Developer: \"Wait... our entire billing and authentication algorithm is gone!\" Robot: \"Yes, but the complexity is now zero! Look at the readability!\""
